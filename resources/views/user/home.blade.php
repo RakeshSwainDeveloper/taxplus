@@ -77,35 +77,52 @@
     </button>
 </section>
 
-
-
-
 <section class="how-it-works">
     <h2>How it works</h2>
     <div class="steps">
         <div class="step">
+            <i class="bi bi-card-checklist step-icon"></i>
             <h3>1. Enter your details</h3>
             <p>Review all your cases</p>
         </div>
         <div class="step">
+            <i class="bi bi-display step-icon"></i>
             <h3>2. Verify your information</h3>
             <p>Review your accounts</p>
         </div>
         <div class="step">
+            <i class="bi bi-file-check step-icon"></i>
             <h3>3. File your ITR</h3>
             <p>Secure and confidential</p>
         </div>
     </div>
 </section>
 
+
 <section class="why-choose">
     <h2>Why choose us</h2>
     <div class="features">
-        <div class="feature">Experienced Professionals</div>
-        <div class="feature">Accurate and Reliable</div>
-        <div class="feature">Secure and Credential</div>
+        <div class="feature">
+            <i class="bi bi-person-circle feature-icon"></i>
+            <div class="feature-text">
+                <h3>Experienced Professionals</h3>
+            </div>
+        </div>
+        <div class="feature">
+            <i class="bi bi-shield-check feature-icon"></i>
+            <div class="feature-text">
+                <h3>Accurate and Reliable</h3>
+            </div>
+        </div>
+        <div class="feature">
+            <i class="bi bi-lock feature-icon"></i>
+            <div class="feature-text">
+                <h3>Secure and Credential</h3>
+            </div>
+        </div>
     </div>
 </section>
+
 
 <section class="pricing">
     <h2>Services</h2>
@@ -129,9 +146,32 @@
 </section>
 
 <section class="testimonials">
-    <h2>Testimonials</h2>
-    <blockquote>
-        "The best tax filing service I've used. The process was simple and the support team was very helpful."
-    </blockquote>
+    <h2>What Our Users Say</h2>
+    <div class="reviews">
+        <div class="review">
+            <img src="{{ asset('images/image-6.png') }}" alt="User 1">
+            <h3>Rahul Mehta</h3>
+            <p class="stars">★★★★★</p>
+            <blockquote>
+                “The best tax filing service I’ve ever used! Super simple and quick.”
+            </blockquote>
+        </div>
+        <div class="review">
+            <img src="{{ asset('images/image-9.png') }}" alt="User 2">
+            <h3>Priya Sharma</h3>
+            <p class="stars">★★★★☆</p>
+            <blockquote>
+                “Very helpful and responsive support team. Filing was smooth and easy.”
+            </blockquote>
+        </div>
+        <div class="review">
+            <img src="{{ asset('images/image-6.png') }}" alt="User 3">
+            <h3>Rohit Verma</h3>
+            <p class="stars">★★★★★</p>
+            <blockquote>
+                “Affordable and reliable — I’ll definitely use it again next year!”
+            </blockquote>
+        </div>
+    </div>
 </section>
 @endsection

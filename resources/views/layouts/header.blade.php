@@ -2,8 +2,8 @@
     <div class="navbar">
         <!-- Logo -->
         <a href="{{ url('/') }}" class="logo">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo">
-            <span>TAX+</span>
+            <img src="{{ asset('images/logo.jpeg') }}" alt="Logo">
+            <span>CAPITAL TAXPLUS</span>
         </a>
 
         <!-- Navigation -->

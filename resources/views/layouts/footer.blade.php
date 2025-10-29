@@ -1,7 +1,7 @@
 <footer class="footer">
     <div class="footer-container">
         <div class="footer-brand">
-            <h3>CAPITAL TAX PLUS</h3>
+            <h3>CAPITAL TAXPLUS</h3>
             <p>Your trusted partner in smart tax planning and financial growth.</p>
         </div>
 
