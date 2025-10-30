@@ -13,8 +13,8 @@
                 <li><a href="{{ url('/about') }}" class="{{ request()->is('about') ? 'active' : '' }}">About</a></li>
                 <li><a href="{{ url('/products') }}" class="{{ request()->is('products') ? 'active' : '' }}">Products</a></li>
                 <li><a href="{{ url('/services') }}" class="{{ request()->is('services') ? 'active' : '' }}">Services</a></li>
-                <li><a href="{{ url('/projects') }}" class="{{ request()->is('projects') ? 'active' : '' }}">Projects</a></li>
-                <li><a href="{{ url('/blog') }}" class="{{ request()->is('blog') ? 'active' : '' }}">Blog</a></li>
+                <li><a href="{{ route('user.pricing') }}" class="{{ request()->is('/pricing') ? 'active' : '' }}">Pricing</a></li>
+                <li><a href="{{ route('user.contact') }}" class="{{ request()->is('/contact') ? 'active' : '' }}">Contact Us</a></li>
             </ul>
         </nav>
 

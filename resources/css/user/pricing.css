@@ -1,0 +1,287 @@
+.pricing-page {
+    background-color: #f9f9f9;
+    padding: 60px 0;
+    font-family: 'Poppins', sans-serif;
+}
+
+.pricing-header {
+    margin-bottom: 40px;
+}
+
+.pricing-header h2 {
+    color: #012b6d;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.pricing-header p {
+    color: #555;
+    font-size: 15px;
+}
+
+.mt-5 {
+    margin-top: 50px;
+}
+
+.pricing-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 30px;
+}
+
+.pricing-box {
+    background: #fff;
+    border: 1px solid #9dd1f4;
+    border-radius: 10px;
+    width: 300px;
+    padding: 30px 20px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.pricing-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+    background: #012b6d;
+    color: #fff;
+    border: none;
+}
+
+.pricing-box .tag {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0099ff;
+    color: white;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 10px;
+    border-radius: 12px;
+}
+
+.price {
+    font-size: 28px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.price span {
+    font-size: 14px;
+    font-weight: normal;
+}
+
+.pricing-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+    flex-grow: 1;
+}
+
+.pricing-box ul li {
+    margin: 8px 0;
+}
+
+.pricing-btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background: linear-gradient(90deg, #0056b3, #0099ff);
+    color: #fff;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    align-self: center;
+}
+
+.pricing-btn:hover {
+    background: linear-gradient(90deg, #007bff, #00bfff);
+}
+
+/* ---------------- TAX PLANNING SECTION ---------------- */
+.tax-planning-section {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.tax-planning-section h2 {
+    color: #012b6d;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.section-description {
+    color: #555;
+    font-size: 15px;
+    margin-bottom: 60px;
+}
+
+.tax-card-container {
+    display: flex;
+    justify-content: center;
+}
+
+.tax-card {
+    background: #fff;
+    border: 1px solid #8bcaf4;
+    border-radius: 10px;
+    width: 320px;
+    padding: 30px 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+    text-align: center;
+}
+
+.tax-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.tax-tag {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0099ff;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.tax-card h3 {
+    font-size: 18px;
+    font-weight: 600;
+    margin-top: 10px;
+    margin-bottom: 8px;
+}
+
+.tax-price {
+    font-size: 26px;
+    font-weight: 700;
+    color: #000;
+    margin-bottom: 20px;
+}
+
+.tax-card ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.tax-card ul li {
+    color: #333;
+    margin: 8px 0;
+}
+
+.tax-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background: linear-gradient(90deg, #0056b3, #0099ff);
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.tax-btn:hover {
+    background: linear-gradient(90deg, #007bff, #00bfff);
+}
+
+/* ---------------- GST PLANNING SECTION ---------------- */
+.gst-planning-section {
+    margin-top: 80px;
+    text-align: center;
+}
+
+.gst-planning-section h2 {
+    color: #012b6d;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.gst-planning-section .pricing-container {
+    display: flex;
+    justify-content: center;
+    gap: 25px;
+    flex-wrap: wrap;
+}
+
+.gst-planning-section .pricing-box {
+    background: #fff;
+    border: 1px solid #9dd1f4;
+    border-radius: 10px;
+    width: 320px;
+    padding: 30px 25px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.gst-planning-section .pricing-box:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+    background: #012b6d;
+    color: #fff;
+}
+
+.gst-planning-section .pricing-box:hover .price,
+.gst-planning-section .pricing-box:hover h3,
+.gst-planning-section .pricing-box:hover ul li {
+    color: #fff;
+}
+
+.gst-planning-section .pricing-box .tag {
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: #0099ff;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 4px 12px;
+    border-radius: 12px;
+}
+
+.gst-planning-section .pricing-box ul {
+    list-style: none;
+    padding: 0;
+    margin: 20px 0;
+    text-align: left;
+}
+
+.gst-planning-section .pricing-box ul li {
+    margin: 8px 0;
+    color: #333;
+}
+
+.gst-planning-section .pricing-box ul li:nth-child(4) {
+    color: #dc2626;
+    /* red for excluded item */
+}
+
+.gst-planning-section .pricing-btn {
+    display: inline-block;
+    padding: 10px 25px;
+    background: linear-gradient(90deg, #0056b3, #0099ff);
+    color: #fff;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: 500;
+    transition: background 0.3s ease;
+}
+
+.gst-planning-section .pricing-btn:hover {
+    background: linear-gradient(90deg, #007bff, #00bfff);
+}
