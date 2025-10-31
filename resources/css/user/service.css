@@ -1,0 +1,198 @@
+/* === SERVICE HERO SECTION === */
+.service-hero {
+    font-family: 'Poppins', sans-serif;
+    position: relative;
+    background: #fff;
+    overflow: hidden;
+}
+
+/* --- Hero Top: Background Image + Overlay + Angle --- */
+.service-hero .hero-top {
+    position: relative;
+    height: 300px;
+    background: url("https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=1200&q=80") center center/cover no-repeat;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+
+/* --- Overlay Layer --- */
+.service-hero .hero-top .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* background: rgba(38, 67, 89, 0.9); */
+    z-index: 1;
+}
+
+/* --- Text Layer --- */
+.service-hero .hero-top .container {
+    position: relative;
+    z-index: 2;
+}
+
+.service-hero h1 {
+    font-size: 2.5rem;
+    color: #fff;
+    font-weight: 700;
+    letter-spacing: 1px;
+    margin-bottom: 10px;
+}
+
+/* --- Bottom Content Section --- */
+.section-subtitle {
+    color: #00bfa6;
+    margin-bottom: 10px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.text-teal {
+    color: #00b8c4;
+}
+
+.service-hero h2 {
+    font-weight: 700;
+    margin-bottom: 0;
+}
+
+.service-hero p {
+    color: #6c757d;
+    font-size: 15px;
+    line-height: 1.7;
+}
+
+.service-hero .col-md-6:first-child {
+    border-right: 2px solid #ddd;
+    padding-right: 30px;
+}
+
+.service-hero .col-md-6:last-child {
+    padding-left: 30px;
+}
+
+.bg-teal {
+    background-color: #00bfa6;
+}
+
+.bg-darkblue {
+    background-color: #082c4e;
+}
+
+.service-box {
+    border-radius: 6px;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.service-box:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.number-circle {
+    position: absolute;
+    top: -15px;
+    left: 20px;
+    background: #fff;
+    color: #00bfa6;
+    border-radius: 50%;
+    font-weight: 700;
+    font-size: 1rem;
+    padding: 8px 12px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* === Popular Services Card Alignment === */
+.popular-services .card {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    transition: all 0.3s ease;
+    border-radius: 8px;
+}
+
+.popular-services .card-body {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+}
+
+.popular-services .service-img {
+    height: 220px;
+    object-fit: cover;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+}
+
+.popular-services .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* === Service Card Image Overlay Label === */
+.service-img-wrapper {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+
+.service-img {
+    height: 240px;
+    width: 100%;
+    object-fit: cover;
+    display: block;
+}
+
+/* --- Overlay Label --- */
+.service-label {
+    position: absolute;
+    bottom: 15px;
+    left: 0;
+    background: #082c4e;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    padding: 10px 20px 10px 25px;
+    clip-path: polygon(0 0, 85% 0, 100% 50%, 85% 100%, 0% 100%);
+
+}
+
+.service-label span {
+    position: relative;
+    z-index: 2;
+}
+
+/* Optional accent line on left side */
+.service-label::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    width: 5px;
+    background-color: #00bfa6;
+}
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 767px) {
+    .service-hero .hero-top {
+        height: 220px;
+        clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 90%);
+    }
+
+    .service-hero .col-md-6:first-child {
+        border: none;
+        padding-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .service-hero .col-md-6:last-child {
+        padding-left: 0;
+    }
+}

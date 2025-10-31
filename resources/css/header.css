@@ -28,7 +28,7 @@ header {
 .logo span {
     font-size: 22px;
     font-weight: 700;
-    color: #1de9b6;
+    color: #007bff;
 }
 
 /* Navigation */
@@ -53,7 +53,7 @@ nav ul li a {
 
 nav ul li a:hover,
 nav ul li a.active {
-    color: #17e8c7;
+    color: #007bff;
 }
 
 /* Auth Buttons */
@@ -72,12 +72,12 @@ nav ul li a.active {
 }
 
 .login-btn {
-    background-color: #00bfa5;
+    background-color: #007bff;
     color: #fff;
 }
 
 .login-btn:hover {
-    background-color: #02a18c;
+    background-color: #2d7bcd;
 }
 
 .register-btn {
