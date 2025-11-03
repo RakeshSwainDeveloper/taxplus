@@ -19,7 +19,7 @@
 
         <div class="contact-info">
             <!-- Call Us -->
-            <a href="tel:+91XXX-XXXXX" class="info-box">
+            <a href="tel:+91 8926-130-200" class="info-box">
                 <i class="bi bi-telephone"></i>
                 <div>
                     <h6>Call Us:</h6>
@@ -28,11 +28,11 @@
             </a>
 
             <!-- Email Us -->
-            <a href="mailto:swatirekhap@gmail.com" class="info-box">
+            <a href="mailto:rksmnu@gmail.com" class="info-box">
                 <i class="bi bi-envelope"></i>
                 <div>
                     <h6>Email Us:</h6>
-                    <p>swatirekhap@gmail.com</p>
+                    <p>rksmnu@gmail.com</p>
                 </div>
             </a>
 
@@ -51,7 +51,6 @@
         <div class="row mt-4 align-items-start">
             <!-- ✅ Left Column: Map + Social Links -->
             <div class="col-md-4 d-flex flex-column align-items-start">
-                <!-- Google Map -->
                 <div class="map-box mb-4 w-100">
                     <iframe
                         src="https://www.google.com/maps/embed?pb=YOUR_MAP_CODE"
@@ -67,15 +66,18 @@
                 <!-- Social Links -->
                 <div class="social-links d-flex gap-3 fs-4 align-items-center">
                     <span>Follow Us:</span>
-                    <a href="#" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.facebook.com/profile.php?id=61556642542120&mibextid=ZbWKwL" target="_blank" rel="noopener noreferrer">
                         <i class="bi bi-facebook"></i>
                     </a>
-                    <a href="#" target="_blank" rel="noopener noreferrer">
+                    <a href="https://x.com/capitaltaxplus?t=Kc6_1TNaw6DYo-oj6Gkr6A&s=09" target="_blank" rel="noopener noreferrer">
                         <i class="bi bi-twitter"></i>
                     </a>
-                    <a href="#" target="_blank" rel="noopener noreferrer">
+                    <a href="https://www.instagram.com/capitaltaxplus?utm_source=qr&igsh=a3JxdHEwaHljaXZj" target="_blank" rel="noopener noreferrer">
                         <i class="bi bi-instagram"></i>
                     </a>
+                    <!-- <a href="https://www.linkedin.com/in/capital-taxplus-8ba06a2b4?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app" target="_blank" rel="noopener noreferrer">
+                        <i class="bi bi-linkedin"></i>
+                    </a> -->
                 </div>
             </div>
 
@@ -105,6 +107,11 @@
                     <div class="input-group">
                         <span class="input-label">Email :</span>
                         <input type="email" name="email" id="email" placeholder="Enter your email" required>
+                    </div>
+
+                    <div class="input-group">
+                        <span class="input-label">Mobile :</span>
+                        <input type="tel" name="mobile" id="mobile" placeholder="Enter your mobile number" required pattern="[0-9]{10}">
                     </div>
 
                     <div class="input-group">

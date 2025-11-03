@@ -10,7 +10,7 @@
 .service-hero .hero-top {
     position: relative;
     height: 300px;
-    background: url("https://images.unsplash.com/photo-1600880292089-90a7e086ee0c?auto=format&fit=crop&w=1200&q=80") center center/cover no-repeat;
+    background: url("../../../public/images/about-hand.png") center center/cover no-repeat;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -51,7 +51,7 @@
 }
 
 .text-teal {
-    color: #00b8c4;
+    color: #0b2d63;
 }
 
 .service-hero h2 {
@@ -179,20 +179,95 @@
     background-color: #00bfa6;
 }
 
-/* --- Responsive Adjustments --- */
-@media (max-width: 767px) {
-    .service-hero .hero-top {
-        height: 220px;
-        clip-path: polygon(0 0, 100% 0, 100% 90%, 90% 100%, 0 90%);
-    }
 
-    .service-hero .col-md-6:first-child {
-        border: none;
-        padding-right: 0;
-        margin-bottom: 20px;
-    }
+/* =======================
+   RESPONSIVE DESIGN
+========================== */
+@media (max-width: 992px) {
+  .service-hero h1 {
+    font-size: 2rem;
+  }
 
-    .service-hero .col-md-6:last-child {
-        padding-left: 0;
-    }
+  .service-hero .col-md-6:first-child {
+    border-right: none;
+    padding-right: 0;
+    margin-bottom: 30px;
+  }
+
+  .service-hero .col-md-6:last-child {
+    padding-left: 0;
+  }
+
+  .popular-services .service-img {
+    height: 200px;
+  }
+}
+
+@media (max-width: 768px) {
+  .service-hero .hero-top {
+    height: 250px;
+  }
+
+  .service-hero h1 {
+    font-size: 1.8rem;
+  }
+
+  .service-hero h2 {
+    font-size: 1.3rem;
+  }
+
+  .service-hero p {
+    font-size: 14px;
+  }
+
+  .popular-services .card-body {
+    padding: 1rem;
+  }
+
+  .popular-services .service-img {
+    height: 180px;
+  }
+
+  .service-label {
+    font-size: 0.9rem;
+    padding: 8px 18px 8px 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .service-hero .hero-top {
+    height: 220px;
+    padding: 0 20px;
+  }
+
+  .service-hero h1 {
+    font-size: 1.6rem;
+  }
+
+  .service-hero h2 {
+    font-size: 1.1rem;
+  }
+
+  .service-hero p {
+    font-size: 13px;
+  }
+
+  .popular-services .card {
+    margin-bottom: 20px;
+  }
+
+  .service-img {
+    height: 160px;
+  }
+
+  .service-label {
+    font-size: 0.8rem;
+  }
+
+  .number-circle {
+    top: -10px;
+    left: 15px;
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
 }

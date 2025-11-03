@@ -10,10 +10,10 @@
         <nav>
             <ul id="menu">
                 <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
-                <li><a href="{{ route('user.about') }}" class="{{ request()->is('/about') ? 'active' : '' }}">About Us</a></li>
-                <li><a href="{{ route('user.service') }}" class="{{ request()->is('/service') ? 'active' : '' }}">Services</a></li>
-                <li><a href="{{ route('user.pricing') }}" class="{{ request()->is('/pricing') ? 'active' : '' }}">Pricing</a></li>
-                <li><a href="{{ route('user.contact') }}" class="{{ request()->is('/contact') ? 'active' : '' }}">Contact Us</a></li>
+                <li><a href="{{ route('user.about') }}" class="{{ request()->is('about*') ? 'active' : '' }}">About Us</a></li>
+                <li><a href="{{ route('user.service') }}" class="{{ request()->is('service*') ? 'active' : '' }}">Services</a></li>
+                <li><a href="{{ route('user.pricing') }}" class="{{ request()->is('pricing*') ? 'active' : '' }}">Pricing</a></li>
+                <li><a href="{{ route('user.contact') }}" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact Us</a></li>
             </ul>
         </nav>
 

@@ -5,6 +5,9 @@
 @endpush
 
 @section('content')
+<!-- <div class="pricing-page" style="
+    background: radial-gradient(circle at top left, rgba(238,239,241,0.4), rgba(167,172,181,0.6)),
+                url('{{ asset('images/pricing-back.jpg') }}') no-repeat center center/cover; background-attachment: fixed;"> -->
 <div class="pricing-page">
     <div class="container">
 
@@ -26,7 +29,7 @@
                     <li>✔ Agriculture Income</li>
                 </ul>
                 <a href="#" class="pricing-btn">Get Started</a>
-            </div>>
+            </div>
             <div class="pricing-box popular">
                 <span class="tag">Popular</span>
                 <h3>Business & Professional Plan</h3>

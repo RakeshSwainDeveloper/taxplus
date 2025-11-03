@@ -203,22 +203,107 @@ body {
     transform: scale(1.2);
 }
 
+ /* ============================
+   RESPONSIVE DESIGN
+=============================== */
+@media (max-width: 992px) {
+  .container {
+    padding: 40px 30px;
+  }
 
-/* Responsive */
+  .header-text h2 {
+    font-size: 40px;
+  }
+
+  .contact-header img {
+    width: 200px;
+  }
+
+  .contact-form .button-group {
+    margin-left: 0;
+  }
+}
+
 @media (max-width: 768px) {
-    .contact-header {
-        flex-direction: column;
-    }
+  .contact-header {
+    flex-direction: column;
+    text-align: center;
+    gap: 15px;
+  }
 
-    .contact-header img {
-        width: 90px;
-    }
+  .header-text h2 {
+    font-size: 32px;
+  }
 
-    .container {
-        padding: 35px 25px;
-    }
+  .header-text p {
+    font-size: 15px;
+  }
 
-    .contact-info {
-        flex-direction: column;
-    }
+  .contact-info {
+    flex-direction: column;
+    gap: 15px;
+    margin: 50px 0;
+  }
+
+  .info-box {
+    flex: 1 1 100%;
+    justify-content: center;
+    text-align: left;
+  }
+
+  .contact-form .input-group {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .contact-form .input-label {
+    text-align: left;
+    flex: 0 0 auto;
+  }
+
+  .contact-form .button-group {
+    margin-left: 0;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 576px) {
+  .container {
+    padding: 30px 20px;
+  }
+
+  .header-text h2 {
+    font-size: 26px;
+  }
+
+  .contact-header img {
+    width: 160px;
+  }
+
+  .info-box i {
+    font-size: 20px;
+  }
+
+  .info-box h6 {
+    font-size: 15px;
+  }
+
+  .info-box p {
+    font-size: 13px;
+  }
+
+  .contact-form input,
+  .contact-form textarea {
+    font-size: 14px;
+    padding: 10px 12px;
+  }
+
+  .contact-form .button-group button {
+    width: 100%;
+    font-size: 15px;
+  }
+
+  .social-links i {
+    font-size: 22px;
+  }
 }

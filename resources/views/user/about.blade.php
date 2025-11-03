@@ -6,7 +6,8 @@
 
 @section('content')
 <!-- Hero Section -->
-<section class="hero" style="background: url({{ asset('images/about-us.jpg') }}) center/cover no-repeat;">
+<!-- <section class="hero" style="background: url('{{ asset('images/about-us.jpg') }}') center/cover no-repeat;"> -->
+<section class="hero">
     <div class="container text-center">
         <h1>About Us</h1>
     </div>
@@ -37,8 +38,9 @@
 
 <!-- Vision & Mission Section -->
 <section class="vision-mission-wrapper">
-    <div class="vision-mission-bg" style="background: linear-gradient(to right, #003b83 40%, transparent 40%), 
-                url('{{ asset('images/about-hand.png') }}') right center / cover no-repeat;">
+    <!-- <div class="vision-mission-bg" style="background: linear-gradient(to right, #003b83 40%, transparent 40%), 
+                url('{{ asset('images/about-hand.png') }}') right center / cover no-repeat;"> -->
+    <div class="vision-mission-bg">
         <div class="overlay"></div>
         <div class="container text-center text-white position-relative">
             <div class="section-header mb-5">
