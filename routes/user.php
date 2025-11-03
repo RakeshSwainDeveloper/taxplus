@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\User\AboutController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\PricingController;
 use App\Http\Controllers\User\ServiceController;
@@ -12,3 +13,8 @@ Route::get('/contact', [ContactController::class, 'index'])->name('user.contact'
 Route::get('/pricing', [PricingController::class, 'show'])->name('user.pricing');
 Route::get('/about', [AboutController::class, 'index'])->name('user.about');
 Route::get('/service', [ServiceController::class, 'index'])->name('user.service');
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+Route::middleware('auth:sanctum')->group(function () {
+    Route::post('/logout', [AuthController::class, 'logout']);
+});
