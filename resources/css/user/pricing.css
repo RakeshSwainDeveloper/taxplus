@@ -43,14 +43,10 @@
         0 8px 20px rgba(0, 0, 0, 0.1),
         0 0 0 1px rgba(255, 255, 255, 0.3);
     transition: all 0.3s ease;
-    /* background: #fff; */
     border: 1px solid #9dd1f4;
-    /* border-radius: 10px; */
     width: 300px;
     padding: 30px 20px;
     text-align: center;
-    /* box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05); */
-    /* transition: all 0.3s ease; */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -62,8 +58,6 @@
     box-shadow:
         0 15px 30px rgba(0, 0, 0, 0.2),
         0 0 0 1px rgba(255, 255, 255, 0.3);
-    /* transform: translateY(-10px);
-    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15); */
     background: #012b6d;
     color: #fff;
     border: none;
@@ -272,7 +266,6 @@
 
 .gst-planning-section .pricing-box ul li:nth-child(4) {
     color: #dc2626;
-    /* red for excluded item */
 }
 
 .gst-planning-section .pricing-btn {

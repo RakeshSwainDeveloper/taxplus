@@ -129,17 +129,17 @@
         <div class="why-right">
             <div class="card blue">
                 <i class="bi bi-gear icon"></i>
-                <h3>IT Consultancy</h3>
+                <h3>Experienced Professionals</h3>
                 <p>Astonished set expression solicitude way admiration.</p>
             </div>
             <div class="card white">
                 <i class="bi bi-cloud icon"></i>
-                <h3>Cloud Computing</h3>
+                <h3>Accurate and Reliable</h3>
                 <p>Astonished set expression solicitude way admiration.</p>
             </div>
             <div class="card white">
                 <i class="bi bi-globe icon"></i>
-                <h3>Cyber Security</h3>
+                <h3>Secure and Credentials</h3>
                 <p>Astonished set expression solicitude way admiration.</p>
             </div>
             <div class="card blue">

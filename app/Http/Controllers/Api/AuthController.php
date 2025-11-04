@@ -66,7 +66,7 @@ class AuthController extends Controller
             ], 401);
         }
 
-         $user->tokens()->delete();
+        $user->tokens()->delete();
         $token = $user->createToken('API Token')->plainTextToken;
 
         return response()->json([
@@ -86,5 +86,16 @@ class AuthController extends Controller
             'status' => true,
             'message' => 'Logged out successfully.',
         ]);
+    }
+    //login page
+    public function showLoginForm()
+    {
+        return view('user.login');
+    }
+
+    //registration page
+    public function showRegisterForm()
+    {
+        return view('user.register');
     }
 }

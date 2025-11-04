@@ -1,0 +1,221 @@
+.back-button {
+    position: absolute;
+    top: 20px;
+    left: 25px;
+    color: #fff;
+    font-size: 18px;
+    text-decoration: none;
+    font-weight: 600;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 8px 15px;
+    border-radius: 5px;
+    transition: background 0.3s ease;
+    z-index: 1000;
+}
+
+.back-button:hover {
+    background: rgba(0, 0, 0, 0.4);
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    font-family: 'Open Sans', sans-serif;
+    background: linear-gradient(135deg, #6aa0f8, #2c5ea8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Main container */
+.login-container {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(15px);
+    padding: 50px 60px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    width: 350px;
+    transition: all 0.3s ease;
+}
+
+/* Icon section */
+.login-container .icon {
+    width: 80px;
+    height: 80px;
+    background-color: #0b1f46;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 25px auto;
+}
+
+.login-container .icon svg {
+    width: 40px;
+    height: 40px;
+    fill: white;
+}
+
+/* Header */
+.login-container h2 {
+    color: #fff;
+    font-weight: 400;
+    letter-spacing: 2px;
+    margin-bottom: 30px;
+    font-size: 22px;
+}
+
+/* Input fields */
+.login-container input {
+    width: 100%;
+    padding: 12px 15px;
+    margin: 10px 0;
+    border: none;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+    background: transparent;
+    color: #fff;
+    font-size: 15px;
+    outline: none;
+}
+
+.login-container input::placeholder {
+    color: rgba(255, 255, 255, 0.7);
+}
+
+/* Options row */
+.login-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 10px;
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 13px;
+}
+
+.remember-me {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.remember-me input[type="checkbox"] {
+    accent-color: #fff;
+    width: 14px;
+    height: 14px;
+}
+
+/* Link styling */
+.login-options a {
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+}
+
+.login-options a:hover {
+    text-decoration: underline;
+}
+
+/* Login button */
+.login-btn {
+    margin-top: 25px;
+    background-color: #0b1f46;
+    color: white;
+    border: none;
+    padding: 14px 0;
+    width: 100%;
+    font-size: 16px;
+    border-radius: 5px;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.3);
+}
+
+.login-btn:hover {
+    background-color: #163b79;
+    transform: translateY(-2px);
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
+}
+
+/* ============================
+   RESPONSIVE DESIGN SECTION
+   ============================ */
+
+/* Tablets and smaller laptops */
+@media (max-width: 992px) {
+    .login-container {
+        width: 320px;
+        padding: 40px 50px;
+    }
+
+    .login-container h2 {
+        font-size: 20px;
+    }
+}
+
+/* Mobile phones (portrait) */
+@media (max-width: 600px) {
+    body {
+        padding: 20px;
+        align-items: flex-start;
+        justify-content: center;
+    }
+
+    .login-container {
+        width: 100%;
+        padding: 35px 25px;
+        margin-top: 60px;
+        border-radius: 8px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.3);
+    }
+
+    .login-container h2 {
+        font-size: 18px;
+        margin-bottom: 20px;
+    }
+
+    .login-container .icon {
+        width: 65px;
+        height: 65px;
+    }
+
+    .login-container .icon svg {
+        width: 32px;
+        height: 32px;
+    }
+
+    .login-container input {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+
+    .login-options {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        font-size: 12px;
+    }
+
+    .login-btn {
+        font-size: 14px;
+        padding: 12px 0;
+    }
+}
+
+/* Very small devices */
+@media (max-width: 400px) {
+    .login-container {
+        padding: 30px 20px;
+        width: 100%;
+    }
+
+    .login-container h2 {
+        font-size: 16px;
+    }
+
+    .login-btn {
+        font-size: 13px;
+        padding: 10px 0;
+    }
+}

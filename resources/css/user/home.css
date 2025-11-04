@@ -14,7 +14,7 @@ body {
 .hero {
   position: relative;
   width: 100%;
-  min-height: 70vh;
+  min-height: 50vh;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -215,25 +215,6 @@ body {
   color: #555;
   line-height: 1.7;
   margin-bottom: 30px;
-}
-
-.video-btn {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: #007bff;
-  text-decoration: none;
-  font-weight: 600;
-  font-size: 1rem;
-  transition: color 0.3s ease;
-}
-
-.video-btn:hover {
-  color: #0056b3;
-}
-
-.video-btn i {
-  font-size: 1.5rem;
 }
 
 .why-choose-modern .why-right {

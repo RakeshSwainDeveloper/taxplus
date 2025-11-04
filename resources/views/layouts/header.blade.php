@@ -19,8 +19,8 @@
 
         <!-- Auth Buttons -->
         <div class="auth-buttons">
-            <a href="{{ url('/login') }}" class="btn login-btn">Login</a>
-            <a href="{{ url('/register') }}" class="btn register-btn">Register</a>
+            <a href="{{ url('/login') }}" class="btn-new login-btn">Login</a>
+            <a href="{{ url('/register') }}" class="btn-new register-btn">Register</a>
         </div>
 
         <!-- Mobile Menu Button -->
