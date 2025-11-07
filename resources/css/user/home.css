@@ -355,6 +355,62 @@ body {
   color: #0056b3;
 }
 
+/* ===== SHOW MORE BUTTON ===== */
+.show-more-container {
+  margin-top: 40px;
+  text-align: center;
+}
+
+.btn-show-more {
+  display: inline-block;
+  background: linear-gradient(90deg, #007bff, #00b4ff);
+  color: #fff;
+  padding: 12px 30px;
+  border-radius: 6px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: background 0.3s ease;
+  position: relative;
+}
+
+.btn-show-more:hover {
+  background: linear-gradient(90deg, #0056b3, #0099ff);
+}
+
+/* Optional Loading Dots Animation */
+.loading-dots::after {
+  content: "...";
+  animation: dots 1.5s steps(3, end) infinite;
+}
+
+@keyframes dots {
+
+  0%,
+  20% {
+    color: rgba(255, 255, 255, 0);
+    text-shadow: .25em 0 0 rgba(255, 255, 255, 0),
+      .5em 0 0 rgba(255, 255, 255, 0);
+  }
+
+  40% {
+    color: white;
+    text-shadow: .25em 0 0 rgba(255, 255, 255, 0),
+      .5em 0 0 rgba(255, 255, 255, 0);
+  }
+
+  60% {
+    text-shadow: .25em 0 0 white,
+      .5em 0 0 rgba(255, 255, 255, 0);
+  }
+
+  80%,
+  100% {
+    text-shadow: .25em 0 0 white,
+      .5em 0 0 white;
+  }
+}
+
+
 /* ========== TESTIMONIALS ========== */
 .testimonials {
   background-color: #f9fafb;

@@ -7,42 +7,49 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
-    // Register API
     public function register(Request $request)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:users',
-            'password' => 'required|string|min:8|confirmed',
+            'email' => 'required|string|email|max:255|unique:users,email',
+            'password' => [
+                'required',
+                'string',
+                'min:8',
+                'confirmed',
+                // Must start with a capital letter, contain at least one number, and one special character
+                'regex:/^(?=[A-Z])(?=.*\d)(?=.*[!@#$%^&*()_+\-=\[\]{};:\'"\\|,.<>\/?]).{8,}$/'
+            ],
+        ], [
+            'email.unique' => 'This email address is already registered.',
+            'password.regex' => 'Password must start with a capital letter, contain at least one number and one special character.',
+            'password.confirmed' => 'Passwords do not match.',
+            'email.email' => 'Please enter a valid email address.',
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ], 422);
+            return back()
+                ->withErrors($validator)
+                ->withInput();
         }
 
-        $user = User::create([
+        // Create the user
+        User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
 
-        $token = $user->createToken('API Token')->plainTextToken;
-
-        return response()->json([
-            'status' => true,
-            'message' => 'User registered successfully.',
-            'user' => $user,
-            'token' => $token,
-        ], 201);
+        // Redirect to login page with a success flash message
+        return redirect()
+            ->route('login')
+            ->with('success', 'Registration successful! Please log in.');
     }
 
-    // Login API
     public function login(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -51,42 +58,36 @@ class AuthController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return response()->json([
-                'status' => false,
-                'errors' => $validator->errors(),
-            ], 422);
+            return back()->withErrors($validator)->withInput();
         }
 
-        $user = User::where('email', $request->email)->first();
+        $credentials = $request->only('email', 'password');
 
-        if (!$user || !Hash::check($request->password, $user->password)) {
-            return response()->json([
-                'status' => false,
-                'message' => 'Invalid credentials.',
-            ], 401);
+        if (Auth::attempt($credentials)) {
+            $request->session()->regenerate();
+
+            // Redirect to intended page or fallback to home
+            return redirect()->intended(route('user.home'));
         }
 
-        $user->tokens()->delete();
-        $token = $user->createToken('API Token')->plainTextToken;
-
-        return response()->json([
-            'status' => true,
-            'message' => 'Login successful.',
-            'user' => $user,
-            'token' => $token,
-        ], 200);
+        return back()->withErrors([
+            'email' => 'Invalid credentials.',
+        ])->withInput();
     }
 
-    // Logout API
     public function logout(Request $request)
     {
-        $request->user()->currentAccessToken()->delete();
+        // Logout the user
+        Auth::guard('web')->logout();
 
-        return response()->json([
-            'status' => true,
-            'message' => 'Logged out successfully.',
-        ]);
+        // Invalidate the session
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        // Redirect to home page
+        return redirect()->route('user.home');
     }
+
     //login page
     public function showLoginForm()
     {

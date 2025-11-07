@@ -138,6 +138,20 @@ body {
     box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.4);
 }
 
+/* Error messages above login button */
+.error-messages {
+    margin: 15px 0 0 0;
+    color: #ff4d4f;
+    /* Red color */
+    font-size: 14px;
+    text-align: left;
+}
+
+.error-messages p {
+    margin: 5px 0;
+}
+
+
 /* ============================
    RESPONSIVE DESIGN SECTION
    ============================ */

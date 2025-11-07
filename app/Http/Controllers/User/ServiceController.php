@@ -11,4 +11,13 @@ class ServiceController extends Controller
     {
         return view('user.service');
     }
+
+    public function itrFiling()
+    {
+        return view('user.itr-filing');
+    }
+    public function gstFiling()
+    {
+        return view('user.gst-filing');
+    }
 }

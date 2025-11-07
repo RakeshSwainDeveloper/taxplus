@@ -151,7 +151,7 @@
     </div>
 </section>
 
-<section class="our-services-clean">
+<!-- <section class="our-services-clean">
     <div class="container">
         <h2>OUR <span>SERVICES</span></h2>
         <p class="services-description">
@@ -203,7 +203,49 @@
             </div>
         </div>
     </div>
+</section> -->
+
+<section class="our-services-clean">
+    <div class="container">
+        <h2>OUR <span>SERVICES</span></h2>
+        <p class="services-description">
+            Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables
+            for real-time schema. Dramatically maintain click-and-mortar solutions without functional solutions.
+        </p>
+
+        <div class="services-items">
+            <!-- Show only 3 service cards -->
+            <div class="service-item">
+                <i class="bi bi-cash-coin icon"></i>
+                <h3>ITR FILING</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                <a href="{{ route('user.itr-filing') }}" class="read-more">Read More ›</a>
+            </div>
+
+            <div class="service-item">
+                <i class="bi bi-calendar-check icon"></i>
+                <h3>GST</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                <a href="{{ route('user.gst-filing') }}" class="read-more">Read More ›</a>
+            </div>
+
+            <div class="service-item">
+                <i class="bi bi-person-workspace icon"></i>
+                <h3>TDS</h3>
+                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                <a href="/service" class="read-more">Read More ›</a>
+            </div>
+        </div>
+
+        <!-- Show More Button -->
+        <div class="show-more-container">
+            <a href="/service" class="btn-show-more">
+                Show More <span class="loading-dots"></span>
+            </a>
+        </div>
+    </div>
 </section>
+
 
 <section class="testimonials">
     <h2>What Our Users Say</h2>

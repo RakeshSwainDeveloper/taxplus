@@ -45,7 +45,7 @@
         <div class="row g-4">
             <!-- 01 -->
             <div class="col-md-4">
-                <a href="{{ url('services') }}" class="text-decoration-none">
+                <a href="{{ route('user.itr-filing') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">01.</div>
                         <h4 class="fw-bold mt-3">ITR FILING</h4>
@@ -53,10 +53,10 @@
                     </div>
                 </a>
             </div>
-
+<!-- /gst-filing -->
             <!-- 02 -->
             <div class="col-md-4">
-                <a href="{{ url('services') }}" class="text-decoration-none">
+                <a href="{{ route('user.gst-filing') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">02.</div>
                         <h4 class="fw-bold mt-3">GST</h4>
@@ -67,7 +67,7 @@
 
             <!-- 03 -->
             <div class="col-md-4">
-                <a href="{{ url('services') }}" class="text-decoration-none">
+                <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">03.</div>
                         <h4 class="fw-bold mt-3">TDS</h4>
@@ -78,7 +78,7 @@
 
             <!-- 04 -->
             <div class="col-md-4">
-                <a href="{{ url('services') }}" class="text-decoration-none">
+                <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">04.</div>
                         <h4 class="fw-bold mt-3">TAX RETURN</h4>
@@ -100,7 +100,7 @@
 
             <!-- 06 -->
             <div class="col-md-4">
-                <a href="{{ url('services') }}" class="text-decoration-none">
+                <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">06.</div>
                         <h4 class="fw-bold mt-3">TAX CONSULTANCY</h4>
