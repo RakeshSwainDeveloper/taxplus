@@ -1,15 +1,11 @@
 @extends('layouts.app')
 
 @push('styles')
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
 @vite(['resources/css/user/home.css'])
 @endpush
 
-@push('scripts')
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-@endpush
-
 @section('content')
+
 <section id="hero-carousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
     <!-- Dots -->
     <div class="carousel-indicators">
@@ -75,7 +71,7 @@
 </section>
 
 <section class="accountant-help">
-    <h2>How Can an <span>Accountant</span> Help You?</h2>
+    <h2>How Can an <span>Tax Expert</span> Help You?</h2>
     <p class="intro-text">
         Objectively innovate empowered manufactured products whereas parallel platforms.
         Holistically predominate extensible testing procedures for reliable supply chains.
@@ -151,60 +147,6 @@
     </div>
 </section>
 
-<!-- <section class="our-services-clean">
-    <div class="container">
-        <h2>OUR <span>SERVICES</span></h2>
-        <p class="services-description">
-            Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables
-            for real-time schema. Dramatically maintain click-and-mortar solutions without functional solutions.
-        </p>
-
-        <div class="services-items">
-            <div class="service-item">
-                <i class="bi bi-cash-coin icon"></i>
-                <h3>INVESTMENT PLANNING</h3>
-                <p>Completely synergize resource taxing relations premier niche markets. Professionally cultivate service with robust ideas.</p>
-                <a href="/service" class="read-more">Read More ›</a>
-            </div>
-
-            <div class="service-item">
-                <i class="bi bi-calendar-check icon"></i>
-                <h3>RETIREMENT PLANNING</h3>
-                <p>Completely synergize resource taxing relations premier niche markets. Professionally cultivate service with robust ideas.</p>
-                <a href="/service" class="read-more">Read More ›</a>
-            </div>
-
-            <div class="service-item">
-                <i class="bi bi-person-workspace icon"></i>
-                <h3>LAWYER CONSULTING</h3>
-                <p>Completely synergize resource taxing relations premier niche markets. Professionally cultivate service with robust ideas.</p>
-                <a href="/service" class="read-more">Read More ›</a>
-            </div>
-
-            <div class="service-item">
-                <i class="bi bi-receipt icon"></i>
-                <h3>TAXATION</h3>
-                <p>Completely synergize resource taxing relations premier niche markets. Professionally cultivate service with robust ideas.</p>
-                <a href="/service" class="read-more">Read More ›</a>
-            </div>
-
-            <div class="service-item">
-                <i class="bi bi-shield-check icon"></i>
-                <h3>RISK MANAGEMENT</h3>
-                <p>Completely synergize resource taxing relations premier niche markets. Professionally cultivate service with robust ideas.</p>
-                <a href="/service" class="read-more">Read More ›</a>
-            </div>
-
-            <div class="service-item">
-                <i class="bi bi-bar-chart-line icon"></i>
-                <h3>BUSINESS PLANNING</h3>
-                <p>Completely synergize resource taxing relations premier niche markets. Professionally cultivate service with robust ideas.</p>
-                <a href="/service" class="read-more">Read More ›</a>
-            </div>
-        </div>
-    </div>
-</section> -->
-
 <section class="our-services-clean">
     <div class="container">
         <h2>OUR <span>SERVICES</span></h2>
@@ -276,4 +218,15 @@
         </div>
     </div>
 </section>
+<!-- <div class="itr-sidebar">
+  <div class="itr-ad-content">
+    <h3>📅 Book Your ITR Slot</h3>
+    <p>Get expert help filing your ITR. Schedule your consultation today!</p>
+    <a href="{{ url('/user.itr-slot-booking') }}" class="btn-book-now">Book Now</a>
+  </div>
+  <button class="close-sidebar" aria-label="Collapse sidebar">&times;</button>
+</div> -->
+
+
+
 @endsection

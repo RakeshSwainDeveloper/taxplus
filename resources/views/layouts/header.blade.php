@@ -1,5 +1,13 @@
 <header>
     <div class="navbar">
+        <!-- Mobile Menu Button -->
+        <div class="menu-toggle" id="menu-toggle">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-overlay" id="navOverlay"></div>
+
         <!-- Logo -->
         <a href="{{ url('/') }}" class="logo">
             <img src="{{ asset('images/logo.jpeg') }}" alt="Logo">
@@ -40,30 +48,23 @@
             @endguest
         </div>
 
-
-        <!-- Mobile Menu Button -->
-        <div class="menu-toggle" id="menu-toggle">
-            <span></span>
-            <span></span>
-            <span></span>
-        </div>
     </div>
 </header>
 <!-- Dropdown Toggle Script -->
 <script>
-    document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function() {
         const toggleBtn = document.getElementById("userToggle");
         const dropdownMenu = document.getElementById("dropdownMenu");
 
         if (toggleBtn) {
-            toggleBtn.addEventListener("click", function (e) {
+            toggleBtn.addEventListener("click", function(e) {
                 e.stopPropagation();
                 dropdownMenu.classList.toggle("show");
             });
         }
 
         // Close dropdown when clicking outside
-        document.addEventListener("click", function (e) {
+        document.addEventListener("click", function(e) {
             if (dropdownMenu && !dropdownMenu.contains(e.target) && !toggleBtn.contains(e.target)) {
                 dropdownMenu.classList.remove("show");
             }

@@ -12,6 +12,7 @@
 
     <!-- App CSS/JS -->
     @vite(['resources/css/header.css', 'resources/css/footer.css', 'resources/js/header.js'])
+    @vite(['resources/css/sidebar.css', 'resources/js/sidebar.js'])
     @stack('styles')
 </head>
 
@@ -19,6 +20,10 @@
 
     {{-- Header --}}
     @include('layouts.header')
+    <!-- {{-- Show sidebar only if NOT on service or contact pages --}} -->
+    @if (!request()->is('service*') && !request()->is('contact*'))
+    @include('layouts.sidebar')
+    @endif
 
     <main>
         @yield('content')
@@ -28,7 +33,7 @@
     @include('layouts.footer')
 
     {{-- Floating Chart Assistant --}}
-    <div id="chat-icon"
+    <!-- <div id="chat-icon"
         style="position:fixed; bottom:20px; right:20px; background:#2563eb; color:white; 
                 border-radius:50%; width:60px; height:60px; display:flex; align-items:center; 
                 justify-content:center; cursor:pointer; box-shadow:0 4px 10px rgba(0,0,0,0.2); z-index:9999;">
@@ -54,17 +59,14 @@
         <canvas id="chatChart" style="width:100%; height:150px; display:none;"></canvas>
     </div>
 
-    <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
     <script>
-        // Toggle Chat Box
         document.getElementById('chat-icon').addEventListener('click', () => {
             const box = document.getElementById('chat-box');
             box.style.display = (box.style.display === 'none' || box.style.display === '') ? 'flex' : 'none';
         });
 
-        // Button Click Logic
         document.querySelectorAll('.chat-btn').forEach(btn => {
             btn.addEventListener('click', async () => {
                 const messageKey = btn.dataset.msg;
@@ -111,8 +113,8 @@
                 chatBody.scrollTop = chatBody.scrollHeight;
             });
         });
-    </script>
-
+    </script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>
 

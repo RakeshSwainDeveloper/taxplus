@@ -82,6 +82,10 @@ body {
 .carousel-control-next-icon {
   filter: invert(1);
 }
+.carousel-control-prev,
+.carousel-control-next {
+  z-index: 5 !important;
+}
 
 .carousel-indicators [data-bs-target] {
   background-color: #22c55e;
@@ -481,6 +485,17 @@ body {
 
   .hero-text p {
     font-size: 1.1rem;
+  }
+  .itr-sidebar {
+    top: auto;
+    bottom: 20px;
+    left: 20px;
+    width: calc(100% - 40px);
+    max-width: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 }
 
