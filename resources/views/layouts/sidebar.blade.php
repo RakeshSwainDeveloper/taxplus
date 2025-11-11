@@ -13,7 +13,7 @@
     <div class="modal-content border-0 shadow-lg">
 
       <!-- Modal Header -->
-      <div class="modal-header text-white" style="background: linear-gradient(135deg, #00b4d8, #22c55e); border-top-left-radius: 10px; border-top-right-radius: 10px;">
+      <div class="modal-header text-white" style=" background: linear-gradient(135deg, #1e3a8a, #007bff); border-top-left-radius: 10px; border-top-right-radius: 10px;">
         <h5 class="modal-title fw-bold" id="itrBookingModalLabel">
           <i class="bi bi-calendar2-check me-2"></i> Book Your ITR Slot
         </h5>
@@ -23,6 +23,15 @@
       <!-- Modal Body -->
       <div class="modal-body p-4">
         <form id="itrBookingForm" class="needs-validation" novalidate>
+          <div class="col-md-6">
+            <label for="type" class="form-label fw-semibold">Select Type</label>
+            <select class="form-select form-select-lg" id="type" name="type" required>
+              <option value="">-- Select Type --</option>
+              <option value="gst">GST</option>
+              <option value="itr">ITR FILING</option>
+            </select>
+
+          </div>
           <div class="row g-3">
 
             <div class="col-md-6">
@@ -40,7 +49,7 @@
               <input type="tel" class="form-control form-control-lg" id="mobile" name="mobile" placeholder="10-digit number" pattern="[0-9]{10}" required>
             </div>
 
-           <div class="col-md-6">
+            <div class="col-md-6">
               <label for="book_date" class="form-label fw-semibold">Preferred Date</label>
               <input type="date" class="form-control form-control-lg" id="book_date" name="book_date" required>
             </div>
@@ -69,5 +78,3 @@
     </div>
   </div>
 </div>
-
-

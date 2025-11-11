@@ -21,10 +21,13 @@ Route::get('/service', [ServiceController::class, 'index'])->name('user.service'
 Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/itr-filing', [ServiceController::class, 'itrFiling'])->name('user.itr-filing');
+    Route::post('/itr-filing/submit', [ServiceController::class, 'storeItrApplication'])
+        ->name('user.itr-filing.submit');
     Route::get('/gst-filing', [ServiceController::class, 'gstFiling'])->name('user.gst-filing');
 });
 
 // Route::get('/itr-filing', [ServiceController::class, 'itrFiling'])->name('user.itr-filing');
+// Route::post('/itr-filing/submit', [ServiceController::class, 'storeItrApplication'])->name('itr-filing.submit');
 // Route::get('/gst-filing', [ServiceController::class, 'gstFiling'])->name('user.gst-filing');
 
 
