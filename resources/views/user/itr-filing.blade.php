@@ -1,6 +1,6 @@
 @extends('layouts.app')
 
-{{-- Use the new CSS file --}}
+{{-- Use the new CSS file (Assuming the CSS in this file works and matches the styles mentioned) --}}
 @push('styles')
     @vite('resources/css/user/itr-filing.css')
 @endpush
@@ -43,34 +43,37 @@
         <h2 class="text-3xl font-bold mb-8 text-center text-white">1. Choose the plan that matches your primary income source</h2>
         
         <div id="plan-grid" class="plan-grid">
-            {{-- Plan Cards will be dynamically inserted by JavaScript --}}
+            {{-- Plan Cards will be dynamically inserted by Laravel --}}
             @foreach ($plans as $plan)
                 @php
-                    // Assuming you store features/triggers in the document_list or income_source fields
-                    // For display, we will use income_source as trigger and price
-                    $isHighlighted = in_array($plan->id, [4, 6]); // Example: highlight plan IDs 4 and 6
+                    // Decode document_list which is a JSON string of features
                     $features = json_decode($plan->document_list, true) ?? ['Basic Filing', 'Expert Support'];
+                    $isHighlighted = in_array($plan->id, [4, 6]); // Example: highlight plan IDs 4 and 6
                 @endphp
-                <div id="card-{{ $plan->id }}" onclick="selectPlan({{ $plan->id }}, '{{ $plan->source_type }}', {{ $plan->price }})" class="plan-card {{ $isHighlighted ? 'bg-indigo-900 border-indigo-600' : '' }}">
+                {{-- FIX: Corrected onclick function call to pass values securely. --}}
+                <div id="card-{{ $plan->id }}" onclick="selectPlan({{ $plan->id }}, '{{ addslashes($plan->source_type) }}', {{ $plan->price }}, event)" class="plan-card {{ $isHighlighted ? 'bg-indigo-900 border-indigo-600' : '' }}">
                     
                     @if ($isHighlighted)
                         <span class="absolute top-0 right-0 mt-3 mr-4 px-3 py-1 bg-indigo-500 text-xs font-bold uppercase rounded-full tracking-wider">Comprehensive</span>
                     @endif
                     
                     <h3 class="mb-1 {{ $isHighlighted ? 'text-indigo-300' : 'text-white' }}">{{ $plan->source_type }}</h3>
+                    {{-- Assuming income_source holds the detailed trigger text --}}
                     <p class="trigger">{{ $plan->income_source }}</p>
                     <p class="price mb-4 {{ $isHighlighted ? 'text-white' : 'text-gray-100' }}">₹ {{ number_format($plan->price, 0) }}</p>
                     
                     <ul class="space-y-3">
                         @foreach ($features as $feature)
                             <li class="flex items-start">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
+                                {{-- Icon placeholder (assuming your CSS/Vite setup includes Lucide icons or similar) --}}
+                                <svg class="w-5 h-5 mr-2 text-green-400 flex-shrink-0" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 6 9 17l-5-5"/></svg>
                                 <span>{{ $feature }}</span>
                             </li>
                         @endforeach
                     </ul>
                     <div class="mt-4">
-                        <button type="button">Select Plan</button>
+                        {{-- FIX: Added event.stopPropagation() to prevent double selection when clicking the button --}}
+                        <button type="button" onclick="event.stopPropagation(); selectPlan({{ $plan->id }}, '{{ addslashes($plan->source_type) }}', {{ $plan->price }}, event)">Select Plan</button>
                     </div>
                 </div>
             @endforeach
@@ -91,22 +94,25 @@
         <div class="doc-payment-grid">
             
             <!-- Card 1: Email -->
-            <button onclick="selectDocumentMethod('Email', this)" class="doc-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+            <button id="doc-email-btn" onclick="selectDocumentMethod('Email', this)" class="doc-button">
+                {{-- Icon placeholder --}}
+                <svg class="w-8 h-8 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
                 <span>Email Documents</span>
                 <p>Send to our official email: <span class="text-green-400">support@capitaltaxplus.com</span></p>
             </button>
 
             <!-- Card 2: Cloud Upload -->
-            <button onclick="selectDocumentMethod('Upload', this)" class="doc-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m16 16-4 4-4-4"/></svg>
+            <button id="doc-upload-btn" onclick="selectDocumentMethod('Upload', this)" class="doc-button">
+                {{-- Icon placeholder --}}
+                <svg class="w-8 h-8 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 14.899A7 7 0 1 1 15.71 8h1.79a4.5 4.5 0 0 1 2.5 8.242"/><path d="M12 12v9"/><path d="m16 16-4 4-4-4"/></svg>
                 <span>Secure Cloud Upload</span>
                 <p>Upload directly to our encrypted storage link.</p>
             </button>
 
             <!-- Card 3: WhatsApp -->
-            <button onclick="selectDocumentMethod('WhatsApp', this)" class="doc-button">
-                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A10.1 10.1 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12c0 2.2.8 4.2 2.1 5.9L2 22l4.1-2.1z"/><path d="m10 8 4 4-4 4"/></svg>
+            <button id="doc-whatsapp-btn" onclick="selectDocumentMethod('WhatsApp', this)" class="doc-button">
+                {{-- Icon placeholder --}}
+                <svg class="w-8 h-8 mx-auto mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A10.1 10.1 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12c0 2.2.8 4.2 2.1 5.9L2 22l4.1-2.1z"/><path d="m10 8 4 4-4 4"/></svg>
                 <span>WhatsApp Chat</span>
                 <p>Chat and share with our expert on: <span class="text-green-400">8926130200</span></p>
             </button>
@@ -141,14 +147,17 @@
             </p>
 
             <div class="space-y-3">
-                <button onclick="confirmPayment('Email', this)" class="payment-button w-full flex items-center justify-center p-4 bg-indigo-600 hover:bg-indigo-700 text-white font-bold text-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Get Payment Link via Email
+                <button onclick="confirmPayment('Email', this)" class="payment-button w-full flex items-center justify-center p-4 bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg">
+                    {{-- Icon placeholder --}}
+                    <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 21h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg> Get Payment Link via Email
                 </button>
                 <button onclick="confirmPayment('WhatsApp', this)" class="payment-button w-full flex items-center justify-center p-4 bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A10.1 10.1 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12c0 2.2.8 4.2 2.1 5.9L2 22l4.1-2.1z"/><path d="m10 8 4 4-4 4"/></svg> Get Payment Link via WhatsApp
+                    {{-- Icon placeholder --}}
+                    <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.9 20A10.1 10.1 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12c0 2.2.8 4.2 2.1 5.9L2 22l4.1-2.1z"/><path d="m10 8 4 4-4 4"/></svg> Get Payment Link via WhatsApp
                 </button>
                 <button onclick="confirmPayment('Chat', this)" class="payment-button w-full flex items-center justify-center p-4 bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Start Live Chat for Payment
+                    {{-- Icon placeholder --}}
+                    <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg> Start Live Chat for Payment
                 </button>
             </div>
             
@@ -167,14 +176,15 @@
 </div>
 
 <!-- Confirmation Modal/Message (Overlay) -->
-<div id="confirmation-message" class="hidden">
-    <div class="modal-content">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
-        <h3 class="text-white">Request Submitted!</h3>
-        <p id="final-message-text">
+<div id="confirmation-message" class="hidden fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center transition-opacity duration-300">
+    <div class="modal-content bg-gray-800 p-8 rounded-xl shadow-2xl text-center max-w-md w-full transform -translate-y-4 transition-transform duration-300">
+        {{-- Icon placeholder --}}
+        <svg class="w-16 h-16 mx-auto mb-4 text-green-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><path d="m9 11 3 3L22 4"/></svg>
+        <h3 class="text-3xl font-bold text-white mb-3">Request Submitted!</h3>
+        <p id="final-message-text" class="text-gray-300 mb-6 leading-relaxed">
             Thank you! We've received your plan and document sharing preference. We will send the secure payment link and begin your hassle-free ITR filing.
         </p>
-        <button onclick="resetApp()">
+        <button onclick="resetApp()" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition duration-200 shadow-lg">
             Start a New Filing
         </button>
     </div>
@@ -185,6 +195,7 @@
 @push('scripts')
 <script>
     // Laravel data passed from the Controller
+    // Assuming $plans is passed as an associative array keyed by ID (keyBy('id'))
     const PLANS_DATA = @json($plans->keyBy('id'));
     const SUBMIT_URL = '{{ route('user.itr-filing.submit') }}';
 
@@ -229,16 +240,36 @@
             const indicatorCircle = step.indicator.querySelector('.step-circle');
             const indicatorText = step.indicator.querySelector('.step-text');
             
-            if (step.id <= currentStep) {
-                indicatorCircle.classList.add('active');
-                indicatorCircle.classList.remove('inactive');
+            if (step.id < currentStep) {
+                // Completed step
+                indicatorCircle.classList.add('bg-green-500', 'text-white');
+                indicatorCircle.classList.remove('bg-gray-500', 'bg-indigo-600');
                 indicatorText.classList.add('active');
-                indicatorText.classList.remove('inactive');
+            } else if (step.id === currentStep) {
+                // Current step
+                indicatorCircle.classList.add('bg-indigo-600', 'text-white');
+                indicatorCircle.classList.remove('bg-green-500', 'bg-gray-500');
+                indicatorText.classList.add('active');
             } else {
-                indicatorCircle.classList.add('inactive');
-                indicatorCircle.classList.remove('active');
-                indicatorText.classList.add('inactive');
+                // Future step
+                indicatorCircle.classList.add('bg-gray-500', 'text-gray-300');
+                indicatorCircle.classList.remove('bg-green-500', 'bg-indigo-600');
                 indicatorText.classList.remove('active');
+            }
+
+            // Ensure the active plan card and document button selection reflects the state
+            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+            if (currentStep === 1 && selectedPlan.id) {
+                 document.getElementById(`card-${selectedPlan.id}`)?.classList.add('selected');
+            }
+            
+            document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
+            if (currentStep === 2 && selectedDocumentMethod) {
+                document.querySelectorAll('.doc-button').forEach(btn => {
+                    if (btn.textContent.includes(selectedDocumentMethod)) {
+                        btn.classList.add('selected');
+                    }
+                });
             }
         });
         
@@ -264,6 +295,11 @@
      * Handles plan selection (Step 1).
      */
     function selectPlan(id, name, price, event) {
+        // Prevent event propagation if triggered from nested element
+        if (event && event.currentTarget.tagName.toLowerCase() === 'button') {
+            event.stopPropagation();
+        }
+
         // Clear previous selections
         document.querySelectorAll('.plan-card').forEach(card => {
             card.classList.remove('selected');
@@ -273,7 +309,7 @@
         selectedPlan = { id: id, name: name, price: price };
         
         // Highlight the current card
-        const currentCard = document.getElementById(card-${id});
+        const currentCard = document.getElementById(`card-${id}`);
         if (currentCard) {
              currentCard.classList.add('selected');
         }
@@ -335,11 +371,13 @@
 
             if (response.ok) {
                 // SUCCESS
-                let message = Thank you for selecting the <strong>${selectedPlan.name}</strong> plan! You chose to share documents via <strong>${selectedDocumentMethod}</strong>. We have saved your application (ID: ${result.application_id}). We will contact you shortly via <strong>${selectedPaymentMode}</strong> to share the payment link and finalize your filing.;
+                // FIX: Corrected string interpolation error (used backticks for template literal)
+                let message = `Thank you for selecting the <strong>${selectedPlan.name}</strong> plan! You chose to share documents via <strong>${selectedDocumentMethod}</strong>. We have saved your application (ID: ${result.application_id}). We will contact you shortly via <strong>${selectedPaymentMode}</strong> to share the payment link and finalize your filing.`;
                 
                 finalMessageText.innerHTML = message;
                 confirmationMessage.classList.remove('hidden');
-                setTimeout(() => confirmationMessage.classList.add('visible'), 10);
+                // Use a slight delay to trigger the CSS transition for a smoother appearance
+                setTimeout(() => confirmationMessage.classList.add('visible'), 10); 
             } else {
                 // FAILURE
                 let errorMessage = result.error || 'Submission failed. Please check your data and try again.';
@@ -361,7 +399,8 @@
         currentStep = 2;
         // Pre-fill final step details
         finalPlanName.textContent = selectedPlan.name;
-        finalPlanPrice.textContent = ₹ ${selectedPlan.price.toLocaleString('en-IN')};
+        // Format price for display
+        finalPlanPrice.textContent = `₹ ${selectedPlan.price.toLocaleString('en-IN')}`; 
         updateUI();
     }
 
@@ -377,7 +416,7 @@
         selectedPaymentMode = null;
         currentStep = 1;
         updateUI();
-        // Clear highlights
+        // Clear highlights manually for clean slate
         document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
         document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
         document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('selected'));
@@ -387,10 +426,15 @@
         selectedPaymentMode = null;
         currentStep = 2;
         updateUI();
-        document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('selected'));
+        document.querySelectorAll('.payment-button').forEach(btn => {
+            btn.classList.remove('selected');
+            btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+            btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+        });
     }
 
     function resetApp() {
+        // Hide modal
         confirmationMessage.classList.remove('visible');
         setTimeout(() => {
             confirmationMessage.classList.add('hidden');
@@ -401,9 +445,6 @@
     // Initialize the UI on page load
     window.onload = function() {
         updateUI();
-        // NOTE: The ITR filing view uses Lucide icons. Ensure you include the script tag for Lucide icons in your main layout file or here:
-        // <script src="https://unpkg.com/lucide@latest"></script>
     }
-
 </script>
 @endpush

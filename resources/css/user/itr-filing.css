@@ -2,12 +2,90 @@
 :root {
     --primary-color: #4f46e5;
     /* Indigo 600 */
+    --primary-light: #818cf8;
+    /* Indigo 400 */
     --background-color: #0d111a;
+    /* Deep Dark Blue */
     --card-bg: #1f2937;
+    /* Gray 800 */
     --text-color: #f3f4f6;
+    /* Gray 100 */
+    --text-muted: #9ca3af;
+    /* Gray 400 */
     --success-color: #10b981;
     /* Green 500 */
+    --success-hover: #059669;
+    /* Green 600 */
+    --border-color: #374151;
+    /* Gray 700 */
 }
+
+/* Hide elements when the 'hidden' class is applied */
+.hidden {
+    display: none !important;
+}
+
+/* --- Universal Fix for Step Navigation Buttons --- */
+
+/* Ensure each step content is properly spaced and column-based */
+#step-1-content,
+#step-2-content,
+#step-3-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Add spacing below the grid or card sections */
+#plan-grid,
+.doc-payment-grid,
+.summary-card {
+    margin-bottom: 2rem;
+}
+
+/* Center bottom buttons properly */
+#step-1-content .text-center,
+#step-2-content .flex,
+#step-3-content .text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    /* space between buttons */
+    flex-wrap: wrap;
+    /* prevents overlap on smaller screens */
+}
+
+/* Button visual consistency */
+#step1-next-button,
+#step2-next-button,
+#step-3-content button {
+    position: relative;
+    z-index: 5;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+}
+
+/* Ensure no overlap with footer or page bottom */
+#step-1-content,
+#step-2-content,
+#step-3-content {
+    padding-bottom: 3rem;
+}
+
+/* Optional: make back buttons consistent in style */
+#step-2-content button,
+#step-3-content button {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+#step-2-content button:hover,
+#step-3-content button:hover {
+    background-color: #4b5563;
+}
+
 
 /* Base Styles */
 body {
@@ -18,29 +96,22 @@ body {
 
 .itr-container {
     max-width: 1280px;
-    /* max-w-5xl */
     margin-left: auto;
     margin-right: auto;
     padding: 3rem;
-    /* md:p-12 */
 }
 
 /* Header */
 .itr-header h1 {
     font-size: 3rem;
-    /* text-5xl */
     font-weight: 800;
-    /* font-extrabold */
     letter-spacing: -0.025em;
-    /* tracking-tight */
     margin-bottom: 0.5rem;
 }
 
 .itr-header p {
-    color: #818cf8;
-    /* indigo-400 */
+    color: var(--primary-light);
     font-size: 1.25rem;
-    /* text-xl */
     font-weight: 500;
 }
 
@@ -60,8 +131,7 @@ body {
     position: absolute;
     top: 50%;
     height: 4px;
-    background-color: #374151;
-    /* gray-700 */
+    background-color: var(--border-color);
     transform: translateY(-50%);
     left: 1rem;
     right: 1rem;
@@ -100,22 +170,24 @@ body {
 }
 
 .step-text.active {
-    color: #818cf8;
-    /* indigo-400 */
+    color: var(--primary-light);
 }
 
 .step-circle.inactive {
-    background-color: #374151;
-    /* gray-700 */
+    background-color: var(--border-color);
     border: 2px solid #4b5563;
-    /* gray-600 */
-    color: #9ca3af;
-    /* gray-400 */
+    color: var(--text-muted);
+}
+
+/* Ensure completed steps look distinct */
+.step-circle.bg-green-500 {
+    background-color: var(--success-color) !important;
+    border-color: var(--success-color) !important;
+    color: white !important;
 }
 
 .step-text.inactive {
-    color: #9ca3af;
-    /* gray-400 */
+    color: var(--text-muted);
 }
 
 /* Plan Card Styling */
@@ -153,8 +225,19 @@ body {
     box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4), 0 4px 6px -2px rgba(79, 70, 229, 0.2);
 }
 
+/* Highlighted Plan Card (Example: used in the Blade template as 'bg-indigo-900 border-indigo-600') */
+.plan-card.bg-indigo-900 {
+    background-color: #312e81;
+    /* Indigo 900 equivalent */
+    border-color: #4f46e5;
+    /* Primary color */
+}
+
+/* Selected Plan Card */
 .plan-card.selected {
     border-color: var(--success-color);
+    background-color: #27303d;
+    /* Slightly lighter card bg for selection */
     box-shadow: 0 0 10px var(--success-color), 0 0 20px rgba(16, 185, 129, 0.5);
 }
 
@@ -166,8 +249,7 @@ body {
 
 .plan-card p.trigger {
     font-size: 1.125rem;
-    color: #9ca3af;
-    /* gray-400 */
+    color: var(--text-muted);
 }
 
 .plan-card p.price {
@@ -182,16 +264,16 @@ body {
     padding: 0;
     margin-top: 1rem;
     height: 8rem;
-    /* Fixed height for consistency */
     overflow: hidden;
-    color: #d1d5db;
-    /* gray-300 */
+    color: var(--text-color);
 }
 
 .plan-card li {
     display: flex;
     align-items: flex-start;
     margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    /* slightly smaller text for features */
 }
 
 .plan-card li svg {
@@ -207,15 +289,15 @@ body {
     padding: 0.5rem 0;
     border-radius: 0.5rem;
     font-weight: 600;
-    background-color: #4b5563;
-    /* gray-700 */
-    color: #d1d5db;
-    /* gray-300 */
+    background-color: var(--border-color);
+    /* Darker button for contrast */
+    color: var(--text-color);
     transition: background-color 0.2s;
+    margin-top: 1rem;
 }
 
 .plan-card button:hover {
-    background-color: #374151;
+    background-color: #4b5563;
     /* gray-600 */
 }
 
@@ -229,7 +311,7 @@ body {
     transition: background-color 0.2s;
 }
 
-.btn-primary:hover {
+.btn-primary:hover:not(:disabled) {
     background-color: #3730a3;
     /* indigo-700 */
 }
@@ -238,6 +320,21 @@ body {
     opacity: 0.5;
     cursor: not-allowed;
 }
+
+/* Back Button/Secondary Button */
+.btn-secondary {
+    background-color: var(--border-color);
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #4b5563;
+}
+
 
 /* Document/Payment Button Grid */
 .doc-payment-grid {
@@ -263,16 +360,23 @@ body {
     text-align: center;
     border: 2px solid transparent;
     transition: all 0.2s;
+    cursor: pointer;
+}
+
+/* FIX: Added specific styling for when payment buttons are confirmed */
+.payment-button.selected {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
 }
 
 .doc-button:hover,
 .payment-button:hover {
-    border-color: var(--success-color);
-    box-shadow: 0 4px 6px rgba(16, 185, 129, 0.3);
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
 }
 
-.doc-button.selected,
-.payment-button.selected {
+.doc-button.selected {
     border-color: var(--success-color);
     box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
 }
@@ -281,22 +385,38 @@ body {
 .payment-button svg {
     width: 40px;
     height: 40px;
-    color: var(--success-color);
+    color: var(--primary-light);
+    /* Changed to primary light for better contrast and fit */
     margin-bottom: 0.75rem;
     margin-left: auto;
     margin-right: auto;
 }
 
-.doc-button span {
+.doc-button.selected svg,
+.payment-button.selected svg {
+    color: white;
+    /* White icons when selected */
+}
+
+.doc-button span,
+.payment-button span {
     font-size: 1.25rem;
     font-weight: 600;
 }
 
-.doc-button p {
+.doc-button p,
+.payment-button p {
     font-size: 0.875rem;
-    color: #9ca3af;
+    color: var(--text-muted);
     margin-top: 0.5rem;
 }
+
+.doc-button.selected p,
+.payment-button.selected p {
+    color: var(--text-color);
+    /* Better visibility on selected background */
+}
+
 
 /* Final Summary Card */
 .summary-card {
@@ -312,13 +432,13 @@ body {
 }
 
 .summary-card p.plan-name {
-    color: #818cf8;
-    /* indigo-400 */
+    color: var(--primary-light);
     font-weight: 800;
 }
 
 .summary-card p.price-amount {
-    color: white;
+    color: var(--success-color);
+    /* Highlight final price in green */
     font-weight: 800;
 }
 
@@ -346,21 +466,35 @@ body {
 
 .modal-content {
     background-color: #1f2937;
-    /* gray-800 */
     padding: 2.5rem;
     border-radius: 0.75rem;
     text-align: center;
     max-width: 448px;
     width: 90%;
     box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
-    border-top: 4px solid #6366f1;
-    /* indigo-500 */
+    border-top: 4px solid var(--primary-color);
+    animation: fadeInScale 0.3s ease-out forwards;
+}
+
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .modal-content svg {
     margin-left: auto;
     margin-right: auto;
     margin-bottom: 1rem;
+    color: var(--success-color);
+    /* Green checkmark */
 }
 
 .modal-content h3 {
@@ -385,4 +519,33 @@ body {
 
 .modal-content button:hover {
     background-color: #3730a3;
+}
+
+/* Responsive Adjustments */
+@media (max-width: 640px) {
+    .itr-container {
+        padding: 1.5rem;
+    }
+
+    .itr-header h1 {
+        font-size: 2.5rem;
+    }
+
+    .step-indicator {
+        margin-bottom: 2rem;
+    }
+}
+@media (max-width: 768px) {
+  #step-1-content,
+  #step-2-content,
+  #step-3-content {
+      gap: 1.5rem;
+      padding-bottom: 4rem;
+  }
+
+  #step1-next-button,
+  #step2-next-button {
+      width: 100%;
+      text-align: center;
+  }
 }
