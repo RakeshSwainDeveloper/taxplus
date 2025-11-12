@@ -1,23 +1,14 @@
 /* Variables for dark theme */
 :root {
     --primary-color: #4f46e5;
-    /* Indigo 600 */
     --primary-light: #818cf8;
-    /* Indigo 400 */
     --background-color: #0d111a;
-    /* Deep Dark Blue */
     --card-bg: #1f2937;
-    /* Gray 800 */
     --text-color: #f3f4f6;
-    /* Gray 100 */
     --text-muted: #9ca3af;
-    /* Gray 400 */
     --success-color: #10b981;
-    /* Green 500 */
     --success-hover: #059669;
-    /* Green 600 */
     --border-color: #374151;
-    /* Gray 700 */
 }
 
 /* Hide elements when the 'hidden' class is applied */
@@ -302,6 +293,20 @@ body {
 }
 
 /* Button & Link Styles */
+.btn-change {
+    color: #d1d5db;
+    background-color: #374151;
+    border: none;
+    cursor: pointer;
+     font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-change:hover {
+    background-color: #4b5563;
+}
 .btn-primary {
     background-color: var(--primary-color);
     color: white;
@@ -319,6 +324,18 @@ body {
 .btn-disabled {
     opacity: 0.5;
     cursor: not-allowed;
+}
+.btn-pay{
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+.btn-pay:hover:not(:disabled) {
+    background-color: #3730a3;
+    /* indigo-700 */
 }
 
 /* Back Button/Secondary Button */
@@ -352,7 +369,6 @@ body {
     }
 }
 
-.doc-button,
 .payment-button {
     background-color: var(--card-bg);
     padding: 1.5rem;
@@ -362,6 +378,36 @@ body {
     transition: all 0.2s;
     cursor: pointer;
 }
+/* --- FIX: Prevent content overflow in document method boxes --- */
+.doc-button {
+    background-color: var(--card-bg);
+    padding: 1.75rem 1.25rem;
+    /* Added more horizontal padding */
+    border-radius: 0.75rem;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Make text wrap properly and fit neatly */
+.doc-button p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    word-break: break-word;
+    white-space: normal;
+    text-align: center;
+}
+
+
 
 /* FIX: Added specific styling for when payment buttons are confirmed */
 .payment-button.selected {
@@ -404,7 +450,6 @@ body {
     font-weight: 600;
 }
 
-.doc-button p,
 .payment-button p {
     font-size: 0.875rem;
     color: var(--text-muted);
@@ -419,6 +464,35 @@ body {
 
 
 /* Final Summary Card */
+/* --- FIX for Step 3 Payment Layout --- */
+#step-3-content .summary-card {
+  max-width: 480px; /* keep it compact like first image */
+  margin: 0 auto; /* center it horizontally */
+}
+
+#step-3-content .space-y-3 {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#step-3-content .payment-button {
+  width: 100%;
+  border-radius: 0.75rem;
+  background-color: var(--card-bg);
+  text-align: center;
+  justify-content: center;
+}
+
+#step-3-content .payment-button svg {
+  flex-shrink: 0;
+}
+
+#step-3-content .price-amount {
+  color: var(--success-color);
+  font-weight: 800;
+}
+
 .summary-card {
     background-color: var(--card-bg);
     padding: 2rem;
@@ -521,8 +595,13 @@ body {
     background-color: #3730a3;
 }
 
-/* Responsive Adjustments */
+/*---------------------- Responsive Adjustments-------------------- */
 @media (max-width: 640px) {
+    .doc-button {
+        padding: 1.5rem;
+        min-height: auto;
+    }
+
     .itr-container {
         padding: 1.5rem;
     }
@@ -535,17 +614,19 @@ body {
         margin-bottom: 2rem;
     }
 }
-@media (max-width: 768px) {
-  #step-1-content,
-  #step-2-content,
-  #step-3-content {
-      gap: 1.5rem;
-      padding-bottom: 4rem;
-  }
 
-  #step1-next-button,
-  #step2-next-button {
-      width: 100%;
-      text-align: center;
-  }
+@media (max-width: 768px) {
+
+    #step-1-content,
+    #step-2-content,
+    #step-3-content {
+        gap: 1.5rem;
+        padding-bottom: 4rem;
+    }
+
+    #step1-next-button,
+    #step2-next-button {
+        width: 100%;
+        text-align: center;
+    }
 }

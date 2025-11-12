@@ -21,7 +21,7 @@
     {{-- Header --}}
     @include('layouts.header')
     <!-- {{-- Show sidebar only if NOT on service or contact pages --}} -->
-    @if (!request()->is('service*') && !request()->is('contact*'))
+    @if (!request()->is('itr-filing') && !request()->is('contact*'))
     @include('layouts.sidebar')
     @endif
 
@@ -114,6 +114,12 @@
             });
         });
     </script> -->
+    <script>
+        const IS_LOGGED_IN = @json(auth()->check());
+        const LOGIN_URL = "{{ route('login') }}";
+    </script>
+
+
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
     @stack('scripts')
 </body>

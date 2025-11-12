@@ -109,6 +109,22 @@ nav ul li a.active {
 }
 
 /* ===== User Dropdown Menu ===== */
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent; /* remove white background */
+    border: none;             /* remove border */
+    color: #fff;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 0;               /* remove extra spacing */
+}
+
+.user-info:focus {
+    outline: none; /* remove blue focus border */
+}
+
 .user-menu {
     position: relative;
     display: flex;

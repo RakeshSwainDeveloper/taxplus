@@ -22,12 +22,17 @@ document.addEventListener('DOMContentLoaded', () => {
     openBtn.style.display = 'none';
   });
 
-  // Show modal
+  // Show modal only if logged in, otherwise redirect to login
   bookNowBtn.addEventListener('click', () => {
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
-    document.body.classList.add('blur-background');
+    if (typeof IS_LOGGED_IN !== 'undefined' && IS_LOGGED_IN) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+      document.body.classList.add('blur-background');
+    } else {
+      window.location.href = LOGIN_URL;
+    }
   });
+
 
   // Remove blur on modal close
   modalElement.addEventListener('hidden.bs.modal', () => {
