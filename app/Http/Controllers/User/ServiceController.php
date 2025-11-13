@@ -66,8 +66,10 @@ class ServiceController extends Controller
             return response()->json(['error' => 'An error occurred during submission. Please try again.'], 500);
         }
     }
+
     public function gstFiling()
     {
         return view('user.gst-filing');
+        // return redirect()->route('comingsoon.show', ['page' => 'gst-filing']);
     }
 }

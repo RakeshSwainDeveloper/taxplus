@@ -472,7 +472,31 @@
 
     // Initialize the UI on page load
     window.onload = function() {
-        updateUI();
+    // --- Check for URL parameters ---
+    const urlParams = new URLSearchParams(window.location.search);
+    const step = urlParams.get('step');
+    const planId = urlParams.get('plan_id');
+
+    // --- Auto-select plan if provided ---
+    if (planId && PLANS_DATA[planId]) {
+        const plan = PLANS_DATA[planId];
+        selectPlan(plan.id, plan.income_source, plan.price);
+        // Update the step 2 labels since we’re skipping ahead
+        document.getElementById('selected-plan-name-step2').textContent = plan.income_source;
+        finalPlanName.textContent = plan.income_source;
+        finalPlanPrice.textContent = `₹ ${plan.price.toLocaleString('en-IN')}`;
     }
+
+    // --- Jump directly to step 2 if ?step=2 ---
+    if (step === '2') {
+        currentStep = 2;
+    }
+
+    updateUI();
+
+    // --- Smooth scroll to wizard area ---
+    document.querySelector('.itr-container')?.scrollIntoView({ behavior: 'smooth' });
+};
+
 </script>
 @endpush

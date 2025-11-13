@@ -21,7 +21,7 @@
     {{-- Header --}}
     @include('layouts.header')
     <!-- {{-- Show sidebar only if NOT on service or contact pages --}} -->
-    @if (!request()->is('itr-filing') && !request()->is('contact*'))
+    @if (!request()->is('itr-filing') && !request()->is('contact*') && !request()->is('gst-filing'))
     @include('layouts.sidebar')
     @endif
 

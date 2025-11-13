@@ -3,6 +3,7 @@
 use App\Http\Controllers\User\AboutController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\User\ChatWidgetController;
+use App\Http\Controllers\User\ComingSoonController;
 use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\PricingController;
@@ -37,3 +38,5 @@ Route::post('/login', [AuthController::class, 'login']);
 
 Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('api.register-loading');
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
+
+Route::get('/coming-soon/{page?}', [ComingSoonController::class, 'show'])->name('comingsoon.show');

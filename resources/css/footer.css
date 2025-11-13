@@ -58,7 +58,8 @@
     gap: 8px;
 }
 
-.footer-section ul li a {
+.footer-section ul li a,
+.footer-section ul li span {
     color: #b5c4e3;
     text-decoration: none;
     transition: color 0.3s ease;
@@ -82,6 +83,32 @@
     font-size: 0.9rem;
     color: #a0aec0;
 }
+
+.footer-social {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+    color: #b5c4e3;
+    font-size: 0.95rem;
+}
+
+.footer-social span {
+    margin-right: 8px;
+}
+
+.footer-social a {
+    color: #fff;
+    /* or your theme color */
+    font-size: 1.3rem;
+    transition: color 0.3s ease;
+}
+
+.footer-social a:hover {
+    color: #00eaff;
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {
