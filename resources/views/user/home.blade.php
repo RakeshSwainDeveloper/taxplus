@@ -218,15 +218,20 @@
         </div>
     </div>
 </section>
-<!-- <div class="itr-sidebar">
-  <div class="itr-ad-content">
-    <h3>📅 Book Your ITR Slot</h3>
-    <p>Get expert help filing your ITR. Schedule your consultation today!</p>
-    <a href="{{ url('/user.itr-slot-booking') }}" class="btn-book-now">Book Now</a>
-  </div>
-  <button class="close-sidebar" aria-label="Collapse sidebar">&times;</button>
-</div> -->
 
-
+<!-- CTA Section -->
+<section class="cta">
+    <div class="container cta-flex">
+        <div class="cta-image">
+            <img src="{{ asset('images/contact-us.jpg') }}" alt="Business Illustration">
+        </div>
+        <div class="cta-text">
+            <h2>Let’s Discuss Your Business Goals & Schedule a Free Consultation Today</h2>
+        </div>
+        <div class="cta-button">
+            <a href="/contact" class="btn">Contact Us</a>
+        </div>
+    </div>
+</section>
 
 @endsection

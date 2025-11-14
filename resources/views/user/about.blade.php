@@ -107,10 +107,18 @@
 
 <!-- CTA Section -->
 <section class="cta">
-    <div class="container text-center">
-        <h2>Let’s Discuss Your Business Goals & Schedule A Free Consultation Today</h2>
-        <a href="/contact" class="btn btn-light mt-3">Contact Us</a>
+    <div class="container cta-flex">
+        <div class="cta-image">
+            <img src="{{ asset('images/contact-us.jpg') }}" alt="Business Illustration">
+        </div>
+        <div class="cta-text">
+            <h2>Let’s Discuss Your Business Goals & Schedule a Free Consultation Today</h2>
+        </div>
+        <div class="cta-button">
+            <a href="/contact" class="btn">Contact Us</a>
+        </div>
     </div>
 </section>
+
 
 @endsection
