@@ -526,6 +526,139 @@ body {
     color: white;
 }
 
+/* ===================== GLASS EFFECT MODAL ===================== */
+
+.glass-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    backdrop-filter: blur(0px);
+    background: rgba(0, 0, 0, 0);
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 9999;
+}
+
+.glass-modal-overlay.open {
+    opacity: 1;
+    visibility: visible;
+    backdrop-filter: blur(8px);
+    background: rgba(0, 0, 0, 0.45);
+}
+
+.glass-modal {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 420px;
+    background: rgba(30, 30, 30, 0.45);
+    backdrop-filter: blur(15px);
+    color: white;
+    border-radius: 16px;
+    overflow: hidden; /* prevents header overflow */
+    box-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+
+    /* animation start position (scale from button) */
+    transform: translate(-50%, -50%) scale(0.2);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+/* Modal Animate Open */
+.modal-animate-in {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1) !important;
+}
+
+/* Modal Animate Close */
+.modal-animate-out {
+    opacity: 0 !important;
+    transform: translate(-50%, -50%) scale(0.2) !important;
+}
+
+
+/* ===================== HEADER BAR ===================== */
+
+.modal-header-bar {
+    background: linear-gradient(90deg, #0056b3, #0099ff);
+    padding: 12px 18px;
+    border-radius: 14px 14px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.modal-header-bar h3 {
+    margin: 0;
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: white;
+}
+
+
+/* ===================== CLOSE ICON ===================== */
+
+.modal-close-icon {
+    font-size: 24px;
+    background: none;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 4px 6px;
+    transition: 0.3s ease;
+    font-weight: bold;
+}
+
+.modal-close-icon:hover {
+    color: #d4e6ff;
+    transform: scale(1.2);
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.9);
+}
+
+
+/* ===================== CONTENT ===================== */
+
+.glass-modal p {
+    padding: 20px;
+    font-size: 1rem;
+    line-height: 1.5;
+    color: #e6e6e6;
+}
+
+
+/* ===================== BOTTOM CLOSE BUTTON ===================== */
+
+.modal-close-btn {
+    display: block;
+    margin: 15px auto 20px auto;
+    padding: 10px 25px;
+    background: #007bff;
+    color: #fff;
+    border-radius: 8px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.3s ease;
+}
+
+.modal-close-btn:hover {
+    background: #0056b3;
+}
+
+
+/* ===================== RESPONSIVE ===================== */
+
+@media (max-width: 480px) {
+    .glass-modal {
+        width: 90%;
+    }
+}
+
+
+
 /* ===== RESPONSIVE ===== */
 @media (max-width: 992px) {
   .hero-text h1 {

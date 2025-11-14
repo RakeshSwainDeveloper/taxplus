@@ -15,7 +15,7 @@
         </a>
 
         <!-- Navigation -->
-        <nav>
+        <nav class="nav-center">
             <ul id="menu">
                 <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
                 <li><a href="{{ route('user.about') }}" class="{{ request()->is('about*') ? 'active' : '' }}">About Us</a></li>

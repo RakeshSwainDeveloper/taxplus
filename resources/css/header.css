@@ -10,7 +10,8 @@ header {
 }
 
 .navbar {
-    width: 90%;
+    width: 100%;
+    max-width: 1400px;
     margin: 0 auto;
     display: flex;
     align-items: center;
@@ -22,6 +23,7 @@ header {
     display: flex;
     align-items: center;
     text-decoration: none;
+    flex: 1;
 }
 
 .logo img {
@@ -36,6 +38,12 @@ header {
 }
 
 /* Navigation */
+.nav-center {
+    flex: 2;
+    display: flex;
+    justify-content: center;
+}
+
 nav ul {
     list-style: none;
     margin: 0;
@@ -62,8 +70,9 @@ nav ul li a.active {
 
 /* Auth Buttons */
 .auth-buttons {
+    flex: 1;
     display: flex;
-    align-items: center;
+    justify-content: flex-end;
     gap: 10px;
 }
 
@@ -113,16 +122,20 @@ nav ul li a.active {
     display: flex;
     align-items: center;
     gap: 8px;
-    background: transparent; /* remove white background */
-    border: none;             /* remove border */
+    background: transparent;
+    /* remove white background */
+    border: none;
+    /* remove border */
     color: #fff;
     font-weight: 600;
     cursor: pointer;
-    padding: 0;               /* remove extra spacing */
+    padding: 0;
+    /* remove extra spacing */
 }
 
 .user-info:focus {
-    outline: none; /* remove blue focus border */
+    outline: none;
+    /* remove blue focus border */
 }
 
 .user-menu {
@@ -204,6 +217,16 @@ nav ul li a.active {
 /* Responsive */
 @media (max-width: 768px) {
 
+    .logo,
+    .nav-center,
+    .auth-buttons {
+        flex: unset;
+    }
+
+    .nav-center {
+        justify-content: flex-start;
+    }
+
     /* Overlay behind menu */
     .nav-overlay {
         display: none;
@@ -233,8 +256,8 @@ nav ul li a.active {
         flex-direction: column;
         cursor: pointer;
         margin-right: 8px;
+        margin-left: 12px;
         z-index: 1001;
-        /* Keep toggle above menu */
     }
 
     .logo {
@@ -255,30 +278,34 @@ nav ul li a.active {
     }
 
     nav ul {
-    position: fixed;
-    top: 0;
-    left: -100%; /* hidden by default */
-    height: 100vh;
-    width: 70%;
-    background-color: #0f1125;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: flex-start; /* ⬅️ ensures left alignment */
-    padding: 60px 20px; /* space inside menu */
-    text-align: left; /* ⬅️ left-align text */
-    transition: left 0.3s ease;
-    z-index: 1000;
-  }
+        position: fixed;
+        top: 0;
+        left: -100%;
+        /* hidden by default */
+        height: 100vh;
+        width: 70%;
+        background-color: #0f1125;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        /* ⬅️ ensures left alignment */
+        padding: 60px 20px;
+        /* space inside menu */
+        text-align: left;
+        /* ⬅️ left-align text */
+        transition: left 0.3s ease;
+        z-index: 1000;
+    }
 
     nav ul li a {
-    display: block;
-    width: 100%;
-    text-align: left; 
-    color: #dcdcdc;
-    /* padding: 5px 0; */
-    text-decoration: none;
-    font-size: 16px;
-  }
+        display: block;
+        width: 100%;
+        text-align: left;
+        color: #dcdcdc;
+        /* padding: 5px 0; */
+        text-decoration: none;
+        font-size: 16px;
+    }
 
     nav ul.show {
         left: 0;
@@ -287,7 +314,7 @@ nav ul li a.active {
 
     nav ul li {
         margin: 15px 0;
-         width: 100%;
+        width: 100%;
     }
 
     .auth-buttons {

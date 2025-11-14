@@ -82,28 +82,56 @@
             <i class="bi bi-cash-stack icon"></i>
             <h3>Financial Services</h3>
             <p>Engage worldwide methodologies with web-enabled technology.</p>
-            <a href="#" class="btn-read">Read More</a>
+            <!-- <a href="#" class="btn-read">Read More</a> -->
+            <a href="#"
+                class="btn-read"
+                data-title="Financial Services"
+                data-content="We help you with financial planning, budgeting, investment strategies, taxation, and wealth management. Our experts ensure secure, compliant, and smart financial decisions.">
+                Read More
+            </a>
+
         </div>
 
         <div class="help-card">
             <i class="bi bi-graph-up icon"></i>
             <h3>Business Valuation</h3>
             <p>Pursue scalable customer service through sustainable potentials.</p>
-            <a href="#" class="btn-read">Read More</a>
+            <!-- <a href="#" class="btn-read">Read More</a> -->
+            <a href="#"
+                class="btn-read"
+                data-title="Business Valuation"
+                data-content="Our valuation specialists analyze business performance, assets, market position, growth potential, and financial records to calculate accurate business worth for investors, mergers, or internal planning.">
+                Read More
+            </a>
+
         </div>
 
         <div class="help-card">
             <i class="bi bi-receipt icon"></i>
             <h3>Small Business Taxes</h3>
             <p>Administrate turnkey channels for virtual e-tailers.</p>
-            <a href="#" class="btn-read">Read More</a>
+            <!-- <a href="#" class="btn-read">Read More</a> -->
+            <a href="#"
+                class="btn-read"
+                data-title="Small Business Taxes"
+                data-content="We manage tax calculations, deductions, tax planning, and compliance for small businesses. We ensure accurate filing, lower liabilities, and complete transparency.">
+                Read More
+            </a>
+
         </div>
 
         <div class="help-card">
             <i class="bi bi-briefcase icon"></i>
             <h3>Startup Compliance</h3>
             <p>Empower researched growth strategies and internal interoperability.</p>
-            <a href="#" class="btn-read">Read More</a>
+            <!-- <a href="#" class="btn-read">Read More</a> -->
+            <a href="#"
+                class="btn-read"
+                data-title="Startup Compliance"
+                data-content="We help startups complete all government, financial, legal, and tax compliance requirements such as GST, TDS, ROC filings, accounting, and regulatory advisory.">
+                Read More
+            </a>
+
         </div>
     </div>
 </section>
@@ -117,9 +145,6 @@
                 We provide scalable and secure IT services designed to meet your business goals.
                 Our expert team ensures innovative, reliable, and efficient technology solutions for growth.
             </p>
-            <!-- <a href="#" class="video-btn">
-                <i class="bi bi-play-circle"></i> Video Showcase
-            </a> -->
         </div>
 
         <div class="why-right">
@@ -234,4 +259,81 @@
     </div>
 </section>
 
+
+<!-- GLASS EFFECT MODAL -->
+<div id="glassModal" class="glass-modal-overlay">
+    <div class="glass-modal">
+
+        <!-- HEADER WITH COLOR -->
+        <div class="modal-header-bar">
+            <h3 id="modalTitle">Title</h3>
+            <button class="modal-close-icon">&times;</button>
+        </div>
+
+        <p id="modalContent"></p>
+
+        <button class="modal-close-btn">Close</button>
+    </div>
+</div>
+
+
+
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const modal = document.getElementById("glassModal");
+        const modalBox = document.querySelector(".glass-modal");
+        const title = document.getElementById("modalTitle");
+        const content = document.getElementById("modalContent");
+
+        const readBtns = document.querySelectorAll(".help-card .btn-read");
+
+        let clickedBtn = null;
+
+        // Modal Open
+        readBtns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                clickedBtn = btn;
+
+                // Get dynamic text from data attributes
+                title.textContent = btn.getAttribute("data-title");
+                content.textContent = btn.getAttribute("data-content");
+
+                // Button animation origin
+                const rect = btn.getBoundingClientRect();
+                modal.classList.add("open");
+                modalBox.style.transformOrigin = `${rect.left + rect.width / 2}px ${rect.top + rect.height / 2}px`;
+                modalBox.classList.add("modal-animate-in");
+            });
+        });
+
+
+        // Close Modal Function
+        function closeModal() {
+            if (!clickedBtn) return;
+
+            const rect = clickedBtn.getBoundingClientRect();
+            modalBox.style.transformOrigin = `${rect.left + rect.width / 2}px ${rect.top + rect.height / 2}px`;
+
+            modalBox.classList.remove("modal-animate-in");
+            modalBox.classList.add("modal-animate-out");
+
+            setTimeout(() => {
+                modal.classList.remove("open");
+                modalBox.classList.remove("modal-animate-out");
+            }, 300);
+        }
+
+        document.querySelector(".modal-close-icon").onclick = closeModal;
+        document.querySelector(".modal-close-btn").onclick = closeModal;
+
+        // Close on clicking outside
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+        });
+    });
+</script>
+@endpush
