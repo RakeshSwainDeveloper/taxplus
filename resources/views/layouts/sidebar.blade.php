@@ -27,8 +27,8 @@
             <label for="type" class="form-label fw-semibold">Select Type</label>
             <select class="form-select form-select-lg" id="type" name="type" required>
               <option value="">-- Select Type --</option>
-              <option value="gst">GST</option>
               <option value="itr">ITR FILING</option>
+              <option value="gst">GST</option>
             </select>
 
           </div>

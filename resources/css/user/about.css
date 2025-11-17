@@ -58,7 +58,7 @@ section {
     line-height: 1.5;
 }
 
-.d-flex {
+/* .d-flex {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -76,6 +76,39 @@ section {
 
 .d-flex p {
     color: #777;
+} */
+
+/* About Read More Section */
+.about-more {
+    max-height: 0;
+    overflow: hidden;
+    opacity: 0;
+    transition: all 0.4s ease;
+}
+
+.about-more.open {
+    max-height: 1400px; 
+    opacity: 1;
+}
+
+.read-more-btn {
+    background: transparent;
+    color: #003b83;
+    border: 2px solid #003b83;
+    padding: 8px 20px;
+    font-weight: 600;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: 0.3s ease;
+}
+
+.read-more-btn:hover {
+    background: #003b83;
+    color: #fff;
+}
+
+.stats-box {
+    justify-content: flex-start !important;
 }
 
 .text-primary {

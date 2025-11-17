@@ -145,6 +145,8 @@
                 We provide scalable and secure IT services designed to meet your business goals.
                 Our expert team ensures innovative, reliable, and efficient technology solutions for growth.
             </p>
+            <a href="/about" class="why-btn">About Us</a>
+
         </div>
 
         <div class="why-right">
@@ -216,11 +218,17 @@
 
 <section class="testimonials">
     <h2>What Our Users Say</h2>
+    <p class="testimonial-subtext">
+        Trusted by thousands of individuals and businesses across India, our platform delivers reliable,
+        secure, and hassle-free tax solutions. Here’s what our clients have to say about their experience
+        with Capital Taxplus.
+    </p>
+
     <div class="reviews">
         <div class="review">
             <img src="{{ asset('images/image-6.png') }}" alt="User 1">
             <h3>Rahul Mehta</h3>
-            <p class="stars">★★★★★</p>
+            <p class="stars">★★★☆☆</p>
             <blockquote>
                 “The best tax filing service I’ve ever used! Super simple and quick.”
             </blockquote>

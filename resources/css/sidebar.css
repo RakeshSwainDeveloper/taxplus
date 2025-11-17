@@ -243,6 +243,6 @@
 
 /* Optional: Customize success toast color (modern green) */
 .bg-success {
-  /* background: linear-gradient(135deg, #16a34a, #22c55e) !important; */
-  background: linear-gradient(135deg, #1e3a8a, #007bff) !important;
+  background: linear-gradient(135deg, #16a34a, #22c55e) !important;
+  /* background: linear-gradient(135deg, #1e3a8a, #007bff) !important; */
 }
