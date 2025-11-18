@@ -8,6 +8,7 @@ use App\Http\Controllers\User\ContactController;
 use App\Http\Controllers\User\LoginController;
 use App\Http\Controllers\User\PricingController;
 use App\Http\Controllers\User\ServiceController;
+use App\Http\Controllers\User\SlotBookingController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 
@@ -40,3 +41,4 @@ Route::get('/register', [AuthController::class, 'showRegisterForm'])->name('api.
 Route::post('/register', [AuthController::class, 'register'])->name('api.register');
 
 Route::get('/coming-soon/{page?}', [ComingSoonController::class, 'show'])->name('comingsoon.show');
+Route::post('/slot-book', [SlotBookingController::class, 'store'])->name('slot.book');

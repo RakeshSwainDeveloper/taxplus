@@ -41,25 +41,56 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Form validation and toast
   const form = document.getElementById('itrBookingForm');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (!form.checkValidity()) {
-      e.stopPropagation();
-      form.classList.add('was-validated');
-      return;
+        e.stopPropagation();
+        form.classList.add('was-validated');
+        return;
     }
 
     form.classList.remove('was-validated');
 
-    // Hide modal
-    bootstrap.Modal.getInstance(modalElement).hide();
+    // Prepare form data
+    const formData = {
+        type: document.getElementById('type').value,
+        name: document.getElementById('name').value,
+        email: document.getElementById('email').value,
+        mobile: document.getElementById('mobile').value,
+        book_date: document.getElementById('book_date').value,
+    };
 
-    // Reset form
-    form.reset();
+    try {
+        const res = await fetch(SLOT_BOOK_URL, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+                "X-CSRF-TOKEN": CSRF_TOKEN
+            },
+            body: JSON.stringify(formData)
+        });
 
-    // Show toast notification
-    const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-    toast.show();
-  });
+        const result = await res.json();
+
+        if (result.success) {
+            // Hide modal
+            bootstrap.Modal.getInstance(modalElement).hide();
+
+            // Reset form
+            form.reset();
+
+            // Show toast notification
+            const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+            toast.show();
+        } else {
+            alert("Something went wrong!");
+        }
+
+    } catch (error) {
+        console.error(error);
+        alert("Server error, please try again!");
+    }
+});
+
 });

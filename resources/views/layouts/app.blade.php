@@ -117,6 +117,8 @@
     <script>
         const IS_LOGGED_IN = @json(auth()->check());
         const LOGIN_URL = "{{ route('login') }}";
+        const SLOT_BOOK_URL = "{{ route('slot.book') }}";  
+        const CSRF_TOKEN = "{{ csrf_token() }}";     
     </script>
 
 
