@@ -22,6 +22,7 @@
                 <li><a href="{{ route('user.service') }}" class="{{ request()->is('service*') ? 'active' : '' }}">Services</a></li>
                 <li><a href="{{ route('user.pricing') }}" class="{{ request()->is('pricing*') ? 'active' : '' }}">Pricing</a></li>
                 <li><a href="{{ route('user.contact') }}" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact Us</a></li>
+                <li><a href="{{ route('user.blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a></li>
             </ul>
         </nav>
         <div class="auth-buttons">

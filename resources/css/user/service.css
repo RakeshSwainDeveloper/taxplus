@@ -179,20 +179,71 @@
   background-color: #00bfa6;
 }
 
+.faq-box-clean {
+    margin-top: 20px;
+    padding: 0 15px;
+}
+
+.faq-clean-wrapper {
+    background: #ffffff;
+    border: 1px solid #e5eaf0;
+    border-radius: 14px;
+    padding: 30px 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+    gap: 15px;
+}
+
+.faq-clean-wrapper h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #0b325c;
+}
+
+.faq-clean-wrapper p {
+    font-size: 1rem;
+    color: #6b7685;
+    margin-bottom: 0;
+}
+
+.faq-clean-btn {
+    background: #0b325c;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* prevent shrinking in flex layout */
+}
+
+.faq-clean-btn:hover {
+    background: #0056b3;
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+}
+
+
 /*-------------Modal------- */
 .myModal.modal {
-    background: rgba(0, 0, 0, 0.6) !important;  /* dark overlay */
-    backdrop-filter: blur(2px);                /* stronger blur */
+    background: rgba(0, 0, 0, 0.6) !important;  
+    backdrop-filter: blur(2px);                
     transition: background 0.3s ease-in-out;
 }
 
 .myModal .modal-content {
-    background: rgba(30, 30, 30, 0.95);       /* dark glass effect */
+    background: rgba(30, 30, 30, 0.95);       
     color: #fff;
     border-radius: 16px;
     border: none;
-    width: 500px;                              /* fixed width */
-    height: 500px;                             /* fixed height to make it square */
+    width: 500px;                              
+    height: 500px;                             
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -213,7 +264,6 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* background-color: #1e3a8a;   */
     background: linear-gradient(90deg, #0056b3, #0099ff);
     color: #fff;
     border-radius: 16px 16px 0 0;
@@ -423,6 +473,24 @@
     }
     .cta-image {
         margin-bottom: 20px;
+    }
+    .faq-clean-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 15px;
+    }
+
+    .faq-clean-wrapper h2 {
+        font-size: 1.75rem;
+    }
+
+    .faq-clean-wrapper p {
+        font-size: 0.95rem;
+    }
+
+    .faq-clean-btn {
+        width: 100%; /* full width on mobile */
+        text-align: center;
     }
 }
 

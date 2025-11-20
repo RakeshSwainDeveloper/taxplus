@@ -198,6 +198,24 @@
     </div>
 </div>
 
+<!-- FAQ Section -->
+<section class="faq-box-clean py-5">
+    <div class="container">
+        <div class="faq-clean-wrapper">
+            <div class="faq-text">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find quick answers to common tax, GST, and compliance questions.</p>
+            </div>
+
+            <div>
+                <a href="{{ route('user.faq') }}" class="faq-clean-btn">
+                    Explore FAQs →
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
 <!-- CTA Section -->
 <section class="cta">
     <div class="container cta-flex">

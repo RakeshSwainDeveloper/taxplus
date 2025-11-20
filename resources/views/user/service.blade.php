@@ -59,7 +59,7 @@
                 <a href="{{ route('user.gst-filing') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">02.</div>
-                        <h4 class="fw-bold mt-3">GST</h4>
+                        <h4 class="fw-bold mt-3">GST SERVICES</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -70,7 +70,7 @@
                 <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">03.</div>
-                        <h4 class="fw-bold mt-3">TDS</h4>
+                        <h4 class="fw-bold mt-3">PAN SERVICES</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -81,7 +81,7 @@
                 <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">04.</div>
-                        <h4 class="fw-bold mt-3">TAX RETURN</h4>
+                        <h4 class="fw-bold mt-3">TDS / TCS FILING</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -92,7 +92,7 @@
                 <a href="{{ url('services') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">05.</div>
-                        <h4 class="fw-bold mt-3">TAX PLANNING</h4>
+                        <h4 class="fw-bold mt-3">TAX CONSULTATION</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -103,7 +103,7 @@
                 <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">06.</div>
-                        <h4 class="fw-bold mt-3">TAX CONSULTANCY</h4>
+                        <h4 class="fw-bold mt-3">NOTICE HANDLING</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -262,6 +262,25 @@
         </div>
     </div>
 </div>
+
+<!-- FAQ Section -->
+<section class="faq-box-clean py-5">
+    <div class="container">
+        <div class="faq-clean-wrapper">
+            <div class="faq-text">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find quick answers to common tax, GST, and compliance questions.</p>
+            </div>
+
+            <div>
+                <a href="{{ route('user.faq') }}" class="faq-clean-btn">
+                    Explore FAQs →
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
 
 <!-- CTA Section -->
 <section class="cta">

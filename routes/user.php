@@ -42,3 +42,10 @@ Route::post('/register', [AuthController::class, 'register'])->name('api.registe
 
 Route::get('/coming-soon/{page?}', [ComingSoonController::class, 'show'])->name('comingsoon.show');
 Route::post('/slot-book', [SlotBookingController::class, 'store'])->name('slot.book');
+Route::get('/faq', function () {
+    return view('user.faq');
+})->name('user.faq');
+
+Route::get('/blog', function () {
+    return view('user.blog');
+})->name('user.blog');

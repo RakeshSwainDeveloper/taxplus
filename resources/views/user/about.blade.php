@@ -105,7 +105,7 @@
         <div class="overlay"></div>
         <div class="container text-center text-white position-relative">
             <div class="section-header mb-5">
-                <h6 class="sub-title">OUR MISSION & VISION</h6>
+                <h6 class="sub-title">OUR VISION & MISSION</h6>
                 <h2 class="main-title">Discover The Core Principles That Guide Us</h2>
             </div>
 

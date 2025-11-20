@@ -176,7 +176,7 @@
 
 <section class="our-services-clean">
     <div class="container">
-        <h2>OUR <span>SERVICES</span></h2>
+        <h2>OVERVIEW OF <span>SERVICES</span></h2>
         <p class="services-description">
             Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables
             for real-time schema. Dramatically maintain click-and-mortar solutions without functional solutions.
@@ -217,7 +217,7 @@
 
 
 <section class="testimonials">
-    <h2>What Our Users Say</h2>
+    <h2>TESTIMONIALS</h2>
     <p class="testimonial-subtext">
         Trusted by thousands of individuals and businesses across India, our platform delivers reliable,
         secure, and hassle-free tax solutions. Here’s what our clients have to say about their experience
@@ -227,26 +227,26 @@
     <div class="reviews">
         <div class="review">
             <img src="{{ asset('images/image-6.png') }}" alt="User 1">
-            <h3>Rahul Mehta</h3>
+            <h3>Priyanka Priyadarshini</h3>
             <p class="stars">★★★☆☆</p>
             <blockquote>
-                “The best tax filing service I’ve ever used! Super simple and quick.”
+                “Tax Plus was a lifesaver! They took care of both my income tax and GST filing , making the whole process incredibly smooth. No more scrambling between different systems – it was all streamlined and efficient.”
             </blockquote>
         </div>
         <div class="review">
             <img src="{{ asset('images/image-9.png') }}" alt="User 2">
-            <h3>Priya Sharma</h3>
+            <h3>Krushna Ranjan Patra</h3>
             <p class="stars">★★★★☆</p>
             <blockquote>
-                “Very helpful and responsive support team. Filing was smooth and easy.”
+                “I used to dread tax season, but Tax Plus has changed the game. Their platform is user-friendly and their support is fantastic. They ensure I maximize my deductions for income tax while also taking care of my GST compliance. Highly recommend!”
             </blockquote>
         </div>
         <div class="review">
             <img src="{{ asset('images/image-6.png') }}" alt="User 3">
-            <h3>Rohit Verma</h3>
+            <h3>Satya Narayan Panda</h3>
             <p class="stars">★★★★★</p>
             <blockquote>
-                “Affordable and reliable — I’ll definitely use it again next year!”
+                “Running a small business can be overwhelming, but Tax Plus takes the stress out of tax filing. They handle both my income tax return and my GST, allowing me to focus on what I do best. They're knowledgeable, professional, and always available to answer my questions.”
             </blockquote>
         </div>
     </div>
