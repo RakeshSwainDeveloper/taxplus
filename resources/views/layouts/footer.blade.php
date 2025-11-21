@@ -41,7 +41,7 @@
                     <li><a href="{{ url('/about') }}">About Us</a></li>
                     <li><a href="{{ url('/services') }}">Services</a></li>
                     <li><a href="{{ url('/contact') }}">Contact</a></li>
-                    <li><a href="{{ route('user.faq') }}">FAQ</a></li>
+                    <!-- <li><a href="{{ route('user.faq') }}">FAQ</a></li> -->
                 </ul>
             </div>
 
@@ -70,7 +70,13 @@
             </div>
         </div>
     </div>
-
+    <div class="footer-top-links">
+        <a href="{{ url('/terms') }}">TERMS OF USE</a> |
+        <a href="{{ url('/privacy-policy') }}">PRIVACY POLICY</a> |
+        <a href="{{ url('/refund-policy') }}">REFUND POLICY</a> |
+        <a href="{{ url('/cookies-policy') }}">COOKIES POLICY</a> |
+        <a href="{{ route('user.faq') }}">FAQ's</a>
+    </div>
     <div class="footer-bottom">
         <p>© {{ date('Y') }} Capital Tax Plus. All rights reserved.</p>
     </div>

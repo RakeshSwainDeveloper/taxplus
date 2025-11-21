@@ -76,7 +76,7 @@
 }
 
 .footer-bottom {
-    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    /* border-top: 1px solid rgba(255, 255, 255, 0.2); */
     text-align: center;
     margin-top: 30px;
     padding-top: 15px;
@@ -100,13 +100,50 @@
 
 .footer-social a {
     color: #fff;
-    /* or your theme color */
     font-size: 1.3rem;
     transition: color 0.3s ease;
 }
 
 .footer-social a:hover {
     color: #00eaff;
+}
+
+
+/* Top Footer Links Bar */
+.footer-top-links {
+    margin-top: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    padding: 14px 10px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.footer-top-links a {
+    color: #e6f1ff;
+    text-decoration: none;
+    margin: 0 6px;
+    transition: 0.3s ease;
+}
+
+.footer-top-links a:hover {
+    color: #00eaff;
+}
+
+
+/* Mobile Responsive */
+@media(max-width:768px) {
+    .footer-top-links {
+        font-size: 0.7rem;
+        line-height: 1.8;
+    }
+
+    .footer-top-links a {
+        display: inline-block;
+        margin: 5px 8px;
+    }
 }
 
 

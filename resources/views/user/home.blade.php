@@ -252,6 +252,49 @@
     </div>
 </section>
 
+<section class="testimonial-3d">
+    <h2>TESTIMONIALS</h2>
+    <p class="testimonial-subtext">
+        Trusted by thousands of individuals and businesses across India, our platform delivers reliable,
+        secure, and hassle-free tax solutions. Here’s what our clients have to say about their experience
+        with Capital Taxplus.
+    </p>
+
+    <div class="carousel-container">
+
+        <div class="carousel-3d" id="carousel3d">
+
+            @foreach ($testimonials as $index => $t)
+                <div class="card3d"
+                     data-index="{{ $index }}"
+                     style="--bg: {{ $t['bg'] ?? '#fff8e9' }}">
+                    
+                    <div class="avatar">
+                        <img src="{{ asset($t['photo']) }}" alt="user">
+                    </div>
+
+                    <div class="quote-mark">“</div>
+
+                    <p class="quote-text">{{ $t['message'] }}</p>
+
+                    <h3 class="name">{{ $t['name'] }}</h3>
+                    <p class="role">{{ $t['role'] }}</p>
+
+                </div>
+            @endforeach
+
+        </div>
+
+        <!-- PUT BUTTONS BELOW -->
+        <div class="nav-buttons">
+            <button class="nav prev">‹</button>
+            <button class="nav next">›</button>
+        </div>
+
+    </div>
+</section>
+
+
 <!-- CTA Section -->
 <section class="cta">
     <div class="container cta-flex">
@@ -343,5 +386,44 @@
             if (e.target === modal) closeModal();
         });
     });
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+    const cards = document.querySelectorAll(".card3d");
+    const total = cards.length;
+    let index = 0;
+
+    function updateCards() {
+        cards.forEach(c => {
+            c.classList.remove("active", "left", "right");
+        });
+
+        const current = cards[index];
+        const left = cards[(index - 1 + total) % total];
+        const right = cards[(index + 1) % total];
+
+        current.classList.add("active");
+        left.classList.add("left");
+        right.classList.add("right");
+    }
+
+    document.querySelector(".nav.next").onclick = () => {
+        index = (index + 1) % total;
+        updateCards();
+    };
+
+    document.querySelector(".nav.prev").onclick = () => {
+        index = (index - 1 + total) % total;
+        updateCards();
+    };
+
+    // Auto-play
+    setInterval(() => {
+        index = (index + 1) % total;
+        updateCards();
+    }, 4000);
+
+    updateCards();
+});
 </script>
 @endpush

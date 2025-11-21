@@ -536,6 +536,173 @@ body {
   padding: 0 10px;
 }
 
+/* 3D Testimonials */
+.testimonial-3d {
+  text-align: center;
+  padding: 80px 10%;
+}
+
+.testimonial-3d h2 {
+  font-size: 2rem;
+  font-weight: 600;
+  color: #1a2a6c;
+  margin-bottom: 50px;
+  letter-spacing: 1px;
+}
+
+.carousel-container {
+  position: relative;
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  height: 380px;
+}
+
+.carousel-3d {
+  width: 100%;
+  height: 100%;
+  position: relative;
+  perspective: 1800px;
+}
+
+.card3d {
+  width: 550px;
+  height: 300px;
+  padding: 40px 40px;
+  border-radius: 14px;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform-style: preserve-3d;
+  background: var(--bg);
+  transform: translate(-50%, -50%) scale(0.85);
+  box-shadow: 0 8px 0 rgba(42, 102, 214, 0.8);
+  border: 2px solid rgba(12, 68, 190, 0.8);
+  opacity: 0;
+  transition: all 0.6s ease;
+  text-align: center;
+}
+
+/* Active — Center Card */
+.card3d.active {
+  transform: translate(-50%, -50%) scale(1);
+  opacity: 1;
+  z-index: 50;
+}
+
+/* Left Card */
+.card3d.left {
+  transform: translate(calc(-50% - 260px), -50%) scale(0.82) rotateY(18deg);
+  opacity: 0.65;
+  z-index: 10;
+}
+
+/* Right Card */
+.card3d.right {
+  transform: translate(calc(-50% + 260px), -50%) scale(0.82) rotateY(-18deg);
+  opacity: 0.65;
+  z-index: 10;
+}
+
+/* Avatar */
+.card3d .avatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 5px solid white;
+  position: absolute;
+  top: -35px;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.card3d .avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Quote mark */
+.quote-mark {
+  position: absolute;
+  top: 12px;
+  left: 20px;
+  font-size: 40px;
+  font-weight: 900;
+  color: #f5c26b;
+}
+
+/* Text */
+.quote-text {
+  font-style: italic;
+  color: #6b4a24;
+  margin-top: 40px;
+}
+
+.name {
+  font-size: 20px;
+  color: #ff8a00;
+  font-weight: 700;
+  margin-top: 20px;
+}
+
+.role {
+  font-size: 16px;
+  color: #555;
+}
+
+/* Navigation arrows */
+.nav {
+  width: 50px;
+  height: 50px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+
+  /* Soft modern background */
+  background: linear-gradient(145deg, #ffffff, #e7e7e7);
+  color: #2a4dff; /* deep blue arrow ICON color */
+
+  font-size: 28px;
+  font-weight: 700;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  box-shadow:
+      0 4px 10px rgba(0, 0, 0, 0.15),
+      inset 0 0 3px rgba(255, 255, 255, 0.3);
+
+  transition: 0.25s ease;
+}
+
+/* Hover effect */
+.nav:hover {
+  background: linear-gradient(145deg, #f2f2f2, #ffffff);
+  transform: translateY(-3px);
+  box-shadow:
+      0 6px 16px rgba(0, 0, 0, 0.2),
+      inset 0 0 3px rgba(255, 255, 255, 0.4);
+}
+
+/* Active / click */
+.nav:active {
+  transform: translateY(2px) scale(0.97);
+  box-shadow:
+      0 2px 5px rgba(0, 0, 0, 0.15),
+      inset 0 0 3px rgba(0, 0, 0, 0.1);
+}
+.nav-buttons {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;   /* keep buttons centered */
+    align-items: center;        /* vertically aligned */
+    flex-direction: row;        /* force side-by-side layout */
+    gap: 20px;                  /* spacing between buttons */
+}
+
 
 
 /* CTA Section */
@@ -782,6 +949,29 @@ body {
   .cta-image {
     margin-bottom: 20px;
   }
+
+  
+  .carousel-container {
+    height: 360px;
+  }
+
+  .card3d {
+    width: 380px;
+    height: 260px;
+    padding: 25px;
+  }
+
+  .quote-text {
+    font-size: 14px;
+  }
+
+  .card3d.left {
+    transform: translate(calc(-50% - 140px), -50%) scale(0.75) rotateY(14deg);
+  }
+
+  .card3d.right {
+    transform: translate(calc(-50% + 140px), -50%) scale(0.75) rotateY(-14deg);
+  }
 }
 
 @media (max-width: 576px) {
@@ -791,5 +981,50 @@ body {
 
   .hero-text p {
     font-size: 0.9rem;
+  }
+
+  .testimonial-3d {
+    padding: 50px 5%;
+  }
+
+  .carousel-container {
+    height: 330px;
+     margin-bottom: 40px; 
+  }
+
+  .card3d {
+    width: 90%;
+    height: auto;
+    padding: 25px 18px;
+    transform: translate(-50%, -50%) scale(1);
+  }
+
+  .card3d.left,
+  .card3d.right {
+    display: none; /* hide side cards on mobile */
+  }
+
+  .quote-text {
+    font-size: 13px;
+    margin-top: 30px;
+  }
+
+  .name {
+    font-size: 18px;
+  }
+
+  .role {
+    font-size: 14px;
+  }
+
+  /* Buttons become slightly smaller */
+  .nav {
+    width: 42px;
+    height: 42px;
+    font-size: 22px;
+  }
+
+  .nav-buttons {
+    margin-bottom: 25px;
   }
 }
