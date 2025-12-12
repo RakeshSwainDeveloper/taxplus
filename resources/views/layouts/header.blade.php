@@ -19,10 +19,31 @@
             <ul id="menu">
                 <li><a href="{{ url('/') }}" class="{{ request()->is('/') ? 'active' : '' }}">Home</a></li>
                 <li><a href="{{ route('user.about') }}" class="{{ request()->is('about*') ? 'active' : '' }}">About Us</a></li>
-                <li><a href="{{ route('user.service') }}" class="{{ request()->is('service*') ? 'active' : '' }}">Services</a></li>
+                <!-- <li><a href="{{ route('user.service') }}" class="{{ request()->is('service*') ? 'active' : '' }}">Services</a></li> -->
+                <li class="dropdown">
+                    <a href="{{ route('user.service') }}" class="{{ request()->is('service*') ? 'active' : '' }}">
+                        Services <i class="fa-solid fa-chevron-down service-arrow"></i>
+                    </a>
+
+                    <ul class="dropdown-menu">
+                        <li class="mobile-only">
+                            <a href="{{ route('user.service') }}">Services</a>
+                        </li>
+
+                        <li><a href="{{ route('user.itr-filing') }}#itr">ITR FILING</a></li>
+                        <li><a href="{{ route('user.gst-filing') }}#gst">GST SERVICES</a></li>
+                        <li><a href="{{ route('comingsoon.show') }}#pan">PAN SERVICES</a></li>
+                        <li><a href="{{ route('comingsoon.show') }}#tds">TDS / TCS FILING</a></li>
+                        <li><a href="{{ route('comingsoon.show') }}#tax">TAX CONSULTATION</a></li>
+                        <li><a href="{{ route('comingsoon.show') }}#notice">NOTICE HANDLING</a></li>
+                        <li><a href="{{ route('comingsoon.show') }}#faq">FAQs</a></li>
+                    </ul>
+                </li>
+
+
                 <li><a href="{{ route('user.pricing') }}" class="{{ request()->is('pricing*') ? 'active' : '' }}">Pricing</a></li>
-                <li><a href="{{ route('user.contact') }}" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact Us</a></li>
                 <li><a href="{{ route('user.blog') }}" class="{{ request()->is('blog*') ? 'active' : '' }}">Blog</a></li>
+                <li><a href="{{ route('user.contact') }}" class="{{ request()->is('contact*') ? 'active' : '' }}">Contact Us</a></li>
             </ul>
         </nav>
         <div class="auth-buttons">
@@ -71,4 +92,23 @@
             }
         });
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+
+    const serviceItem = document.querySelector("li.dropdown");
+    const serviceLink = serviceItem?.querySelector("a");
+    const dropdownMenu = serviceItem?.querySelector(".dropdown-menu");
+
+    serviceLink?.addEventListener("click", function (e) {
+        if (window.innerWidth <= 768) {
+
+            // Always prevent navigation on parent link in mobile
+            e.preventDefault(); 
+
+            // Toggle dropdown
+            dropdownMenu.classList.toggle("show");
+        }
+    });
+
+});
 </script>

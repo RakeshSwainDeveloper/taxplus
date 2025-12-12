@@ -216,7 +216,7 @@
 </section>
 
 
-<section class="testimonials">
+<!-- <section class="testimonials">
     <h2>TESTIMONIALS</h2>
     <p class="testimonial-subtext">
         Trusted by thousands of individuals and businesses across India, our platform delivers reliable,
@@ -250,7 +250,7 @@
             </blockquote>
         </div>
     </div>
-</section>
+</section> -->
 
 <section class="testimonial-3d">
     <h2>TESTIMONIALS</h2>
@@ -421,7 +421,7 @@
     setInterval(() => {
         index = (index + 1) % total;
         updateCards();
-    }, 4000);
+    }, 3000);
 
     updateCards();
 });

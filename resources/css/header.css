@@ -214,6 +214,60 @@ nav ul li a.active {
     background-color: #007bff;
 }
 
+/* Services Dropdown */
+nav ul li.dropdown {
+    position: relative;
+}
+
+nav ul li .service-arrow {
+    font-size: 10px;
+    margin-left: 5px;
+    transition: transform 0.3s ease;
+}
+
+/* Hidden dropdown */
+nav ul li .dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 120%;
+    left: 0;
+    background: #eef0f5;
+    min-width: 180px;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    padding: 8px 0;
+    z-index: 999;
+}
+
+/* Dropdown items */
+nav ul li .dropdown-menu li a {
+    padding: 10px 15px;
+    color: #1a1a1a !important;
+    display: block;
+    width: 100%;
+    font-size: 14px;
+}
+
+nav ul li .dropdown-menu li a:hover {
+    background: #007bff;
+    color: #fff !important;
+}
+.mobile-only {
+    display: none;
+}
+
+/* Show dropdown on hover (DESKTOP) */
+@media (min-width: 769px) {
+    nav ul li.dropdown:hover .dropdown-menu {
+        display: block;
+    }
+
+    nav ul li.dropdown:hover .service-arrow {
+        transform: rotate(180deg);
+    }
+}
+
+
 /* Responsive */
 @media (max-width: 768px) {
 
@@ -281,18 +335,14 @@ nav ul li a.active {
         position: fixed;
         top: 0;
         left: -100%;
-        /* hidden by default */
         height: 100vh;
         width: 70%;
         background-color: #0f1125;
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-start;
-        /* ⬅️ ensures left alignment */
         padding: 60px 20px;
-        /* space inside menu */
         text-align: left;
-        /* ⬅️ left-align text */
         transition: left 0.3s ease;
         z-index: 1000;
     }
@@ -302,14 +352,12 @@ nav ul li a.active {
         width: 100%;
         text-align: left;
         color: #dcdcdc;
-        /* padding: 5px 0; */
         text-decoration: none;
         font-size: 16px;
     }
 
     nav ul.show {
         left: 0;
-        /* slide menu in */
     }
 
     nav ul li {
@@ -320,4 +368,8 @@ nav ul li a.active {
     .auth-buttons {
         display: none;
     }
+     .mobile-only {
+        display: block !important;
+    }
+
 }
