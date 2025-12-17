@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const CSRF_TOKEN = document
+    .querySelector('meta[name="csrf-token"]')
+    ?.getAttribute('content');
+
   const sidebar = document.querySelector('.itr-sidebar');
   const closeBtn = document.querySelector('.close-sidebar');
   const openBtn = document.createElement('div');
@@ -45,52 +49,52 @@ document.addEventListener('DOMContentLoaded', () => {
     e.preventDefault();
 
     if (!form.checkValidity()) {
-        e.stopPropagation();
-        form.classList.add('was-validated');
-        return;
+      e.stopPropagation();
+      form.classList.add('was-validated');
+      return;
     }
 
     form.classList.remove('was-validated');
 
     // Prepare form data
     const formData = {
-        type: document.getElementById('type').value,
-        name: document.getElementById('name').value,
-        email: document.getElementById('email').value,
-        mobile: document.getElementById('mobile').value,
-        book_date: document.getElementById('book_date').value,
+      type: document.getElementById('type').value,
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      mobile: document.getElementById('mobile').value,
+      book_date: document.getElementById('book_date').value,
     };
 
     try {
-        const res = await fetch(SLOT_BOOK_URL, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/json",
-                "X-CSRF-TOKEN": CSRF_TOKEN
-            },
-            body: JSON.stringify(formData)
-        });
+      const res = await fetch(SLOT_BOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": CSRF_TOKEN
+        },
+        body: JSON.stringify(formData)
+      });
 
-        const result = await res.json();
+      const result = await res.json();
 
-        if (result.success) {
-            // Hide modal
-            bootstrap.Modal.getInstance(modalElement).hide();
+      if (result.success) {
+        // Hide modal
+        bootstrap.Modal.getInstance(modalElement).hide();
 
-            // Reset form
-            form.reset();
+        // Reset form
+        form.reset();
 
-            // Show toast notification
-            const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-            toast.show();
-        } else {
-            alert("Something went wrong!");
-        }
+        // Show toast notification
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+        toast.show();
+      } else {
+        alert("Something went wrong!");
+      }
 
     } catch (error) {
-        console.error(error);
-        alert("Server error, please try again!");
+      console.error(error);
+      alert("Server error, please try again!");
     }
-});
+  });
 
 });

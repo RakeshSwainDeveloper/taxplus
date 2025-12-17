@@ -49,3 +49,8 @@ Route::get('/faq', function () {
 Route::get('/blog', function () {
     return view('user.blog');
 })->name('user.blog');
+
+Route::post(
+    '/itr-filing/upload-documents',
+    [ServiceController::class, 'uploadItrDocuments']
+)->name('user.itr.upload-docs');

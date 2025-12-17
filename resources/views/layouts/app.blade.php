@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'My Laravel App')</title>
 
     <!-- Bootstrap -->
@@ -120,7 +121,7 @@
         const IS_LOGGED_IN = @json(auth()->check());
         const LOGIN_URL = "{{ route('login') }}";
         const SLOT_BOOK_URL = "{{ route('slot.book') }}";  
-        const CSRF_TOKEN = "{{ csrf_token() }}";     
+        // const CSRF_TOKEN = "{{ csrf_token() }}";     
     </script>
 
 

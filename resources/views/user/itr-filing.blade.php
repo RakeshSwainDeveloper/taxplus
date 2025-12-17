@@ -47,7 +47,7 @@
             @foreach ($plans as $plan)
             @php
             // Decode document_list which is a JSON string of features
-            $features = json_decode($plan->document_list, true) ?? ['Basic Filing', 'Expert Support'];
+            $features = $plan->document_list ?? ['Basic Filing', 'Expert Support'];
             $isHighlighted = in_array($plan->id, [4, 6]); // Example: highlight plan IDs 4 and 6
             @endphp
             {{-- FIX: Corrected onclick function call to pass values securely. --}}
@@ -141,362 +141,565 @@
     </div>
 
     <!-- STEP 3: Payment Finalization (Hidden by default) -->
-    <div id="step-3-content" class="space-y-6 hidden max-w-lg mx-auto">
+    <div id="step-3-content" class="space-y-6 hidden max-w-3xl mx-auto">
         <h2 class="text-3xl font-bold mb-6 text-center text-white">3. Payment Finalization</h2>
 
         <div class="summary-card">
             <div class="flex justify-between items-center pb-4 border-b border-gray-700">
-                <p class="text-xl font-semibold text-gray-300">Plan:</p>
-                <p id="final-plan-name" class="text-2xl plan-name"></p>
+                <span class="text-xl font-semibold text-gray-300">Plan:</span>
+                <span id="final-plan-name" class="text-2xl plan-name"></span>
             </div>
             <div class="flex justify-between items-center py-4 mb-6">
-                <p class="text-xl font-semibold text-gray-300">Total Amount:</p>
-                <p id="final-plan-price" class="text-3xl price-amount"></p>
+                <span class="text-xl font-semibold text-gray-300">Total Amount:</span>
+                <span id="final-plan-price" class="text-3xl price-amount"></span>
+            </div>
+            <div class="mt-8">
+                <h3 class="text-2xl font-semibold text-white mb-2">
+                    Required Documents
+                </h3>
+                <p class="text-sm text-gray-400 mb-6">
+                    Please upload clear copies of the following documents (PDF / JPG / PNG).
+                </p>
+
+                <div id="required-documents" class="space-y-4"></div>
+
+            </div>
+            <div id="upload-progress-wrapper" class="hidden mt-4">
+                <div class="w-full bg-gray-700 rounded-full h-3 overflow-hidden">
+                    <div id="upload-progress-bar"
+                        class="bg-indigo-500 h-3 transition-all"
+                        style="width: 0%"></div>
+                </div>
+                <p id="upload-progress-text" class="text-sm text-gray-300 mt-2 text-center">
+                    Uploading...
+                </p>
             </div>
 
-            <p class="text-lg text-center text-gray-300 mb-6">
-                Please tell us how you would like to receive the secure payment link (UPI, Card, Net Banking).
-            </p>
+            <div class="flex flex-col sm:flex-row gap-4 mt-8">
 
-            <div class="space-y-3">
-                <button onclick="confirmPayment('Email', this)" class="payment-button w-full flex items-center justify-center p-4 bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg">
-                    {{-- Icon placeholder --}}
-                    <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M4 21h16a2 2 0 0 0 2-2V5a2 2 0 0 0-2-2H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2z" />
-                        <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
-                    </svg> Get Payment Link via Email
+                <!-- Back Button -->
+                <button
+                    type="button"
+                    onclick="backToStep2()"
+                    class="w-full sm:w-1/2 px-6 py-3 text-sm font-medium text-gray-300 bg-gray-700 rounded-xl hover:bg-gray-600 transition duration-200">
+                    ← Back to Documents
                 </button>
-                <button onclick="confirmPayment('WhatsApp', this)" class="payment-button w-full flex items-center justify-center p-4 bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg">
-                    {{-- Icon placeholder --}}
-                    <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M7.9 20A10.1 10.1 0 0 0 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2 2 6.5 2 12c0 2.2.8 4.2 2.1 5.9L2 22l4.1-2.1z" />
-                        <path d="m10 8 4 4-4 4" />
-                    </svg> Get Payment Link via WhatsApp
+
+                <!-- Upload Button -->
+                <button
+                    id="upload-submit-btn"
+                    type="button"
+                    onclick="uploadDocuments()"
+                    class="w-full sm:w-1/2 px-6 py-3 font-semibold rounded-xl flex items-center justify-center gap-2 transition duration-200 upload-btn-primary"
+                    disabled>
+                    ⬆ Upload Documents & Proceed
                 </button>
-                <button onclick="confirmPayment('Chat', this)" class="payment-button w-full flex items-center justify-center p-4 bg-gray-700 hover:bg-gray-600 text-white font-bold text-lg">
-                    {{-- Icon placeholder --}}
-                    <svg class="w-6 h-6 mr-3" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-                    </svg> Start Live Chat for Payment
-                </button>
+
             </div>
 
-            <p class="text-xs text-center text-gray-500 mt-4">
-                Our tax expert will use your preferred method to proceed with the payment and filing.
-            </p>
         </div>
 
-        <div class="text-center pt-8">
-            <button onclick="backToStep2()" class="px-6 py-2 text-sm font-medium text-gray-300 bg-gray-700 rounded-full hover:bg-gray-600 transition duration-200">
-                &larr; Back to Documents
+    </div>
+
+    <!-- Confirmation Modal/Message (Overlay) -->
+    <div id="confirmation-message" class="hidden fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center transition-opacity duration-300">
+        <div class="modal-content bg-gray-800 p-8 rounded-xl shadow-2xl text-center max-w-md w-full transform -translate-y-4 transition-transform duration-300">
+            {{-- Icon placeholder --}}
+            <svg class="w-16 h-16 mx-auto mb-4 text-green-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+                <path d="m9 11 3 3L22 4" />
+            </svg>
+            <h3 class="text-3xl font-bold text-white mb-3">Request Submitted!</h3>
+            <p id="final-message-text" class="text-gray-300 mb-6 leading-relaxed">
+                Thank you! We've received your plan and document sharing preference. We will send the secure payment link and begin your hassle-free ITR filing.
+            </p>
+            <button onclick="resetApp()" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition duration-200 shadow-lg">
+                Start a New Filing
             </button>
         </div>
     </div>
 
-</div>
+    @endsection
 
-<!-- Confirmation Modal/Message (Overlay) -->
-<div id="confirmation-message" class="hidden fixed inset-0 z-50 bg-black bg-opacity-75 flex items-center justify-center transition-opacity duration-300">
-    <div class="modal-content bg-gray-800 p-8 rounded-xl shadow-2xl text-center max-w-md w-full transform -translate-y-4 transition-transform duration-300">
-        {{-- Icon placeholder --}}
-        <svg class="w-16 h-16 mx-auto mb-4 text-green-400" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
-            <path d="m9 11 3 3L22 4" />
-        </svg>
-        <h3 class="text-3xl font-bold text-white mb-3">Request Submitted!</h3>
-        <p id="final-message-text" class="text-gray-300 mb-6 leading-relaxed">
-            Thank you! We've received your plan and document sharing preference. We will send the secure payment link and begin your hassle-free ITR filing.
-        </p>
-        <button onclick="resetApp()" class="px-6 py-3 bg-indigo-600 text-white font-semibold rounded-full hover:bg-indigo-700 transition duration-200 shadow-lg">
-            Start a New Filing
-        </button>
-    </div>
-</div>
+    @push('scripts')
+    <script>
+        // Laravel data passed from the Controller
+        // Assuming $plans is passed as an associative array keyed by ID (keyBy('id'))
+        const PLANS_DATA = @json($plans->keyBy('id'));
+        const SUBMIT_URL = "{{ route('user.itr-filing.submit') }}";
 
-@endsection
-
-@push('scripts')
-<script>
-    // Laravel data passed from the Controller
-    // Assuming $plans is passed as an associative array keyed by ID (keyBy('id'))
-    const PLANS_DATA = @json($plans->keyBy('id'));
-    const SUBMIT_URL = '{{ route('user.itr-filing.submit') }}';
-
-    // --- State Variables ---
-    let currentStep = 1;
-    let selectedPlan = {
-        id: null,
-        name: null,
-        price: null
-    };
-    let selectedDocumentMethod = null;
-    let selectedPaymentMode = null;
-
-    // --- DOM Elements ---
-    const steps = [{
-            id: 1,
-            content: document.getElementById('step-1-content'),
-            indicator: document.getElementById('step-1-indicator')
-        },
-        {
-            id: 2,
-            content: document.getElementById('step-2-content'),
-            indicator: document.getElementById('step-2-indicator')
-        },
-        {
-            id: 3,
-            content: document.getElementById('step-3-content'),
-            indicator: document.getElementById('step-3-indicator')
-        }
-    ];
-    const finalPlanName = document.getElementById('final-plan-name');
-    const finalPlanPrice = document.getElementById('final-plan-price');
-    const confirmationMessage = document.getElementById('confirmation-message');
-    const finalMessageText = document.getElementById('final-message-text');
-    const step1NextButton = document.getElementById('step1-next-button');
-    const step2NextButton = document.getElementById('step2-next-button');
-
-    // --- Utility Functions ---
-
-    /**
-     * Updates the visibility of the steps and the progress indicators.
-     */
-    function updateUI() {
-        steps.forEach(step => {
-            const isCurrent = step.id === currentStep;
-            const isCompleted = step.id < currentStep;
-
-            // Content visibility
-            step.content.classList.toggle('hidden', !isCurrent);
-
-            // Indicator elements
-            const circle = step.indicator.querySelector('.step-circle');
-            const text = step.indicator.querySelector('.step-text');
-
-            // Reset classes first
-            circle.classList.remove('active', 'inactive', 'bg-green-500');
-            text.classList.remove('active', 'inactive');
-
-            if (isCompleted) {
-                circle.classList.add('bg-green-500');
-                text.classList.add('active');
-            } else if (isCurrent) {
-                circle.classList.add('active');
-                text.classList.add('active');
-            } else {
-                circle.classList.add('inactive');
-                text.classList.add('inactive');
-            }
-        });
-
-        // Update selection visual states
-        document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-        if (currentStep === 1 && selectedPlan.id) {
-            document.getElementById(`card-${selectedPlan.id}`)?.classList.add('selected');
-        }
-
-        document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
-        if (currentStep === 2 && selectedDocumentMethod) {
-            document.querySelectorAll('.doc-button').forEach(btn => {
-                if (btn.textContent.includes(selectedDocumentMethod)) btn.classList.add('selected');
-            });
-        }
-
-        // Enable/disable next buttons
-        step1NextButton.disabled = !selectedPlan.id;
-        step2NextButton.disabled = !selectedDocumentMethod;
-
-        step1NextButton.classList.toggle('btn-disabled', !selectedPlan.id);
-        step2NextButton.classList.toggle('btn-disabled', !selectedDocumentMethod);
-    }
-
-
-    /**
-     * Handles plan selection (Step 1).
-     */
-    function selectPlan(id, name, price, event) {
-        // Prevent event propagation if triggered from nested element
-        if (event && event.currentTarget.tagName.toLowerCase() === 'button') {
-            event.stopPropagation();
-        }
-
-        // Clear previous selections
-        document.querySelectorAll('.plan-card').forEach(card => {
-            card.classList.remove('selected');
-        });
-
-        // Set the new selected plan
-        selectedPlan = {
-            id: id,
-            name: name,
-            price: price
-        };
-
-        // Highlight the current card
-        const currentCard = document.getElementById(`card-${id}`);
-        if (currentCard) {
-            currentCard.classList.add('selected');
-        }
-
-        updateUI();
-    }
-
-    /**
-     * Handles document submission method selection (Step 2).
-     */
-    function selectDocumentMethod(method, button) {
-        selectedDocumentMethod = method;
-
-        // Simple visual feedback for the selected document method
-        document.querySelectorAll('.doc-button').forEach(btn => {
-            btn.classList.remove('selected');
-        });
-        button.classList.add('selected');
-
-        updateUI();
-    }
-
-    /**
-     * Final confirmation of payment channel (Step 3 -> Submission).
-     */
-    async function confirmPayment(mode, button) {
-        selectedPaymentMode = mode;
-
-        // Visual feedback
-        document.querySelectorAll('.payment-button').forEach(btn => {
-            btn.classList.remove('selected');
-            btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
-            btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-        });
-        button.classList.add('selected');
-        button.classList.remove('bg-gray-700', 'hover:bg-gray-600');
-        button.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
-
-        // Prepare data for submission
-        const submissionData = {
-            source_id: selectedPlan.id,
-            total_price: selectedPlan.price,
-            document_method: selectedDocumentMethod,
-            payment_mode: selectedPaymentMode,
-            _token: '{{ csrf_token() }}' // Laravel CSRF token
-        };
-
-        try {
-            const response = await fetch(SUBMIT_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-Requested-With': 'XMLHttpRequest'
-                },
-                body: JSON.stringify(submissionData)
-            });
-
-            const result = await response.json();
-
-            if (response.ok) {
-                // SUCCESS
-                // FIX: Corrected string interpolation error (used backticks for template literal)
-                let message = `Thank you for selecting the <strong>${selectedPlan.name}</strong> plan! You chose to share documents via <strong>${selectedDocumentMethod}</strong>. We have saved your application (ID: ${result.application_id}). We will contact you shortly via <strong>${selectedPaymentMode}</strong> to share the payment link and finalize your filing.`;
-
-                finalMessageText.innerHTML = message;
-                confirmationMessage.classList.remove('hidden');
-                // Use a slight delay to trigger the CSS transition for a smoother appearance
-                setTimeout(() => confirmationMessage.classList.add('visible'), 10);
-            } else {
-                // FAILURE
-                let errorMessage = result.error || 'Submission failed. Please check your data and try again.';
-                // Use a simple alert for error since custom error modals are complex
-                alert('Submission Error: ' + errorMessage);
-                console.error(result);
-            }
-        } catch (error) {
-            console.error('Network Error:', error);
-            alert('A network error occurred. Please check your connection and try again.');
-        }
-    }
-
-    // --- Navigation Functions ---
-
-    function goToStep2() {
-        if (!selectedPlan.id) return;
-        document.getElementById('selected-plan-name-step2').textContent = selectedPlan.name;
-        currentStep = 2;
-        // Pre-fill final step details
-        finalPlanName.textContent = selectedPlan.name;
-        // Format price for display
-        finalPlanPrice.textContent = `₹ ${selectedPlan.price.toLocaleString('en-IN')}`;
-        updateUI();
-    }
-
-    function goToStep3() {
-        if (!selectedDocumentMethod) return;
-        currentStep = 3;
-        updateUI();
-    }
-
-    function backToStep1() {
-        selectedPlan = {
+        // --- State Variables ---
+        let currentStep = 1;
+        let selectedPlan = {
             id: null,
             name: null,
             price: null
         };
-        selectedDocumentMethod = null;
-        selectedPaymentMode = null;
-        currentStep = 1;
-        updateUI();
-        // Clear highlights manually for clean slate
-        document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-        document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
-        document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('selected'));
-    }
+        let selectedDocumentMethod = null;
+        let selectedPaymentMode = null;
+        let currentApplicationId = null;
 
-    function backToStep2() {
-        selectedPaymentMode = null;
-        currentStep = 2;
-        updateUI();
-        document.querySelectorAll('.payment-button').forEach(btn => {
-            btn.classList.remove('selected');
-            btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-            btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+
+        // --- DOM Elements ---
+        const steps = [{
+                id: 1,
+                content: document.getElementById('step-1-content'),
+                indicator: document.getElementById('step-1-indicator')
+            },
+            {
+                id: 2,
+                content: document.getElementById('step-2-content'),
+                indicator: document.getElementById('step-2-indicator')
+            },
+            {
+                id: 3,
+                content: document.getElementById('step-3-content'),
+                indicator: document.getElementById('step-3-indicator')
+            }
+        ];
+        const finalPlanName = document.getElementById('final-plan-name');
+        const finalPlanPrice = document.getElementById('final-plan-price');
+        const confirmationMessage = document.getElementById('confirmation-message');
+        const finalMessageText = document.getElementById('final-message-text');
+        const step1NextButton = document.getElementById('step1-next-button');
+        const step2NextButton = document.getElementById('step2-next-button');
+
+        // --- Utility Functions ---
+
+        /**
+         * Updates the visibility of the steps and the progress indicators.
+         */
+        function updateUI() {
+            steps.forEach(step => {
+                const isCurrent = step.id === currentStep;
+                const isCompleted = step.id < currentStep;
+
+                // Content visibility
+                step.content.classList.toggle('hidden', !isCurrent);
+
+                // Indicator elements
+                const circle = step.indicator.querySelector('.step-circle');
+                const text = step.indicator.querySelector('.step-text');
+
+                // Reset classes first
+                circle.classList.remove('active', 'inactive', 'bg-green-500');
+                text.classList.remove('active', 'inactive');
+
+                if (isCompleted) {
+                    circle.classList.add('bg-green-500');
+                    text.classList.add('active');
+                } else if (isCurrent) {
+                    circle.classList.add('active');
+                    text.classList.add('active');
+                } else {
+                    circle.classList.add('inactive');
+                    text.classList.add('inactive');
+                }
+            });
+
+            // Update selection visual states
+            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+            if (currentStep === 1 && selectedPlan.id) {
+                document.getElementById(`card-${selectedPlan.id}`)?.classList.add('selected');
+            }
+
+            document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
+            if (currentStep === 2 && selectedDocumentMethod) {
+                document.querySelectorAll('.doc-button').forEach(btn => {
+                    if (btn.textContent.includes(selectedDocumentMethod)) btn.classList.add('selected');
+                });
+            }
+
+            // Enable/disable next buttons
+            step1NextButton.disabled = !selectedPlan.id;
+            step2NextButton.disabled = !selectedDocumentMethod;
+
+            step1NextButton.classList.toggle('btn-disabled', !selectedPlan.id);
+            step2NextButton.classList.toggle('btn-disabled', !selectedDocumentMethod);
+        }
+
+
+        /***    Handles plan selection (Step 1).    */
+
+        function selectPlan(id, name, price, event) {
+
+            if (event && event.currentTarget.tagName.toLowerCase() === 'button') {
+                event.stopPropagation();
+            }
+
+            // Clear previous selections
+            document.querySelectorAll('.plan-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+
+            // Set the new selected plan
+            selectedPlan = {
+                id: id,
+                name: name,
+                price: price
+            };
+
+            // Highlight the current card
+            const currentCard = document.getElementById(`card-${id}`);
+            if (currentCard) {
+                currentCard.classList.add('selected');
+            }
+
+            updateUI();
+        }
+
+        /**
+         * Handles document submission method selection (Step 2).
+         */
+        function selectDocumentMethod(method, button) {
+            selectedDocumentMethod = method;
+
+            document.querySelectorAll('.doc-button').forEach(btn => {
+                btn.classList.remove('selected');
+            });
+            button.classList.add('selected');
+
+            updateUI();
+        }
+
+        /**
+         * Final confirmation of payment channel (Step 3 -> Submission).
+         */
+        // async function confirmPayment(mode, button) {
+        //     selectedPaymentMode = mode;
+
+        //     // Visual feedback
+        //     document.querySelectorAll('.payment-button').forEach(btn => {
+        //         btn.classList.remove('selected');
+        //         btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+        //         btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+        //     });
+        //     button.classList.add('selected');
+        //     button.classList.remove('bg-gray-700', 'hover:bg-gray-600');
+        //     button.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
+
+        //     // Prepare data for submission
+        //     const submissionData = {
+        //         source_id: selectedPlan.id,
+        //         total_price: selectedPlan.price,
+        //         document_method: selectedDocumentMethod,
+        //         payment_mode: selectedPaymentMode,
+        //         _token: '{{ csrf_token() }}' // Laravel CSRF token
+        //     };
+
+        //     try {
+        //         const response = await fetch(SUBMIT_URL, {
+        //             method: 'POST',
+        //             headers: {
+        //                 'Content-Type': 'application/json',
+        //                 'X-Requested-With': 'XMLHttpRequest'
+        //             },
+        //             body: JSON.stringify(submissionData)
+        //         });
+
+        //         const result = await response.json();
+
+        //         console.log('Submission Result:', result);
+
+        //         if (response.ok) {
+        //             // SUCCESS
+        //             // FIX: Corrected string interpolation error (used backticks for template literal)
+        //             // let message = `Thank you for selecting the <strong>${selectedPlan.name}</strong> plan! You chose to share documents via <strong>${selectedDocumentMethod}</strong>. We have saved your application (ID: ${result.application_id}). We will contact you shortly via <strong>${selectedPaymentMode}</strong> to share the payment link and finalize your filing.`;
+        //             currentApplicationId = result.application_id;
+
+        //             let message = `Thank you for selecting the <strong>${selectedPlan.name}</strong> plan!
+        //             You chose to share documents via <strong>${selectedDocumentMethod}</strong>.
+        //              We have saved your application (ID: ${currentApplicationId}).`;
+        //             finalMessageText.innerHTML = message;
+        //             confirmationMessage.classList.remove('hidden');
+        //             // Use a slight delay to trigger the CSS transition for a smoother appearance
+        //             setTimeout(() => confirmationMessage.classList.add('visible'), 10);
+        //         } else {
+        //             // FAILURE
+        //             let errorMessage = result.error || 'Submission failed. Please check your data and try again.';
+        //             // Use a simple alert for error since custom error modals are complex
+        //             alert('Submission Error: ' + errorMessage);
+        //             console.error(result);
+        //         }
+        //     } catch (error) {
+        //         console.error('Network Error:', error);
+        //         alert('A network error occurred. Please check your connection and try again.');
+        //     }
+        // }
+
+
+
+        function goToStep2() {
+            if (!selectedPlan.id) return;
+            document.getElementById('selected-plan-name-step2').textContent = selectedPlan.name;
+            currentStep = 2;
+            // Pre-fill final step details
+            finalPlanName.textContent = selectedPlan.name;
+            // Format price for display
+            finalPlanPrice.textContent = `₹ ${selectedPlan.price.toLocaleString('en-IN')}`;
+            updateUI();
+        }
+
+        async function goToStep3() {
+            if (!selectedDocumentMethod || !selectedPlan.id) {
+                alert('Please complete previous steps.');
+                return;
+            }
+
+            try {
+                const response = await fetch(SUBMIT_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json',
+                        'X-Requested-With': 'XMLHttpRequest',
+                        'X-CSRF-TOKEN': document
+                            .querySelector('meta[name="csrf-token"]')
+                            .getAttribute('content')
+                    },
+                    body: JSON.stringify({
+                        source_id: selectedPlan.id,
+                        total_price: selectedPlan.price,
+                        document_method: selectedDocumentMethod,
+                        payment_mode: 'Chat'
+                    })
+                });
+
+                const result = await response.json();
+
+                // ❌ Validation / server error
+                if (!response.ok) {
+                    console.error('Submission failed:', result);
+
+                    if (result.errors) {
+                        const firstError = Object.values(result.errors)[0][0];
+                        alert(firstError);
+                    } else {
+                        alert(result.message || 'Failed to create application.');
+                    }
+                    return;
+                }
+
+                // ✅ SUCCESS
+                currentApplicationId = result.application_id;
+                console.log('Application Created:', currentApplicationId);
+
+                currentStep = 3;
+                renderRequiredDocuments();
+                updateUI();
+
+            } catch (error) {
+                console.error('Network error:', error);
+                alert('Network error. Please try again.');
+            }
+        }
+
+
+
+
+        function backToStep1() {
+            selectedPlan = {
+                id: null,
+                name: null,
+                price: null
+            };
+            selectedDocumentMethod = null;
+            selectedPaymentMode = null;
+            currentStep = 1;
+            updateUI();
+            // Clear highlights manually for clean slate
+            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+            document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
+            document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('selected'));
+        }
+
+        function backToStep2() {
+            selectedPaymentMode = null;
+            currentStep = 2;
+            updateUI();
+            document.querySelectorAll('.payment-button').forEach(btn => {
+                btn.classList.remove('selected');
+                btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+                btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+            });
+        }
+
+        function resetApp() {
+            // Hide modal
+            confirmationMessage.classList.remove('visible');
+            setTimeout(() => {
+                confirmationMessage.classList.add('hidden');
+                backToStep1();
+            }, 300);
+        }
+
+        // Initialize the UI on page load
+        window.onload = function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const step = urlParams.get('step');
+            const planId = urlParams.get('plan_id');
+
+            // --- Auto-select plan if provided ---
+            if (planId && PLANS_DATA[planId]) {
+                const plan = PLANS_DATA[planId];
+                selectPlan(plan.id, plan.income_source, plan.price);
+                // Update the step 2 labels since we’re skipping ahead
+                document.getElementById('selected-plan-name-step2').textContent = plan.income_source;
+                finalPlanName.textContent = plan.income_source;
+                finalPlanPrice.textContent = `₹ ${plan.price.toLocaleString('en-IN')}`;
+            }
+
+            // --- Jump directly to step 2 if ?step=2 ---
+            if (step === '2') {
+                currentStep = 2;
+            }
+
+            updateUI();
+
+            // --- Smooth scroll to wizard area ---
+            document.querySelector('.itr-container')?.scrollIntoView({
+                behavior: 'smooth'
+            });
+        };
+
+        function renderRequiredDocuments() {
+            const plan = PLANS_DATA[selectedPlan.id];
+            const docs = plan.document_list || [];
+
+            const container = document.getElementById('required-documents');
+            container.innerHTML = '';
+
+            docs.forEach((doc, index) => {
+                container.innerHTML += `
+            <div class="doc-row">
+                <div class="doc-info">
+                    <span class="doc-index">${index + 1}</span>
+                    <span class="doc-name">${doc}</span>
+                </div>
+
+                <label class="doc-upload">
+                    <input
+                        type="file"
+                        name="documents[${index}]"
+                        data-doc-name="${doc}"
+                        required
+                    />
+                    <span class="upload-btn">Choose File</span>
+                    <small class="file-name"></small>
+
+                </label>
+            </div>
+        `;
+            });
+        }
+
+
+        function uploadDocuments() {
+            const formData = new FormData();
+            const inputs = document.querySelectorAll('#required-documents input[type="file"]');
+            const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+
+            if (!currentApplicationId) {
+                alert('Application not created. Please complete previous steps.');
+                return;
+            }
+
+            let hasAtLeastOneFile = false;
+
+            // ✅ Validate & collect ONLY selected files
+            inputs.forEach(input => {
+                const file = input.files[0];
+
+                if (!file) return; // ⛔ skip empty inputs
+
+                hasAtLeastOneFile = true;
+
+                if (file.size > MAX_SIZE) {
+                    alert(`File "${file.name}" exceeds 5MB limit`);
+                    throw new Error('File too large');
+                }
+
+                formData.append('documents[]', file);
+                formData.append('document_names[]', input.dataset.docName);
+            });
+
+            // ❌ No file selected
+            if (!hasAtLeastOneFile) {
+                alert('Please select at least one document to upload.');
+                return;
+            }
+
+            formData.append('application_id', currentApplicationId);
+            formData.append('_token', '{{ csrf_token() }}');
+
+            const progressWrap = document.getElementById('upload-progress-wrapper');
+            const progressBar = document.getElementById('upload-progress-bar');
+            const progressText = document.getElementById('upload-progress-text');
+
+            progressWrap.classList.remove('hidden');
+            progressBar.style.width = '0%';
+            progressBar.classList.remove('bg-green-500');
+
+            const xhr = new XMLHttpRequest();
+            xhr.open('POST', '{{ route("user.itr.upload-docs") }}', true);
+
+            xhr.upload.onprogress = function(e) {
+                if (e.lengthComputable) {
+                    const percent = Math.round((e.loaded / e.total) * 100);
+                    progressBar.style.width = percent + '%';
+                    progressText.textContent = `Uploading… ${percent}%`;
+                }
+            };
+
+            xhr.onload = function() {
+                if (xhr.status === 200) {
+                    progressText.textContent = 'Upload completed ✓';
+                    progressBar.classList.add('bg-green-500');
+
+                    // OPTIONAL: lock uploaded inputs
+                    inputs.forEach(input => {
+                        if (input.files.length > 0) {
+                            input.disabled = true;
+                        }
+                    });
+
+                } else {
+                    alert('Upload failed. Please try again.');
+                }
+            };
+
+            xhr.onerror = function() {
+                alert('Network error during upload.');
+            };
+
+            xhr.send(formData);
+        }
+
+
+
+        document.addEventListener('change', function(e) {
+            if (e.target.type === 'file') {
+                const btn = e.target.nextElementSibling;
+                const fileName = e.target.files[0]?.name || '';
+
+                btn.textContent = 'File Selected ✓';
+                btn.classList.add('selected');
+                btn.setAttribute('title', fileName); // tooltip
+
+                checkAnyFileSelected();
+            }
         });
-    }
 
-    function resetApp() {
-        // Hide modal
-        confirmationMessage.classList.remove('visible');
-        setTimeout(() => {
-            confirmationMessage.classList.add('hidden');
-            backToStep1();
-        }, 300);
-    }
 
-    // Initialize the UI on page load
-    window.onload = function() {
-    // --- Check for URL parameters ---
-    const urlParams = new URLSearchParams(window.location.search);
-    const step = urlParams.get('step');
-    const planId = urlParams.get('plan_id');
+        function checkAnyFileSelected() {
+            const inputs = document.querySelectorAll('#required-documents input[type="file"]');
+            const submitBtn = document.getElementById('upload-submit-btn');
 
-    // --- Auto-select plan if provided ---
-    if (planId && PLANS_DATA[planId]) {
-        const plan = PLANS_DATA[planId];
-        selectPlan(plan.id, plan.income_source, plan.price);
-        // Update the step 2 labels since we’re skipping ahead
-        document.getElementById('selected-plan-name-step2').textContent = plan.income_source;
-        finalPlanName.textContent = plan.income_source;
-        finalPlanPrice.textContent = `₹ ${plan.price.toLocaleString('en-IN')}`;
-    }
+            const anySelected = [...inputs].some(input => input.files.length > 0);
 
-    // --- Jump directly to step 2 if ?step=2 ---
-    if (step === '2') {
-        currentStep = 2;
-    }
-
-    updateUI();
-
-    // --- Smooth scroll to wizard area ---
-    document.querySelector('.itr-container')?.scrollIntoView({ behavior: 'smooth' });
-};
-
-</script>
-@endpush
+            submitBtn.disabled = !anySelected;
+            submitBtn.classList.toggle('opacity-50', !anySelected);
+            submitBtn.classList.toggle('cursor-not-allowed', !anySelected);
+        }
+    </script>
+    @endpush

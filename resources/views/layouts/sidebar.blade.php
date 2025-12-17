@@ -29,6 +29,7 @@
               <option value="">-- Select Type --</option>
               <option value="itr">ITR FILING</option>
               <option value="gst">GST</option>
+              <option value="other">Other</option>
             </select>
 
           </div>

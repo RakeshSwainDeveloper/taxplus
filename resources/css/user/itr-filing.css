@@ -67,13 +67,14 @@
 
 /* Optional: make back buttons consistent in style */
 #step-2-content button,
-#step-3-content button {
+#step-3-content button:not(.upload-btn-primary) {
     background-color: var(--border-color);
     color: var(--text-color);
 }
 
+
 #step-2-content button:hover,
-#step-3-content button:hover {
+#step-3-content button:hover:not(.upload-btn-primary) {
     background-color: #4b5563;
 }
 
@@ -466,7 +467,7 @@ body {
 /* Final Summary Card */
 /* --- FIX for Step 3 Payment Layout --- */
 #step-3-content .summary-card {
-  max-width: 480px; /* keep it compact like first image */
+  max-width: 100%; /* keep it compact like first image */
   margin: 0 auto; /* center it horizontally */
 }
 
@@ -505,7 +506,7 @@ body {
     color: white;
 }
 
-.summary-card p.plan-name {
+.summary-card span.plan-name {
     color: var(--primary-light);
     font-weight: 800;
 }
@@ -593,6 +594,105 @@ body {
 
 .modal-content button:hover {
     background-color: #3730a3;
+}
+
+.doc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* ✅ vertical alignment */
+    gap: 16px;
+    background: linear-gradient(180deg, #1f2937, #111827);
+    border: 1px solid #374151;
+    border-radius: 16px;
+    padding: 18px 20px;
+}
+
+#required-documents .doc-row {
+    margin-bottom: 16px; 
+}
+
+.doc-row:hover {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px rgba(99,102,241,0.4);
+}
+
+.doc-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.doc-index {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(99,102,241,0.15);
+    color: #a5b4fc;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.doc-name {
+    color: #e5e7eb;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Upload button */
+.doc-upload input {
+    display: none;
+}
+
+.upload-btn {
+    min-width: 150px;
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 9999px; /* pill */
+    background: #1f2937;
+    border: 1px solid #4b5563;
+    color: #d1d5db;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;   /* ✅ prevents breaking */
+    transition: all 0.25s ease;
+}
+
+/* Selected state */
+.upload-btn.selected {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border-color: #22c55e;
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(34,197,94,0.4);
+}
+
+.upload-btn:hover {
+    background: #374151;
+}
+
+#upload-progress-text {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+/* Upload primary button */
+.upload-btn-primary {
+    background-color: #4f46e5; /* Indigo-600 */
+    color: #ffffff;
+}
+
+.upload-btn-primary:hover {
+    background-color: #4338ca; /* Indigo-700 */
+}
+
+/* Disabled state */
+.upload-btn-primary:disabled {
+    background-color: #3730a3;
+    opacity: 0.6;
+    cursor: not-allowed;
 }
 
 /*---------------------- Responsive Adjustments-------------------- */

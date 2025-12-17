@@ -17,7 +17,7 @@ class UserRegistrationForm extends Model
     public $incrementing = true;
 
     // Disable Laravel's default timestamps and use your custom ones
-    public $timestamps = false;
+    public $timestamps = true;
     const CREATED_AT = 'created_time';
     const UPDATED_AT = 'updated_time';
 

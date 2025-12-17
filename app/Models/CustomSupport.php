@@ -35,5 +35,6 @@ class CustomSupport extends Model
     protected $casts = [
         'price' => 'float',
         'status' => 'boolean',
+        'document_list' => 'array',
     ];
 }
