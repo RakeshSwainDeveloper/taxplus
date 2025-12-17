@@ -578,16 +578,16 @@
                 </div>
 
                 <label class="doc-upload">
-                    <input
-                        type="file"
-                        name="documents[${index}]"
-                        data-doc-name="${doc}"
-                        required
-                    />
-                    <span class="upload-btn">Choose File</span>
-                    <small class="file-name"></small>
-
-                </label>
+                <input
+                    type="file"
+                    name="documents[${index}]"
+                    data-doc-name="${doc}"
+                    accept=".pdf,.jpg,.jpeg,.png"
+                />
+                <span class="upload-btn">Choose File</span>
+                <small class="file-name"></small>
+                <small class="file-error text-red-400 hidden"></small>
+            </label>
             </div>
         `;
             });
@@ -610,7 +610,7 @@
             inputs.forEach(input => {
                 const file = input.files[0];
 
-                if (!file) return; // ⛔ skip empty inputs
+                if (!file) return; //  skip empty inputs
 
                 hasAtLeastOneFile = true;
 
@@ -623,7 +623,7 @@
                 formData.append('document_names[]', input.dataset.docName);
             });
 
-            // ❌ No file selected
+            //  No file selected
             if (!hasAtLeastOneFile) {
                 alert('Please select at least one document to upload.');
                 return;
@@ -653,20 +653,51 @@
 
             xhr.onload = function() {
                 if (xhr.status === 200) {
+
+                    // ✅ Progress UI
                     progressText.textContent = 'Upload completed ✓';
+                    progressBar.style.width = '100%';
                     progressBar.classList.add('bg-green-500');
 
-                    // OPTIONAL: lock uploaded inputs
-                    inputs.forEach(input => {
-                        if (input.files.length > 0) {
-                            input.disabled = true;
-                        }
-                    });
+                    // ⏳ Small delay so user can see success
+                    setTimeout(() => {
+
+                        // 🔄 Reset all file inputs & UI
+                        inputs.forEach(input => {
+                            const uploadBtn = input.nextElementSibling;
+                            const fileNameEl = uploadBtn.nextElementSibling;
+                            const errorEl = fileNameEl.nextElementSibling;
+
+                            input.value = '';
+                            input.disabled = false;
+
+                            uploadBtn.textContent = 'Choose File';
+                            uploadBtn.classList.remove('selected');
+                            uploadBtn.removeAttribute('title');
+
+                            fileNameEl.textContent = '';
+                            errorEl.textContent = '';
+                            errorEl.classList.add('hidden');
+                        });
+
+                        // 🔄 Reset progress bar
+                        progressWrap.classList.add('hidden');
+                        progressBar.style.width = '0%';
+                        progressBar.classList.remove('bg-green-500');
+                        progressText.textContent = '';
+
+                        // 🔒 Disable submit button again
+                        const submitBtn = document.getElementById('upload-submit-btn');
+                        submitBtn.disabled = true;
+                        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+                    }, 2000); // delay = UX polish
 
                 } else {
                     alert('Upload failed. Please try again.');
                 }
             };
+
 
             xhr.onerror = function() {
                 alert('Network error during upload.');
@@ -678,17 +709,64 @@
 
 
         document.addEventListener('change', function(e) {
-            if (e.target.type === 'file') {
-                const btn = e.target.nextElementSibling;
-                const fileName = e.target.files[0]?.name || '';
+            if (e.target.type !== 'file') return;
 
-                btn.textContent = 'File Selected ✓';
-                btn.classList.add('selected');
-                btn.setAttribute('title', fileName); // tooltip
+            const input = e.target;
+            const file = input.files[0];
+            const uploadBtn = input.nextElementSibling;
+            const fileNameEl = uploadBtn.nextElementSibling;
+            const errorEl = fileNameEl.nextElementSibling;
 
+            const allowedTypes = [
+                'application/pdf',
+                'image/jpeg',
+                'image/png'
+            ];
+
+            // Reset helpers
+            const resetInput = () => {
+                input.value = '';
+                uploadBtn.textContent = 'Choose File';
+                uploadBtn.classList.remove('selected');
+                fileNameEl.textContent = '';
+                errorEl.textContent = '';
+                errorEl.classList.add('hidden');
+                uploadBtn.removeAttribute('title');
                 checkAnyFileSelected();
+            };
+
+            if (!file) {
+                resetInput();
+                return;
             }
+
+            // ❌ Invalid file type
+            if (!allowedTypes.includes(file.type)) {
+                errorEl.textContent = 'Only PDF, JPG, JPEG, PNG files are allowed.';
+                errorEl.classList.remove('hidden');
+                resetInput();
+                return;
+            }
+
+            // ❌ File too large
+            if (file.size > 5 * 1024 * 1024) {
+                errorEl.textContent = 'File size must be less than 5MB.';
+                errorEl.classList.remove('hidden');
+                resetInput();
+                return;
+            }
+
+            // ✅ Valid file
+            errorEl.textContent = '';
+            errorEl.classList.add('hidden');
+            uploadBtn.textContent = 'File Selected ✓';
+            uploadBtn.classList.add('selected');
+            uploadBtn.setAttribute('title', file.name);
+            fileNameEl.textContent = file.name;
+
+            checkAnyFileSelected();
         });
+
 
 
         function checkAnyFileSelected() {

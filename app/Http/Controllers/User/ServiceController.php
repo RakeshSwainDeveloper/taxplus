@@ -8,6 +8,7 @@ use App\Models\UserItrDocument;
 use App\Models\UserRegistrationForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
 
@@ -78,20 +79,23 @@ class ServiceController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        $request->validate([
-            'application_id'  => 'required|integer|exists:user_registration_form,id',
-            'documents'       => 'required|array',
-            'documents.*'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
-            'document_names'  => 'nullable|array',
-        ]);
-
+        // ✅ Validation (already blocks DOCX)
+        $request->validate(
+            [
+                'application_id'  => 'required|integer|exists:user_registration_form,id',
+                'documents'       => 'required|array',
+                'documents.*'     => 'required|file|mimes:pdf,jpg,jpeg,png|max:5120',
+                'document_names'  => 'nullable|array',
+            ],
+            [
+                'documents.*.mimes' => 'Only PDF, JPG, JPEG, and PNG files are allowed.',
+                'documents.*.max'   => 'Each document must not exceed 5MB.',
+            ]
+        );
 
         $application = UserRegistrationForm::where('id', $request->application_id)
             ->where('user_id', Auth::id())
             ->first();
-
-        $storedPaths = [];
-        $storedNames = [];
 
         if (!$application) {
             return response()->json(['error' => 'Invalid application'], 404);
@@ -100,40 +104,53 @@ class ServiceController extends Controller
         $files = $request->file('documents');
         $names = $request->input('document_names', []);
 
+        $storedPaths = [];
+        $storedNames = [];
+
+        $userId        = Auth::id();
+        $applicationId = $application->id;
+
+        // ✅ Fetch or create document row
+        $docRow = UserItrDocument::firstOrNew([
+            'user_id'        => $userId,
+            'application_id' => $applicationId,
+        ]);
+
+        // ✅ DELETE OLD FILES (REPLACE MODE)
+        if ($docRow->exists && $docRow->document_path) {
+            foreach (explode(',', $docRow->document_path) as $oldPath) {
+                if (Storage::disk('public')->exists($oldPath)) {
+                    Storage::disk('public')->delete($oldPath);
+                }
+            }
+        }
+
+        // ✅ STORE NEW FILES
         foreach ($files as $i => $file) {
 
-            $filename = Str::uuid() . '.' . $file->getClientOriginalExtension();
+            $docName = $names[$i]
+                ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+            // Sanitize document name
+            $safeDocName = Str::slug($docName, '_');
+
+            $extension = $file->getClientOriginalExtension();
+
+            // REQUIRED FORMAT:
+            // userid_applicationid_documentname.extension
+            $filename = "{$userId}_{$applicationId}_{$safeDocName}.{$extension}";
 
             $path = $file->storeAs(
-                'itr-documents/' . Auth::id(),
+                "itr-documents",
                 $filename,
                 'public'
             );
 
             $storedPaths[] = $path;
-
-            $storedNames[] = $names[$i] ?? $file->getClientOriginalName();
+            $storedNames[] = $docName;
         }
 
-        // Append to existing CSV instead of overwriting
-        $docRow = UserItrDocument::firstOrNew([
-            'user_id'        => Auth::id(),
-            'application_id' => $application->id,
-        ]);
-
-        if ($docRow->exists) {
-            $existingPaths = $docRow->document_path
-                ? explode(',', $docRow->document_path)
-                : [];
-
-            $existingNames = $docRow->document_name
-                ? explode(',', $docRow->document_name)
-                : [];
-
-            $storedPaths = array_merge($existingPaths, $storedPaths);
-            $storedNames = array_merge($existingNames, $storedNames);
-        }
-
+        // ✅ REPLACE DB VALUES (NO APPEND)
         $docRow->document_path = implode(',', $storedPaths);
         $docRow->document_name = implode(',', $storedNames);
         $docRow->save();
@@ -143,6 +160,7 @@ class ServiceController extends Controller
             'message' => 'Documents uploaded successfully'
         ]);
     }
+
 
     public function gstFiling()
     {
