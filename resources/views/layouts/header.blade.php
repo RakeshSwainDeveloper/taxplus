@@ -36,7 +36,7 @@
                         <li><a href="{{ route('comingsoon.show') }}#tds">TDS / TCS FILING</a></li>
                         <li><a href="{{ route('comingsoon.show') }}#tax">TAX CONSULTATION</a></li>
                         <li><a href="{{ route('comingsoon.show') }}#notice">NOTICE HANDLING</a></li>
-                        <li><a href="{{ route('comingsoon.show') }}#faq">FAQs</a></li>
+                        <li><a href="{{ route('user.faq') }}#faq">FAQs</a></li>
                     </ul>
                 </li>
 

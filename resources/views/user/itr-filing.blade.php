@@ -219,6 +219,32 @@
         </div>
     </div>
 
+    <!-- EMAIL FALLBACK MODAL -->
+    <div id="email-fallback"
+        class="hidden fixed inset-0 z-50 bg-black bg-opacity-70 flex items-center justify-center">
+
+        <div class="bg-gray-800 p-6 rounded-xl shadow-xl max-w-md w-full text-center">
+            <h3 class="text-xl font-bold text-white mb-3">
+                Send Documents via Email
+            </h3>
+
+            <p class="text-gray-300 mb-4">
+                If your email app did not open automatically, please send your documents manually to:
+            </p>
+
+            <p class="text-green-400 font-semibold text-lg mb-5">
+                support@capitaltaxplus.com
+            </p>
+
+            <button onclick="closeEmailFallback()"
+                class="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition">
+                OK
+            </button>
+        </div>
+    </div>
+    <!-- END EMAIL FALLBACK MODAL -->
+
+
     @endsection
 
     @push('scripts')
@@ -443,6 +469,39 @@
         async function goToStep3() {
             if (!selectedDocumentMethod || !selectedPlan.id) {
                 alert('Please complete previous steps.');
+                return;
+            }
+
+            // 📧 EMAIL FLOW
+            if (selectedDocumentMethod === 'Email') {
+                openEmailClient();
+                return;
+            }
+
+            if (selectedDocumentMethod === 'WhatsApp') {
+
+                const phone = '917438800114'; // country code + number
+                const docsText = getDocumentsTextForWhatsApp();
+
+                const message = encodeURIComponent(
+                    `Hello Capital Tax Plus Team,
+
+    I have selected the "${selectedPlan.name}" plan for ITR filing.
+
+    Required documents:
+    ${docsText}
+
+    I am attaching the above documents with this chat.
+
+    Please guide me further.
+
+    Thanks`
+                );
+
+                const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+
+                window.open(whatsappUrl, '_blank');
+
                 return;
             }
 
@@ -778,6 +837,85 @@
             submitBtn.disabled = !anySelected;
             submitBtn.classList.toggle('opacity-50', !anySelected);
             submitBtn.classList.toggle('cursor-not-allowed', !anySelected);
+        }
+
+        function isLikelyGmailUser() {
+            return navigator.userAgent.includes('Chrome') &&
+                !navigator.userAgent.includes('Edg') &&
+                !navigator.userAgent.includes('OPR');
+        }
+
+
+        function openEmailClient() {
+
+            const to = encodeURIComponent('support@capitaltaxplus.com');
+            const subject = encodeURIComponent(
+                `ITR Documents Submission – ${selectedPlan.name}`
+            );
+
+            const documentsText = getDocumentsTextForEmail();
+
+            const body = encodeURIComponent(
+                `Hello Capital Tax Plus Team,
+
+    I have selected the "${selectedPlan.name}" plan for ITR filing.
+
+    Below are the required documents for this plan:
+    ${documentsText}
+
+    I am attaching the above documents with this email.
+
+    Plan Name : ${selectedPlan.name}
+    Amount    : ₹${selectedPlan.price}
+
+    Thanks & Regards,
+    `
+            );
+
+            // Gmail compose URL
+            const gmailUrl =
+                `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`;
+
+            // Mailto fallback
+            const mailtoUrl =
+                `mailto:support@capitaltaxplus.com?subject=${subject}&body=${body}`;
+
+            // Prefer Gmail Web
+            if (navigator.userAgent.includes('Chrome')) {
+                window.open(gmailUrl, '_blank');
+            } else {
+                window.location.href = mailtoUrl;
+            }
+        }
+
+        function showEmailFallbackMessage() {
+            document.getElementById('email-fallback').classList.remove('hidden');
+        }
+
+        function closeEmailFallback() {
+            document.getElementById('email-fallback').classList.add('hidden');
+        }
+
+        function getDocumentsTextForEmail() {
+            const plan = PLANS_DATA[selectedPlan.id];
+            const docs = plan.document_list || [];
+
+            if (!docs.length) {
+                return '• PAN Card\n• Aadhaar Card';
+            }
+
+            return docs.map((doc, index) => `${index + 1}. ${doc}`).join('\n');
+        }
+
+        function getDocumentsTextForWhatsApp() {
+            const plan = PLANS_DATA[selectedPlan.id];
+            const docs = plan.document_list || [];
+
+            if (!docs.length) {
+                return '• PAN Card\n• Aadhaar Card';
+            }
+
+            return docs.map((doc, i) => `${i + 1}. ${doc}`).join('\n');
         }
     </script>
     @endpush

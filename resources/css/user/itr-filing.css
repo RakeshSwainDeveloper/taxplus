@@ -695,38 +695,174 @@ body {
     cursor: not-allowed;
 }
 
-/*---------------------- Responsive Adjustments-------------------- */
-@media (max-width: 640px) {
-    .doc-button {
-        padding: 1.5rem;
-        min-height: auto;
-    }
+/* ============================= */
+/* RESPONSIVE FIXES & ENHANCEMENTS */
+/* ============================= */
 
+/* ---------- Global Tweaks ---------- */
+* {
+    box-sizing: border-box;
+}
+
+img,
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    touch-action: manipulation;
+}
+
+/* ---------- Container Padding ---------- */
+@media (max-width: 1024px) {
     .itr-container {
-        padding: 1.5rem;
-    }
-
-    .itr-header h1 {
-        font-size: 2.5rem;
-    }
-
-    .step-indicator {
-        margin-bottom: 2rem;
+        padding: 2rem;
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 640px) {
+    .itr-container {
+        padding: 1.25rem;
+    }
+}
 
-    #step-1-content,
-    #step-2-content,
-    #step-3-content {
-        gap: 1.5rem;
-        padding-bottom: 4rem;
+/* ---------- Header ---------- */
+@media (max-width: 640px) {
+    .itr-header h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+        text-align: center;
     }
 
-    #step1-next-button,
-    #step2-next-button {
+    .itr-header p {
+        font-size: 1rem;
+        text-align: center;
+    }
+}
+
+/* ---------- Step Indicator ---------- */
+@media (max-width: 640px) {
+    .step-indicator {
+        gap: 0.5rem;
+    }
+
+    .step-text {
+        font-size: 0.65rem;
+    }
+
+    .step-circle {
+        width: 34px;
+        height: 34px;
+        font-size: 0.8rem;
+    }
+
+    .step-line {
+        left: 0.5rem;
+        right: 0.5rem;
+    }
+}
+
+/* ---------- Plan Grid ---------- */
+@media (max-width: 768px) {
+    .plan-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .plan-card ul {
+        height: auto;
+    }
+}
+
+/* ---------- Buttons ---------- */
+@media (max-width: 640px) {
+    .btn-primary,
+    .btn-secondary,
+    .btn-pay,
+    .btn-change {
+        width: 100%;
+        text-align: center;
+        padding: 0.85rem 1rem;
+    }
+
+    #step-1-content .text-center,
+    #step-2-content .flex,
+    #step-3-content .text-center {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+/* ---------- Document / Payment Grid ---------- */
+@media (max-width: 768px) {
+    .doc-payment-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .doc-button,
+    .payment-button {
+        min-height: auto;
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* ---------- Step 3 Summary ---------- */
+@media (max-width: 768px) {
+    .summary-card {
+        padding: 1.5rem;
+    }
+
+    .summary-card h2 {
+        font-size: 1.25rem;
+    }
+
+    .summary-card p {
+        font-size: 0.95rem;
+    }
+}
+
+/* ---------- Document Upload Rows ---------- */
+@media (max-width: 640px) {
+    .doc-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .doc-upload {
+        width: 100%;
+    }
+
+    .upload-btn {
         width: 100%;
         text-align: center;
     }
+}
+
+/* ---------- Modal ---------- */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 1.75rem;
+    }
+
+    .modal-content h3 {
+        font-size: 1.25rem;
+    }
+
+    .modal-content p {
+        font-size: 0.9rem;
+    }
+
+    .modal-content button {
+        width: 100%;
+    }
+}
+
+/* ---------- Prevent Horizontal Scroll ---------- */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
 }

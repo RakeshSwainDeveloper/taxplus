@@ -31,47 +31,62 @@ class ServiceController extends Controller
      */
     public function storeItrApplication(Request $request)
     {
-        // Ensure user is authenticated
         if (!Auth::check()) {
             return response()->json(['error' => 'Authentication required.'], 401);
         }
 
-        try {
-            $request->validate([
-                'source_id'        => 'required|integer|exists:custom_support,id',
-                'total_price'      => 'required|numeric',
-                'document_method'  => 'required|in:Email,Upload,WhatsApp',
-                'payment_mode'     => 'required|in:Online,UPI,Email,WhatsApp,Chat',
-            ]);
-        } catch (ValidationException $e) {
-            return response()->json([
-                'success' => false,
-                'errors'  => $e->errors()
-            ], 422);
-        }
+        $request->validate([
+            'source_id'        => 'required|integer|exists:custom_support,id',
+            'total_price'      => 'required|numeric',
+            'document_method'  => 'required|in:Email,Upload,WhatsApp',
+            'payment_mode'     => 'required|in:Online,UPI,Email,WhatsApp,Chat',
+        ]);
 
         try {
-            // Save the application details to the user_registration_form table
-            $application = UserRegistrationForm::create([
-                'user_id' => Auth::id(),
-                'source_id' => $request->source_id,
-                'total_price' => $request->total_price,
-                'payment_status' => false, // Initially false
-                'form_status' => 'Documents Shared', // Status after step 2 is complete
+            $userId   = Auth::id();
+            $sourceId = $request->source_id;
+
+            // 🔍 1️⃣ Check existing PENDING application
+            $existingPendingApp = UserRegistrationForm::where('user_id', $userId)
+                ->where('source_id', $sourceId)
+                ->where('form_status', 'pending')
+                ->first();
+
+            // 🔁 REUSE pending application
+            if ($existingPendingApp) {
+                return response()->json([
+                    'success'         => true,
+                    'message'         => 'Existing pending application reused.',
+                    'application_id'  => $existingPendingApp->id,
+                    'reused'          => true
+                ], 200);
+            }
+
+            // ➕ 2️⃣ Create NEW application if last one is success / failed
+            $newApplication = UserRegistrationForm::create([
+                'user_id'         => $userId,
+                'source_id'       => $sourceId,
+                'total_price'     => $request->total_price,
+                'payment_status'  => false,
+                'form_status'     => 'pending',
                 'document_method' => $request->document_method,
-                'payment_mode' => $request->payment_mode,
+                'payment_mode'    => $request->payment_mode,
             ]);
 
             return response()->json([
-                'success' => true,
-                'message' => 'ITR application created successfully. Proceeding with filing.',
-                'application_id' => $application->id,
+                'success'        => true,
+                'message'        => 'New application created.',
+                'application_id' => $newApplication->id,
+                'reused'         => false
             ], 201);
         } catch (\Exception $e) {
-            // Log::error('ITR Application Submission Error: ' . $e->getMessage());
-            return response()->json(['error' => 'An error occurred during submission. Please try again.'], 500);
+            return response()->json([
+                'success' => false,
+                'message' => 'Failed to create application.'
+            ], 500);
         }
     }
+
 
     public function uploadItrDocuments(Request $request)
     {
@@ -110,13 +125,13 @@ class ServiceController extends Controller
         $userId        = Auth::id();
         $applicationId = $application->id;
 
-        // ✅ Fetch or create document row
+        //  Fetch or create document row
         $docRow = UserItrDocument::firstOrNew([
             'user_id'        => $userId,
             'application_id' => $applicationId,
         ]);
 
-        // ✅ DELETE OLD FILES (REPLACE MODE)
+        // DELETE OLD FILES (REPLACE MODE)
         if ($docRow->exists && $docRow->document_path) {
             foreach (explode(',', $docRow->document_path) as $oldPath) {
                 if (Storage::disk('public')->exists($oldPath)) {
@@ -125,7 +140,7 @@ class ServiceController extends Controller
             }
         }
 
-        // ✅ STORE NEW FILES
+        //  STORE NEW FILES
         foreach ($files as $i => $file) {
 
             $docName = $names[$i]
@@ -150,10 +165,14 @@ class ServiceController extends Controller
             $storedNames[] = $docName;
         }
 
-        // ✅ REPLACE DB VALUES (NO APPEND)
+        // REPLACE DB VALUES (NO APPEND)
         $docRow->document_path = implode(',', $storedPaths);
         $docRow->document_name = implode(',', $storedNames);
         $docRow->save();
+
+        $application->update([
+            'form_status' => 'success'
+        ]);
 
         return response()->json([
             'success' => true,
