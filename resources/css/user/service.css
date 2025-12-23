@@ -179,6 +179,227 @@
   background-color: #00bfa6;
 }
 
+.faq-box-clean {
+    margin-top: 20px;
+    padding: 0 15px;
+}
+
+.faq-clean-wrapper {
+    background: #ffffff;
+    border: 1px solid #e5eaf0;
+    border-radius: 14px;
+    padding: 30px 25px;
+    box-shadow: 0 8px 25px rgba(0,0,0,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap; 
+    gap: 15px;
+}
+
+.faq-clean-wrapper h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+    color: #0b325c;
+}
+
+.faq-clean-wrapper p {
+    font-size: 1rem;
+    color: #6b7685;
+    margin-bottom: 0;
+}
+
+.faq-clean-btn {
+    background: #0b325c;
+    color: #fff;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    flex-shrink: 0; /* prevent shrinking in flex layout */
+}
+
+.faq-clean-btn:hover {
+    background: #0056b3;
+    transform: translateY(-5px); 
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 0.2); 
+}
+
+
+/*-------------Modal------- */
+.myModal.modal {
+    background: rgba(0, 0, 0, 0.6) !important;  
+    backdrop-filter: blur(2px);                
+    transition: background 0.3s ease-in-out;
+}
+
+.myModal .modal-content {
+    background: rgba(30, 30, 30, 0.95);       
+    color: #fff;
+    border-radius: 16px;
+    border: none;
+    width: 500px;                              
+    height: 500px;                             
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6);
+    transform: scale(0.8);
+    opacity: 0;
+    transition: transform 0.3s ease-out, opacity 0.3s ease-out;
+}
+
+.myModal.show .modal-content {
+    transform: scale(1);
+    opacity: 1;
+}
+
+.modal-header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(90deg, #0056b3, #0099ff);
+    color: #fff;
+    border-radius: 16px 16px 0 0;
+    padding: 1rem 1.5rem;
+    border-bottom: none;
+    cursor: default;
+    transition: all 0.3s ease;
+}
+
+/* ICON / CLOSE BUTTON HOVER */
+.modal-header i,
+.modal-header .btn-close {
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.modal-header:hover i,
+.modal-header:hover .btn-close {
+    transform: rotate(-20deg) scale(1.2);
+    color: #ffffffcc;
+}
+
+/* ===========================
+   MODAL BODY TEXT
+=========================== */
+.myModal .modal-body {
+    flex: 1;
+    padding: 2rem;
+    text-align: center;
+}
+
+.myModal .modal-body p {
+    color: #d8d8d8;
+    line-height: 1.6;
+    margin-bottom: 1.5rem;
+}
+
+/* ===========================
+   BUTTONS
+=========================== */
+.myModal .btn-secondary {
+    background-color: #1e3a8a;
+    color: #fff;
+    border: none;
+    transition: all 0.2s ease-in-out;
+}
+.myModal .btn-secondary:hover {
+    background-color: #007bff;
+}
+
+/* ===========================
+   POPOVER
+=========================== */
+.popover {
+    background-color: #1f1f1f;
+    border: 1px solid #444;
+    color: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+}
+.popover .popover-header {
+    background-color: #2a2a2a;
+    color: #fff;
+    border-bottom: 1px solid #555;
+    font-weight: 600;
+}
+.popover .popover-body {
+    color: #d8d8d8;
+}
+
+/* ===========================
+   TOOLTIP
+=========================== */
+.tooltip-inner {
+    background-color: #2a2a2a;
+    color: #fff;
+    font-size: 0.875rem;
+}
+
+/*-------- CTA Section -------*/
+.cta {
+    background-color: #003b83;
+    color: white;
+    padding: 20px 30px;
+}
+
+.cta-flex {
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    flex-wrap: wrap; 
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.cta-image img {
+    max-width: 150px; /* adjust size */
+    height: auto;
+    border-radius: 12px;
+}
+
+.cta-text {
+    flex: 1;
+    text-align: center;
+    padding: 0 20px;
+}
+
+.cta-text h2 {
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.cta-button a {
+    background-color: #fff;
+    color: #003b83;
+    padding: 10px 30px;
+    border-radius: 30px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.cta-button a:hover {
+    background-color: #69aaf0;
+    color: white;
+}
+
+/* ===========================
+   RESPONSIVE FIX
+=========================== */
+@media (max-width: 576px) {
+    .myModal .modal-content {
+        width: 90%;
+        height: auto; /* maintain responsiveness on mobile */
+    }
+}
+
 
 /* =======================
    RESPONSIVE DESIGN
@@ -232,6 +453,45 @@
     font-size: 0.9rem;
     padding: 8px 18px 8px 20px;
   }
+
+  .cta h2 {
+        font-size: 1.2rem;
+    }
+
+    .cta a {
+        padding: 8px 24px;
+        font-size: 0.9rem;
+    }
+
+    .cta-flex {
+        flex-direction: column;
+        text-align: center;
+    }
+    .cta-button {
+        text-align: center;
+        margin-top: 20px;
+    }
+    .cta-image {
+        margin-bottom: 20px;
+    }
+    .faq-clean-wrapper {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px 15px;
+    }
+
+    .faq-clean-wrapper h2 {
+        font-size: 1.75rem;
+    }
+
+    .faq-clean-wrapper p {
+        font-size: 0.95rem;
+    }
+
+    .faq-clean-btn {
+        width: 100%; /* full width on mobile */
+        text-align: center;
+    }
 }
 
 @media (max-width: 576px) {

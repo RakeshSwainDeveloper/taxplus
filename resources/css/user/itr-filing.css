@@ -1,0 +1,868 @@
+/* Variables for dark theme */
+:root {
+    --primary-color: #4f46e5;
+    --primary-light: #818cf8;
+    --background-color: #0d111a;
+    --card-bg: #1f2937;
+    --text-color: #f3f4f6;
+    --text-muted: #9ca3af;
+    --success-color: #10b981;
+    --success-hover: #059669;
+    --border-color: #374151;
+}
+
+/* Hide elements when the 'hidden' class is applied */
+.hidden {
+    display: none !important;
+}
+
+/* --- Universal Fix for Step Navigation Buttons --- */
+
+/* Ensure each step content is properly spaced and column-based */
+#step-1-content,
+#step-2-content,
+#step-3-content {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+}
+
+/* Add spacing below the grid or card sections */
+#plan-grid,
+.doc-payment-grid,
+.summary-card {
+    margin-bottom: 2rem;
+}
+
+/* Center bottom buttons properly */
+#step-1-content .text-center,
+#step-2-content .flex,
+#step-3-content .text-center {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1rem;
+    /* space between buttons */
+    flex-wrap: wrap;
+    /* prevents overlap on smaller screens */
+}
+
+/* Button visual consistency */
+#step1-next-button,
+#step2-next-button,
+#step-3-content button {
+    position: relative;
+    z-index: 5;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+}
+
+/* Ensure no overlap with footer or page bottom */
+#step-1-content,
+#step-2-content,
+#step-3-content {
+    padding-bottom: 3rem;
+}
+
+/* Optional: make back buttons consistent in style */
+#step-2-content button,
+#step-3-content button:not(.upload-btn-primary) {
+    background-color: var(--border-color);
+    color: var(--text-color);
+}
+
+
+#step-2-content button:hover,
+#step-3-content button:hover:not(.upload-btn-primary) {
+    background-color: #4b5563;
+}
+
+
+/* Base Styles */
+body {
+    font-family: 'Inter', sans-serif;
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.itr-container {
+    max-width: 1280px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 3rem;
+}
+
+/* Header */
+.itr-header h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    letter-spacing: -0.025em;
+    margin-bottom: 0.5rem;
+}
+
+.itr-header p {
+    color: var(--primary-light);
+    font-size: 1.25rem;
+    font-weight: 500;
+}
+
+/* Step Indicator */
+.step-indicator {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 3rem;
+    position: relative;
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.step-line {
+    position: absolute;
+    top: 50%;
+    height: 4px;
+    background-color: var(--border-color);
+    transform: translateY(-50%);
+    left: 1rem;
+    right: 1rem;
+    z-index: 0;
+}
+
+.step-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 10;
+}
+
+.step-circle {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 700;
+    transition: all 0.3s;
+}
+
+.step-text {
+    font-size: 0.75rem;
+    margin-top: 0.5rem;
+    text-align: center;
+}
+
+/* Step States */
+.step-circle.active {
+    background-color: var(--primary-color);
+    border: 2px solid var(--primary-color);
+    color: white;
+}
+
+.step-text.active {
+    color: var(--primary-light);
+}
+
+.step-circle.inactive {
+    background-color: var(--border-color);
+    border: 2px solid #4b5563;
+    color: var(--text-muted);
+}
+
+/* Ensure completed steps look distinct */
+.step-circle.bg-green-500 {
+    background-color: var(--success-color) !important;
+    border-color: var(--success-color) !important;
+    color: white !important;
+}
+
+.step-text.inactive {
+    color: var(--text-muted);
+}
+
+/* Plan Card Styling */
+.plan-grid {
+    display: grid;
+    gap: 2rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+    .plan-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+@media (min-width: 1024px) {
+    .plan-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.plan-card {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 1rem;
+    transition: all 0.3s ease;
+    cursor: pointer;
+    border: 2px solid transparent;
+    position: relative;
+}
+
+.plan-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--primary-color);
+    box-shadow: 0 10px 15px -3px rgba(79, 70, 229, 0.4), 0 4px 6px -2px rgba(79, 70, 229, 0.2);
+}
+
+/* Highlighted Plan Card (Example: used in the Blade template as 'bg-indigo-900 border-indigo-600') */
+.plan-card.bg-indigo-900 {
+    background-color: #312e81;
+    /* Indigo 900 equivalent */
+    border-color: #4f46e5;
+    /* Primary color */
+}
+
+/* Selected Plan Card */
+.plan-card.selected {
+    border-color: var(--success-color);
+    background-color: #27303d;
+    /* Slightly lighter card bg for selection */
+    box-shadow: 0 0 10px var(--success-color), 0 0 20px rgba(16, 185, 129, 0.5);
+}
+
+.plan-card h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: white;
+}
+
+.plan-card p.trigger {
+    font-size: 1.125rem;
+    color: var(--text-muted);
+}
+
+.plan-card p.price {
+    font-size: 2.25rem;
+    font-weight: 800;
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.plan-card ul {
+    list-style: none;
+    padding: 0;
+    margin-top: 1rem;
+    height: 8rem;
+    overflow: hidden;
+    color: var(--text-color);
+}
+
+.plan-card li {
+    display: flex;
+    align-items: flex-start;
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    /* slightly smaller text for features */
+}
+
+.plan-card li svg {
+    width: 20px;
+    height: 20px;
+    color: var(--success-color);
+    margin-right: 0.5rem;
+    flex-shrink: 0;
+}
+
+.plan-card button {
+    width: 100%;
+    padding: 0.5rem 0;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    background-color: var(--border-color);
+    /* Darker button for contrast */
+    color: var(--text-color);
+    transition: background-color 0.2s;
+    margin-top: 1rem;
+}
+
+.plan-card button:hover {
+    background-color: #4b5563;
+    /* gray-600 */
+}
+
+/* Button & Link Styles */
+.btn-change {
+    color: #d1d5db;
+    background-color: #374151;
+    border: none;
+    cursor: pointer;
+     font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-change:hover {
+    background-color: #4b5563;
+}
+.btn-primary {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background-color: #3730a3;
+    /* indigo-700 */
+}
+
+.btn-disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+.btn-pay{
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+.btn-pay:hover:not(:disabled) {
+    background-color: #3730a3;
+    /* indigo-700 */
+}
+
+/* Back Button/Secondary Button */
+.btn-secondary {
+    background-color: var(--border-color);
+    color: var(--text-color);
+    font-weight: 600;
+    padding: 0.75rem 2rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+    background-color: #4b5563;
+}
+
+
+/* Document/Payment Button Grid */
+.doc-payment-grid {
+    max-width: 48rem;
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+}
+
+@media (min-width: 768px) {
+    .doc-payment-grid {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+}
+
+.payment-button {
+    background-color: var(--card-bg);
+    padding: 1.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+}
+/* --- FIX: Prevent content overflow in document method boxes --- */
+.doc-button {
+    background-color: var(--card-bg);
+    padding: 1.75rem 1.25rem;
+    /* Added more horizontal padding */
+    border-radius: 0.75rem;
+    text-align: center;
+    border: 2px solid transparent;
+    transition: all 0.2s;
+    cursor: pointer;
+    word-wrap: break-word;
+    overflow-wrap: anywhere;
+    line-height: 1.4;
+    min-height: 220px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Make text wrap properly and fit neatly */
+.doc-button p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.75rem;
+    word-break: break-word;
+    white-space: normal;
+    text-align: center;
+}
+
+
+
+/* FIX: Added specific styling for when payment buttons are confirmed */
+.payment-button.selected {
+    border-color: var(--primary-color);
+    background-color: var(--primary-color);
+    box-shadow: 0 0 10px var(--primary-color);
+}
+
+.doc-button:hover,
+.payment-button:hover {
+    border-color: var(--primary-color);
+    box-shadow: 0 4px 6px rgba(79, 70, 229, 0.3);
+}
+
+.doc-button.selected {
+    border-color: var(--success-color);
+    box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+}
+
+.doc-button svg,
+.payment-button svg {
+    width: 40px;
+    height: 40px;
+    color: var(--primary-light);
+    /* Changed to primary light for better contrast and fit */
+    margin-bottom: 0.75rem;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.doc-button.selected svg,
+.payment-button.selected svg {
+    color: white;
+    /* White icons when selected */
+}
+
+.doc-button span,
+.payment-button span {
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.payment-button p {
+    font-size: 0.875rem;
+    color: var(--text-muted);
+    margin-top: 0.5rem;
+}
+
+.doc-button.selected p,
+.payment-button.selected p {
+    color: var(--text-color);
+    /* Better visibility on selected background */
+}
+
+
+/* Final Summary Card */
+/* --- FIX for Step 3 Payment Layout --- */
+#step-3-content .summary-card {
+  max-width: 100%; /* keep it compact like first image */
+  margin: 0 auto; /* center it horizontally */
+}
+
+#step-3-content .space-y-3 {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+#step-3-content .payment-button {
+  width: 100%;
+  border-radius: 0.75rem;
+  background-color: var(--card-bg);
+  text-align: center;
+  justify-content: center;
+}
+
+#step-3-content .payment-button svg {
+  flex-shrink: 0;
+}
+
+#step-3-content .price-amount {
+  color: var(--success-color);
+  font-weight: 800;
+}
+
+.summary-card {
+    background-color: var(--card-bg);
+    padding: 2rem;
+    border-radius: 1rem;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    border-top: 4px solid var(--primary-color);
+}
+
+.summary-card h2 {
+    color: white;
+}
+
+.summary-card span.plan-name {
+    color: var(--primary-light);
+    font-weight: 800;
+}
+
+.summary-card p.price-amount {
+    color: var(--success-color);
+    /* Highlight final price in green */
+    font-weight: 800;
+}
+
+/* Confirmation Modal */
+#confirmation-message {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+#confirmation-message.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-content {
+    background-color: #1f2937;
+    padding: 2.5rem;
+    border-radius: 0.75rem;
+    text-align: center;
+    max-width: 448px;
+    width: 90%;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.5);
+    border-top: 4px solid var(--primary-color);
+    animation: fadeInScale 0.3s ease-out forwards;
+}
+
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.modal-content svg {
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 1rem;
+    color: var(--success-color);
+    /* Green checkmark */
+}
+
+.modal-content h3 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.75rem;
+}
+
+.modal-content p {
+    color: #d1d5db;
+    margin-bottom: 1.5rem;
+}
+
+.modal-content button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.modal-content button:hover {
+    background-color: #3730a3;
+}
+
+.doc-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center; /* ✅ vertical alignment */
+    gap: 16px;
+    background: linear-gradient(180deg, #1f2937, #111827);
+    border: 1px solid #374151;
+    border-radius: 16px;
+    padding: 18px 20px;
+}
+
+#required-documents .doc-row {
+    margin-bottom: 16px; 
+}
+
+.doc-row:hover {
+    border-color: #6366f1;
+    box-shadow: 0 0 0 1px rgba(99,102,241,0.4);
+}
+
+.doc-info {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.doc-index {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: rgba(99,102,241,0.15);
+    color: #a5b4fc;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.doc-name {
+    color: #e5e7eb;
+    font-size: 15px;
+    font-weight: 500;
+}
+
+/* Upload button */
+.doc-upload input {
+    display: none;
+}
+
+.upload-btn {
+    min-width: 150px;
+    padding: 8px 18px;
+    font-size: 14px;
+    border-radius: 9999px; /* pill */
+    background: #1f2937;
+    border: 1px solid #4b5563;
+    color: #d1d5db;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;   /* ✅ prevents breaking */
+    transition: all 0.25s ease;
+}
+
+/* Selected state */
+.upload-btn.selected {
+    background: linear-gradient(135deg, #22c55e, #16a34a);
+    border-color: #22c55e;
+    color: #fff;
+    box-shadow: 0 0 0 1px rgba(34,197,94,0.4);
+}
+
+.upload-btn:hover {
+    background: #374151;
+}
+
+#upload-progress-text {
+    text-align: center;
+    margin-top: 10px;
+    font-weight: 500;
+    letter-spacing: 0.3px;
+}
+
+/* Upload primary button */
+.upload-btn-primary {
+    background-color: #4f46e5; /* Indigo-600 */
+    color: #ffffff;
+}
+
+.upload-btn-primary:hover {
+    background-color: #4338ca; /* Indigo-700 */
+}
+
+/* Disabled state */
+.upload-btn-primary:disabled {
+    background-color: #3730a3;
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+/* ============================= */
+/* RESPONSIVE FIXES & ENHANCEMENTS */
+/* ============================= */
+
+/* ---------- Global Tweaks ---------- */
+* {
+    box-sizing: border-box;
+}
+
+img,
+svg {
+    max-width: 100%;
+    height: auto;
+}
+
+button {
+    touch-action: manipulation;
+}
+
+/* ---------- Container Padding ---------- */
+@media (max-width: 1024px) {
+    .itr-container {
+        padding: 2rem;
+    }
+}
+
+@media (max-width: 640px) {
+    .itr-container {
+        padding: 1.25rem;
+    }
+}
+
+/* ---------- Header ---------- */
+@media (max-width: 640px) {
+    .itr-header h1 {
+        font-size: 2rem;
+        line-height: 1.2;
+        text-align: center;
+    }
+
+    .itr-header p {
+        font-size: 1rem;
+        text-align: center;
+    }
+}
+
+/* ---------- Step Indicator ---------- */
+@media (max-width: 640px) {
+    .step-indicator {
+        gap: 0.5rem;
+    }
+
+    .step-text {
+        font-size: 0.65rem;
+    }
+
+    .step-circle {
+        width: 34px;
+        height: 34px;
+        font-size: 0.8rem;
+    }
+
+    .step-line {
+        left: 0.5rem;
+        right: 0.5rem;
+    }
+}
+
+/* ---------- Plan Grid ---------- */
+@media (max-width: 768px) {
+    .plan-grid {
+        grid-template-columns: 1fr;
+        gap: 1.25rem;
+    }
+
+    .plan-card ul {
+        height: auto;
+    }
+}
+
+/* ---------- Buttons ---------- */
+@media (max-width: 640px) {
+    .btn-primary,
+    .btn-secondary,
+    .btn-pay,
+    .btn-change {
+        width: 100%;
+        text-align: center;
+        padding: 0.85rem 1rem;
+    }
+
+    #step-1-content .text-center,
+    #step-2-content .flex,
+    #step-3-content .text-center {
+        flex-direction: column;
+        width: 100%;
+    }
+}
+
+/* ---------- Document / Payment Grid ---------- */
+@media (max-width: 768px) {
+    .doc-payment-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+
+    .doc-button,
+    .payment-button {
+        min-height: auto;
+        padding: 1.5rem 1rem;
+    }
+}
+
+/* ---------- Step 3 Summary ---------- */
+@media (max-width: 768px) {
+    .summary-card {
+        padding: 1.5rem;
+    }
+
+    .summary-card h2 {
+        font-size: 1.25rem;
+    }
+
+    .summary-card p {
+        font-size: 0.95rem;
+    }
+}
+
+/* ---------- Document Upload Rows ---------- */
+@media (max-width: 640px) {
+    .doc-row {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+
+    .doc-upload {
+        width: 100%;
+    }
+
+    .upload-btn {
+        width: 100%;
+        text-align: center;
+    }
+}
+
+/* ---------- Modal ---------- */
+@media (max-width: 480px) {
+    .modal-content {
+        padding: 1.75rem;
+    }
+
+    .modal-content h3 {
+        font-size: 1.25rem;
+    }
+
+    .modal-content p {
+        font-size: 0.9rem;
+    }
+
+    .modal-content button {
+        width: 100%;
+    }
+}
+
+/* ---------- Prevent Horizontal Scroll ---------- */
+html,
+body {
+    max-width: 100%;
+    overflow-x: hidden;
+}

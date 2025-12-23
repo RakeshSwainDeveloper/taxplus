@@ -20,7 +20,7 @@
         <!-- ✅ Row 1 -->
         <div class="pricing-container">
             <div class="pricing-box">
-                <h3>Salary & HP Plan</h3>
+                <h3>Salary</h3>
                 <div class="price">₹799 <span>/year</span></div>
                 <ul>
                     <li>✔ Single & Multiple Employers</li>
@@ -28,12 +28,12 @@
                     <li>✔ Income from Other Sources</li>
                     <li>✔ Agriculture Income</li>
                 </ul>
-                <a href="#" class="pricing-btn">Get Started</a>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 1]) }}" class="pricing-btn">Get Started</a>
             </div>
             <div class="pricing-box popular">
                 <span class="tag">Popular</span>
-                <h3>Business & Professional Plan</h3>
-                <div class="price">₹1499 <span>/year</span></div>
+                <h3>Income/ Loss from House Property</h3>
+                <div class="price">₹799 <span>/year</span></div>
                 <ul>
                     <li>✔ Single & Multiple Employers</li>
                     <li>✔ Single & Multiple House Property</li>
@@ -41,10 +41,10 @@
                     <li>✔ Income from Other Sources</li>
                     <li>✔ Agriculture Income</li>
                 </ul>
-                <a href="#" class="pricing-btn">Get Started</a>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 2]) }}" class="pricing-btn">Get Started</a>
             </div>
             <div class="pricing-box">
-                <h3>Capital Gain Plan</h3>
+                <h3>Capital Gain Income/Loss</h3>
                 <div class="price">₹1999 <span>/year</span></div>
                 <ul>
                     <li>✔ Single & Multiple Employers</li>
@@ -54,44 +54,80 @@
                     <li>✔ Income from Other Sources</li>
                     <li>✔ Agriculture Income</li>
                 </ul>
-                <a href="#" class="pricing-btn">Get Started</a>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 3]) }}" class="pricing-btn">Get Started</a>
             </div>
         </div>
 
         <!-- ✅ Row 2 (new 3 boxes) -->
         <div class="pricing-container mt-5">
             <div class="pricing-box">
-                <h3>Startup Plan</h3>
-                <div class="price">₹999 <span>/year</span></div>
+                <h3>Income/Loss from Business and Profession</h3>
+                <div class="price">₹1499 <span>/year</span></div>
                 <ul>
                     <li>✔ Basic Business Registration</li>
                     <li>✔ GST Filing Assistance</li>
                     <li>✔ Income Tax Filing</li>
                     <li>✔ Dedicated Support</li>
                 </ul>
-                <a href="#" class="pricing-btn">Get Started</a>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 4]) }}" class="pricing-btn">Get Started</a>
             </div>
             <div class="pricing-box">
-                <h3>Premium Plan</h3>
-                <div class="price">₹2499 <span>/year</span></div>
+                <h3>Future and Options</h3>
+                <div class="price">₹2999 <span>/year</span></div>
                 <ul>
                     <li>✔ Priority Support</li>
                     <li>✔ Tax Planning Consultation</li>
                     <li>✔ Audit Report Review</li>
                     <li>✔ Free Document Storage</li>
                 </ul>
-                <a href="#" class="pricing-btn">Get Started</a>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 5]) }}" class="pricing-btn">Get Started</a>
             </div>
             <div class="pricing-box">
-                <h3>Enterprise Plan</h3>
-                <div class="price">₹4999 <span>/year</span></div>
+                <h3>Intra Day Trading</h3>
+                <div class="price">₹2999 <span>/year</span></div>
                 <ul>
                     <li>✔ End-to-End Compliance</li>
                     <li>✔ Dedicated Tax Expert</li>
                     <li>✔ Unlimited Filings</li>
                     <li>✔ 24/7 Support</li>
                 </ul>
-                <a href="#" class="pricing-btn">Get Started</a>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 6]) }}" class="pricing-btn">Get Started</a>
+            </div>
+        </div>
+        <!-- ✅ Row 3 (new 3 boxes) -->
+        <div class="pricing-container mt-5">
+            <div class="pricing-box">
+                <h3>Crypto Currency Trading</h3>
+                <div class="price">₹3999 <span>/year</span></div>
+                <ul>
+                    <li>✔ Basic Business Registration</li>
+                    <li>✔ GST Filing Assistance</li>
+                    <li>✔ Income Tax Filing</li>
+                    <li>✔ Dedicated Support</li>
+                </ul>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 7]) }}" class="pricing-btn">Get Started</a>
+            </div>
+            <div class="pricing-box">
+                <h3>Residents having Foregin Income</h3>
+                <div class="price">₹3999 <span>/year</span></div>
+                <ul>
+                    <li>✔ Priority Support</li>
+                    <li>✔ Tax Planning Consultation</li>
+                    <li>✔ Audit Report Review</li>
+                    <li>✔ Free Document Storage</li>
+                </ul>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 8]) }}" class="pricing-btn">Get Started</a>
+            </div>
+            <div class="pricing-box">
+                <h3>NRI's having Indian Income</h3>
+                <div class="price">₹3999 <span>/year</span></div>
+                <ul>
+                    <li>✔ End-to-End Compliance</li>
+                    <li>✔ Dedicated Tax Expert</li>
+                    <li>✔ Unlimited Filings</li>
+                    <li>✔ 24/7 Support</li>
+                </ul>
+                <a href="{{ route('user.itr-filing', ['step' => 2, 'plan_id' => 9]) }}" class="pricing-btn">Get Started</a>
             </div>
         </div>
         <!-- ✅ TAX PLANNING SECTION -->
@@ -161,4 +197,37 @@
 
     </div>
 </div>
+
+<!-- FAQ Section -->
+<section class="faq-box-clean py-5">
+    <div class="container">
+        <div class="faq-clean-wrapper">
+            <div class="faq-text">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find quick answers to common tax, GST, and compliance questions.</p>
+            </div>
+
+            <div>
+                <a href="{{ route('user.faq') }}" class="faq-clean-btn">
+                    Explore FAQs →
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta">
+    <div class="container cta-flex">
+        <div class="cta-image">
+            <img src="{{ asset('images/contact-us.jpg') }}" alt="Business Illustration">
+        </div>
+        <div class="cta-text">
+            <h2>Let’s Discuss Your Business Goals & Schedule a Free Consultation Today</h2>
+        </div>
+        <div class="cta-button">
+            <a href="/contact" class="btn">Contact Us</a>
+        </div>
+    </div>
+</section>
 @endsection

@@ -27,9 +27,9 @@
             <input type="password" name="password" placeholder="Password" required>
 
             <div class="login-options">
-                <label class="remember-me">
+                <!-- <label class="remember-me">
                     <input type="checkbox" name="remember"> <span>Remember me</span>
-                </label>
+                </label> -->
                 <a href="#">Forgot Password?</a>
             </div>
 

@@ -82,28 +82,56 @@
             <i class="bi bi-cash-stack icon"></i>
             <h3>Financial Services</h3>
             <p>Engage worldwide methodologies with web-enabled technology.</p>
-            <a href="#" class="btn-read">Read More</a>
+            <!-- <a href="#" class="btn-read">Read More</a> -->
+            <a href="#"
+                class="btn-read"
+                data-title="Financial Services"
+                data-content="We help you with financial planning, budgeting, investment strategies, taxation, and wealth management. Our experts ensure secure, compliant, and smart financial decisions.">
+                Read More
+            </a>
+
         </div>
 
         <div class="help-card">
             <i class="bi bi-graph-up icon"></i>
             <h3>Business Valuation</h3>
             <p>Pursue scalable customer service through sustainable potentials.</p>
-            <a href="#" class="btn-read">Read More</a>
+            <!-- <a href="#" class="btn-read">Read More</a> -->
+            <a href="#"
+                class="btn-read"
+                data-title="Business Valuation"
+                data-content="Our valuation specialists analyze business performance, assets, market position, growth potential, and financial records to calculate accurate business worth for investors, mergers, or internal planning.">
+                Read More
+            </a>
+
         </div>
 
         <div class="help-card">
             <i class="bi bi-receipt icon"></i>
             <h3>Small Business Taxes</h3>
             <p>Administrate turnkey channels for virtual e-tailers.</p>
-            <a href="#" class="btn-read">Read More</a>
+            <!-- <a href="#" class="btn-read">Read More</a> -->
+            <a href="#"
+                class="btn-read"
+                data-title="Small Business Taxes"
+                data-content="We manage tax calculations, deductions, tax planning, and compliance for small businesses. We ensure accurate filing, lower liabilities, and complete transparency.">
+                Read More
+            </a>
+
         </div>
 
         <div class="help-card">
             <i class="bi bi-briefcase icon"></i>
             <h3>Startup Compliance</h3>
             <p>Empower researched growth strategies and internal interoperability.</p>
-            <a href="#" class="btn-read">Read More</a>
+            <!-- <a href="#" class="btn-read">Read More</a> -->
+            <a href="#"
+                class="btn-read"
+                data-title="Startup Compliance"
+                data-content="We help startups complete all government, financial, legal, and tax compliance requirements such as GST, TDS, ROC filings, accounting, and regulatory advisory.">
+                Read More
+            </a>
+
         </div>
     </div>
 </section>
@@ -117,9 +145,8 @@
                 We provide scalable and secure IT services designed to meet your business goals.
                 Our expert team ensures innovative, reliable, and efficient technology solutions for growth.
             </p>
-            <!-- <a href="#" class="video-btn">
-                <i class="bi bi-play-circle"></i> Video Showcase
-            </a> -->
+            <a href="/about" class="why-btn">About Us</a>
+
         </div>
 
         <div class="why-right">
@@ -149,7 +176,7 @@
 
 <section class="our-services-clean">
     <div class="container">
-        <h2>OUR <span>SERVICES</span></h2>
+        <h2>OVERVIEW OF <span>SERVICES</span></h2>
         <p class="services-description">
             Efficiently unleash cross-media information without cross-media value. Quickly maximize timely deliverables
             for real-time schema. Dramatically maintain click-and-mortar solutions without functional solutions.
@@ -189,44 +216,214 @@
 </section>
 
 
-<section class="testimonials">
-    <h2>What Our Users Say</h2>
+<!-- <section class="testimonials">
+    <h2>TESTIMONIALS</h2>
+    <p class="testimonial-subtext">
+        Trusted by thousands of individuals and businesses across India, our platform delivers reliable,
+        secure, and hassle-free tax solutions. Here’s what our clients have to say about their experience
+        with Capital Taxplus.
+    </p>
+
     <div class="reviews">
         <div class="review">
             <img src="{{ asset('images/image-6.png') }}" alt="User 1">
-            <h3>Rahul Mehta</h3>
-            <p class="stars">★★★★★</p>
+            <h3>Priyanka Priyadarshini</h3>
+            <p class="stars">★★★☆☆</p>
             <blockquote>
-                “The best tax filing service I’ve ever used! Super simple and quick.”
+                “Tax Plus was a lifesaver! They took care of both my income tax and GST filing , making the whole process incredibly smooth. No more scrambling between different systems – it was all streamlined and efficient.”
             </blockquote>
         </div>
         <div class="review">
             <img src="{{ asset('images/image-9.png') }}" alt="User 2">
-            <h3>Priya Sharma</h3>
+            <h3>Krushna Ranjan Patra</h3>
             <p class="stars">★★★★☆</p>
             <blockquote>
-                “Very helpful and responsive support team. Filing was smooth and easy.”
+                “I used to dread tax season, but Tax Plus has changed the game. Their platform is user-friendly and their support is fantastic. They ensure I maximize my deductions for income tax while also taking care of my GST compliance. Highly recommend!”
             </blockquote>
         </div>
         <div class="review">
             <img src="{{ asset('images/image-6.png') }}" alt="User 3">
-            <h3>Rohit Verma</h3>
+            <h3>Satya Narayan Panda</h3>
             <p class="stars">★★★★★</p>
             <blockquote>
-                “Affordable and reliable — I’ll definitely use it again next year!”
+                “Running a small business can be overwhelming, but Tax Plus takes the stress out of tax filing. They handle both my income tax return and my GST, allowing me to focus on what I do best. They're knowledgeable, professional, and always available to answer my questions.”
             </blockquote>
         </div>
     </div>
+</section> -->
+
+<section class="testimonial-3d">
+    <h2>TESTIMONIALS</h2>
+    <p class="testimonial-subtext">
+        Trusted by thousands of individuals and businesses across India, our platform delivers reliable,
+        secure, and hassle-free tax solutions. Here’s what our clients have to say about their experience
+        with Capital Taxplus.
+    </p>
+
+    <div class="carousel-container">
+
+        <div class="carousel-3d" id="carousel3d">
+
+            @foreach ($testimonials as $index => $t)
+                <div class="card3d"
+                     data-index="{{ $index }}"
+                     style="--bg: {{ $t['bg'] ?? '#fff8e9' }}">
+                    
+                    <div class="avatar">
+                        <img src="{{ asset($t['photo']) }}" alt="user">
+                    </div>
+
+                    <div class="quote-mark">“</div>
+
+                    <p class="quote-text">{{ $t['message'] }}</p>
+
+                    <h3 class="name">{{ $t['name'] }}</h3>
+                    <p class="role">{{ $t['role'] }}</p>
+
+                </div>
+            @endforeach
+
+        </div>
+
+        <!-- PUT BUTTONS BELOW -->
+        <div class="nav-buttons">
+            <button class="nav prev">‹</button>
+            <button class="nav next">›</button>
+        </div>
+
+    </div>
 </section>
-<!-- <div class="itr-sidebar">
-  <div class="itr-ad-content">
-    <h3>📅 Book Your ITR Slot</h3>
-    <p>Get expert help filing your ITR. Schedule your consultation today!</p>
-    <a href="{{ url('/user.itr-slot-booking') }}" class="btn-book-now">Book Now</a>
-  </div>
-  <button class="close-sidebar" aria-label="Collapse sidebar">&times;</button>
-</div> -->
+
+
+<!-- CTA Section -->
+<section class="cta">
+    <div class="container cta-flex">
+        <div class="cta-image">
+            <img src="{{ asset('images/contact-us.jpg') }}" alt="Business Illustration">
+        </div>
+        <div class="cta-text">
+            <h2>Let’s Discuss Your Business Goals & Schedule a Free Consultation Today</h2>
+        </div>
+        <div class="cta-button">
+            <a href="/contact" class="btn">Contact Us</a>
+        </div>
+    </div>
+</section>
+
+
+<!-- GLASS EFFECT MODAL -->
+<div id="glassModal" class="glass-modal-overlay">
+    <div class="glass-modal">
+
+        <!-- HEADER WITH COLOR -->
+        <div class="modal-header-bar">
+            <h3 id="modalTitle">Title</h3>
+            <button class="modal-close-icon">&times;</button>
+        </div>
+
+        <p id="modalContent"></p>
+
+        <button class="modal-close-btn">Close</button>
+    </div>
+</div>
 
 
 
 @endsection
+
+@push('scripts')
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const modal = document.getElementById("glassModal");
+        const modalBox = document.querySelector(".glass-modal");
+        const title = document.getElementById("modalTitle");
+        const content = document.getElementById("modalContent");
+
+        const readBtns = document.querySelectorAll(".help-card .btn-read");
+
+        let clickedBtn = null;
+
+        // Modal Open
+        readBtns.forEach(btn => {
+            btn.addEventListener("click", (e) => {
+                e.preventDefault();
+                clickedBtn = btn;
+
+                // Get dynamic text from data attributes
+                title.textContent = btn.getAttribute("data-title");
+                content.textContent = btn.getAttribute("data-content");
+
+                // Button animation origin
+                const rect = btn.getBoundingClientRect();
+                modal.classList.add("open");
+                modalBox.style.transformOrigin = `${rect.left + rect.width / 2}px ${rect.top + rect.height / 2}px`;
+                modalBox.classList.add("modal-animate-in");
+            });
+        });
+
+
+        // Close Modal Function
+        function closeModal() {
+            if (!clickedBtn) return;
+
+            const rect = clickedBtn.getBoundingClientRect();
+            modalBox.style.transformOrigin = `${rect.left + rect.width / 2}px ${rect.top + rect.height / 2}px`;
+
+            modalBox.classList.remove("modal-animate-in");
+            modalBox.classList.add("modal-animate-out");
+
+            setTimeout(() => {
+                modal.classList.remove("open");
+                modalBox.classList.remove("modal-animate-out");
+            }, 300);
+        }
+
+        document.querySelector(".modal-close-icon").onclick = closeModal;
+        document.querySelector(".modal-close-btn").onclick = closeModal;
+
+        // Close on clicking outside
+        modal.addEventListener("click", (e) => {
+            if (e.target === modal) closeModal();
+        });
+    });
+
+    document.addEventListener("DOMContentLoaded", () => {
+
+    const cards = document.querySelectorAll(".card3d");
+    const total = cards.length;
+    let index = 0;
+
+    function updateCards() {
+        cards.forEach(c => {
+            c.classList.remove("active", "left", "right");
+        });
+
+        const current = cards[index];
+        const left = cards[(index - 1 + total) % total];
+        const right = cards[(index + 1) % total];
+
+        current.classList.add("active");
+        left.classList.add("left");
+        right.classList.add("right");
+    }
+
+    document.querySelector(".nav.next").onclick = () => {
+        index = (index + 1) % total;
+        updateCards();
+    };
+
+    document.querySelector(".nav.prev").onclick = () => {
+        index = (index - 1 + total) % total;
+        updateCards();
+    };
+
+    // Auto-play
+    setInterval(() => {
+        index = (index + 1) % total;
+        updateCards();
+    }, 3000);
+
+    updateCards();
+});
+</script>
+@endpush

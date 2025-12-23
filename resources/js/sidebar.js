@@ -1,4 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
+  const CSRF_TOKEN = document
+    .querySelector('meta[name="csrf-token"]')
+    ?.getAttribute('content');
+
   const sidebar = document.querySelector('.itr-sidebar');
   const closeBtn = document.querySelector('.close-sidebar');
   const openBtn = document.createElement('div');
@@ -22,12 +26,17 @@ document.addEventListener('DOMContentLoaded', () => {
     openBtn.style.display = 'none';
   });
 
-  // Show modal
+  // Show modal only if logged in, otherwise redirect to login
   bookNowBtn.addEventListener('click', () => {
-    const modal = new bootstrap.Modal(modalElement);
-    modal.show();
-    document.body.classList.add('blur-background');
+    if (typeof IS_LOGGED_IN !== 'undefined' && IS_LOGGED_IN) {
+      const modal = new bootstrap.Modal(modalElement);
+      modal.show();
+      document.body.classList.add('blur-background');
+    } else {
+      window.location.href = LOGIN_URL;
+    }
   });
+
 
   // Remove blur on modal close
   modalElement.addEventListener('hidden.bs.modal', () => {
@@ -36,7 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Form validation and toast
   const form = document.getElementById('itrBookingForm');
-  form.addEventListener('submit', (e) => {
+  form.addEventListener('submit', async (e) => {
     e.preventDefault();
 
     if (!form.checkValidity()) {
@@ -47,14 +56,45 @@ document.addEventListener('DOMContentLoaded', () => {
 
     form.classList.remove('was-validated');
 
-    // Hide modal
-    bootstrap.Modal.getInstance(modalElement).hide();
+    // Prepare form data
+    const formData = {
+      type: document.getElementById('type').value,
+      name: document.getElementById('name').value,
+      email: document.getElementById('email').value,
+      mobile: document.getElementById('mobile').value,
+      book_date: document.getElementById('book_date').value,
+    };
 
-    // Reset form
-    form.reset();
+    try {
+      const res = await fetch(SLOT_BOOK_URL, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "X-CSRF-TOKEN": CSRF_TOKEN
+        },
+        body: JSON.stringify(formData)
+      });
 
-    // Show toast notification
-    const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
-    toast.show();
+      const result = await res.json();
+
+      if (result.success) {
+        // Hide modal
+        bootstrap.Modal.getInstance(modalElement).hide();
+
+        // Reset form
+        form.reset();
+
+        // Show toast notification
+        const toast = new bootstrap.Toast(toastEl, { delay: 4000 });
+        toast.show();
+      } else {
+        alert("Something went wrong!");
+      }
+
+    } catch (error) {
+      console.error(error);
+      alert("Server error, please try again!");
+    }
   });
+
 });

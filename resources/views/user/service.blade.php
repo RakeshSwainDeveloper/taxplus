@@ -53,13 +53,13 @@
                     </div>
                 </a>
             </div>
-<!-- /gst-filing -->
+            <!-- /gst-filing -->
             <!-- 02 -->
             <div class="col-md-4">
                 <a href="{{ route('user.gst-filing') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">02.</div>
-                        <h4 class="fw-bold mt-3">GST</h4>
+                        <h4 class="fw-bold mt-3">GST SERVICES</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -70,7 +70,7 @@
                 <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">03.</div>
-                        <h4 class="fw-bold mt-3">TDS</h4>
+                        <h4 class="fw-bold mt-3">PAN SERVICES</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -81,7 +81,7 @@
                 <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">04.</div>
-                        <h4 class="fw-bold mt-3">TAX RETURN</h4>
+                        <h4 class="fw-bold mt-3">TDS / TCS FILING</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -92,7 +92,7 @@
                 <a href="{{ url('services') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">05.</div>
-                        <h4 class="fw-bold mt-3">TAX PLANNING</h4>
+                        <h4 class="fw-bold mt-3">TAX CONSULTATION</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -103,7 +103,7 @@
                 <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">06.</div>
-                        <h4 class="fw-bold mt-3">TAX CONSULTANCY</h4>
+                        <h4 class="fw-bold mt-3">NOTICE HANDLING</h4>
                         <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
                     </div>
                 </a>
@@ -131,7 +131,10 @@
                     </div>
                     <div class="card-body">
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                        <a href="#" class="text-primary fw-bold">Continue Reading →</a>
+                        <!-- <a href="#" class="text-primary fw-bold">Continue Reading →</a> -->
+                        <a href="#" class="text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalFinancialPlanning">
+                            Continue Reading →
+                        </a>
                     </div>
                 </div>
             </div>
@@ -146,7 +149,10 @@
                     </div>
                     <div class="card-body">
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                        <a href="#" class="text-primary fw-bold">Continue Reading →</a>
+                        <!-- <a href="#" class="text-primary fw-bold">Continue Reading →</a> -->
+                        <a href="#" class="text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalInvestmentAdvisor">
+                            Continue Reading →
+                        </a>
                     </div>
                 </div>
             </div>
@@ -161,11 +167,153 @@
                     </div>
                     <div class="card-body">
                         <p>Lorem ipsum dolor sit amet consectetur adipisicing elit.</p>
-                        <a href="#" class="text-primary fw-bold">Continue Reading →</a>
+                        <!-- <a href="#" class="text-primary fw-bold">Continue Reading →</a> -->
+                        <a href="#" class="text-primary fw-bold" data-bs-toggle="modal" data-bs-target="#modalSavingPlanning">
+                            Continue Reading →
+                        </a>
+
                     </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
+
+<!-- Modal -->
+<div class="modal fade myModal" id="modalFinancialPlanning" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- MODAL HEADER -->
+            <div class="modal-header">
+                <h4 class="modal-title fw-bold">Financial Planning</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- MODAL BODY -->
+            <div class="modal-body">
+
+                <p class="mt-3">
+                    Saving money is the foundation of good financial health.Make savings a monthly expense. Now that you know what you spend in a month, you can begin to create a budget. Your budget should show what your expenses are relative to your income, so that you can plan your spending and limit overspending. Be sure to factor in expenses that occur regularly but not every month, such as car maintenance. Include a savings category in your budget and aim to save an amount that feels comfortable to you. Plan on eventually increasing your savings amount to up to 20 percent of your income.
+                </p>
+
+                <hr>
+
+                <button class="btn btn-secondary mt-4" data-bs-dismiss="modal">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade myModal" id="modalInvestmentAdvisor" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- MODAL HEADER -->
+            <div class="modal-header">
+                <h4 class="modal-title fw-bold">Investment Advisor</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- MODAL BODY -->
+            <div class="modal-body">
+
+                <p class="mt-3">
+                    Saving money is the foundation of good financial health.Make savings a monthly expense. Now that you know what you spend in a month, you can begin to create a budget. Your budget should show what your expenses are relative to your income, so that you can plan your spending and limit overspending. Be sure to factor in expenses that occur regularly but not every month, such as car maintenance. Include a savings category in your budget and aim to save an amount that feels comfortable to you. Plan on eventually increasing your savings amount to up to 20 percent of your income.
+                </p>
+
+                <hr>
+
+                <button class="btn btn-secondary mt-4" data-bs-dismiss="modal">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<div class="modal fade myModal" id="modalSavingPlanning" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+
+            <!-- MODAL HEADER -->
+            <div class="modal-header">
+                <h4 class="modal-title fw-bold">Saving Money</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <!-- MODAL BODY -->
+            <div class="modal-body">
+
+                <p class="mt-3">
+                    Saving money is the foundation of good financial health.Make savings a monthly expense. Now that you know what you spend in a month, you can begin to create a budget. Your budget should show what your expenses are relative to your income, so that you can plan your spending and limit overspending. Be sure to factor in expenses that occur regularly but not every month, such as car maintenance. Include a savings category in your budget and aim to save an amount that feels comfortable to you. Plan on eventually increasing your savings amount to up to 20 percent of your income.
+                </p>
+
+                <hr>
+
+                <button class="btn btn-secondary mt-4" data-bs-dismiss="modal">Close</button>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<section class="faq-box-clean py-5">
+    <div class="container">
+        <div class="faq-clean-wrapper">
+            <div class="faq-text">
+                <h2>Frequently Asked Questions</h2>
+                <p>Find quick answers to common tax, GST, and compliance questions.</p>
+            </div>
+
+            <div>
+                <a href="{{ route('user.faq') }}" class="faq-clean-btn">
+                    Explore FAQs →
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- CTA Section -->
+<section class="cta">
+    <div class="container cta-flex">
+        <div class="cta-image">
+            <img src="{{ asset('images/contact-us.jpg') }}" alt="Business Illustration">
+        </div>
+        <div class="cta-text">
+            <h2>Let’s Discuss Your Business Goals & Schedule a Free Consultation Today</h2>
+        </div>
+        <div class="cta-button">
+            <a href="/contact" class="btn">Contact Us</a>
+        </div>
+    </div>
+</section>
 @endsection
+<!-- ==========================
+   SCRIPTS: TOOLTIP + POPOVER
+=========================== -->
+@push('scripts')
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+
+        // Enable popovers
+        document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(el) {
+            new bootstrap.Popover(el);
+        });
+
+        // Enable tooltips
+        document.querySelectorAll('[data-bs-toggle="tooltip"]').forEach(function(el) {
+            new bootstrap.Tooltip(el);
+        });
+
+    });
+</script>
+@endpush
