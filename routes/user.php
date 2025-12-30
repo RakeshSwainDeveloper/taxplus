@@ -54,3 +54,13 @@ Route::post(
     '/itr-filing/upload-documents',
     [ServiceController::class, 'uploadItrDocuments']
 )->name('user.itr.upload-docs');
+
+Route::get('/itr-filing/uploaded-documents/{applicationId}',
+    [ServiceController::class, 'getUploadedDocuments']
+)->middleware('auth');
+
+Route::get('/itr-filing/payment-link/{applicationId}',
+    [ServiceController::class, 'getPaymentLink']
+)->middleware('auth');
+
+

@@ -46,23 +46,31 @@ class ServiceController extends Controller
             $userId   = Auth::id();
             $sourceId = $request->source_id;
 
-            // 🔍 1️⃣ Check existing PENDING application
+            //  Check existing PENDING application
             $existingPendingApp = UserRegistrationForm::where('user_id', $userId)
                 ->where('source_id', $sourceId)
                 ->where('form_status', 'pending')
                 ->first();
 
-            // 🔁 REUSE pending application
+            //  REUSE pending application
+
             if ($existingPendingApp) {
+
+                $docRow = UserItrDocument::where('application_id', $existingPendingApp->id)->first();
+
                 return response()->json([
-                    'success'         => true,
-                    'message'         => 'Existing pending application reused.',
-                    'application_id'  => $existingPendingApp->id,
-                    'reused'          => true
+                    'success'        => true,
+                    'message'        => 'Existing pending application reused.',
+                    'application_id' => $existingPendingApp->id,
+                    'reused'         => true,
+                    'documents'      => $docRow
+                        ? explode(',', $docRow->document_name)
+                        : []
                 ], 200);
             }
 
-            // ➕ 2️⃣ Create NEW application if last one is success / failed
+
+            //  Create NEW application if last one is success / failed
             $newApplication = UserRegistrationForm::create([
                 'user_id'         => $userId,
                 'source_id'       => $sourceId,
@@ -94,7 +102,7 @@ class ServiceController extends Controller
             return response()->json(['error' => 'Unauthorized'], 401);
         }
 
-        // ✅ Validation (already blocks DOCX)
+        // Validation (already blocks DOCX)
         $request->validate(
             [
                 'application_id'  => 'required|integer|exists:user_registration_form,id',
@@ -132,46 +140,96 @@ class ServiceController extends Controller
         ]);
 
         // DELETE OLD FILES (REPLACE MODE)
-        if ($docRow->exists && $docRow->document_path) {
-            foreach (explode(',', $docRow->document_path) as $oldPath) {
-                if (Storage::disk('public')->exists($oldPath)) {
-                    Storage::disk('public')->delete($oldPath);
-                }
-            }
+        // if ($docRow->exists && $docRow->document_path) {
+        //     foreach (explode(',', $docRow->document_path) as $oldPath) {
+        //         if (Storage::disk('public')->exists($oldPath)) {
+        //             Storage::disk('public')->delete($oldPath);
+        //         }
+        //     }
+        // }
+
+        // //  STORE NEW FILES
+        // foreach ($files as $i => $file) {
+
+        //     $docName = $names[$i]
+        //         ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+        //     // Sanitize document name
+        //     $safeDocName = Str::slug($docName, '_');
+
+        //     $extension = $file->getClientOriginalExtension();
+
+        //     // REQUIRED FORMAT:
+        //     // userid_applicationid_documentname.extension
+        //     $filename = "{$userId}_{$applicationId}_{$safeDocName}.{$extension}";
+
+        //     $path = $file->storeAs(
+        //         "itr-documents",
+        //         $filename,
+        //         'public'
+        //     );
+
+        //     $storedPaths[] = $path;
+        //     $storedNames[] = $docName;
+        // }
+
+        // // REPLACE DB VALUES (NO APPEND)
+        // $docRow->document_path = implode(',', $storedPaths);
+        // $docRow->document_name = implode(',', $storedNames);
+        // $docRow->save();
+
+        // Existing data
+        $existingPaths = $docRow->document_path
+            ? explode(',', $docRow->document_path)
+            : [];
+
+        $existingNames = $docRow->document_name
+            ? explode(',', $docRow->document_name)
+            : [];
+
+        // Convert existing docs to associative array
+        $existingDocs = [];
+        foreach ($existingNames as $index => $name) {
+            $existingDocs[$name] = $existingPaths[$index];
         }
 
-        //  STORE NEW FILES
+        // Process uploaded files
         foreach ($files as $i => $file) {
 
             $docName = $names[$i]
                 ?? pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
-            // Sanitize document name
             $safeDocName = Str::slug($docName, '_');
+            $extension   = $file->getClientOriginalExtension();
 
-            $extension = $file->getClientOriginalExtension();
-
-            // REQUIRED FORMAT:
-            // userid_applicationid_documentname.extension
             $filename = "{$userId}_{$applicationId}_{$safeDocName}.{$extension}";
 
+            // If same document already exists → delete old file
+            if (isset($existingDocs[$docName])) {
+                Storage::disk('taxplus_docs')->delete($existingDocs[$docName]);
+            }
+
+            // Store new file
+            // $path = $file->storeAs("itr-documents", $filename, 'public');
             $path = $file->storeAs(
-                "itr-documents",
+                'itr-documents',
                 $filename,
-                'public'
+                'taxplus_docs'
             );
 
-            $storedPaths[] = $path;
-            $storedNames[] = $docName;
+
+            // Replace / append in array
+            $existingDocs[$docName] = $path;
         }
 
-        // REPLACE DB VALUES (NO APPEND)
-        $docRow->document_path = implode(',', $storedPaths);
-        $docRow->document_name = implode(',', $storedNames);
+        // Save merged result
+        $docRow->document_name = implode(',', array_keys($existingDocs));
+        $docRow->document_path = implode(',', array_values($existingDocs));
         $docRow->save();
 
+
         $application->update([
-            'form_status' => 'success'
+            'form_status' => 'pending',
         ]);
 
         return response()->json([
@@ -180,10 +238,35 @@ class ServiceController extends Controller
         ]);
     }
 
+    public function getUploadedDocuments($applicationId)
+    {
+        $docRow = UserItrDocument::where('application_id', $applicationId)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        return response()->json([
+            'documents' => $docRow
+                ? explode(',', $docRow->document_name)
+                : []
+        ]);
+    }
+
+
+    public function getPaymentLink($applicationId)
+    {
+        $application = UserRegistrationForm::findOrFail($applicationId);
+
+        $paymentLink = "https://rzp.io/l/itr-" . $application->id;
+
+        return response()->json([
+            'payment_link' => $paymentLink
+        ]);
+    }
+
+
 
     public function gstFiling()
     {
         return view('user.gst-filing');
-        // return redirect()->route('comingsoon.show', ['page' => 'gst-filing']);
     }
 }

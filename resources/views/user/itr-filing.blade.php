@@ -27,12 +27,18 @@
         <!-- Step 2: Documents -->
         <div id="step-2-indicator" class="step-item">
             <div class="step-circle inactive" data-step="2">2</div>
-            <span class="step-text inactive">Documents</span>
+            <span class="step-text inactive">Select Upload Method</span>
+        </div>
+
+        <!-- Step 3: Document Upload -->
+        <div id="step-3-indicator" class="step-item">
+            <div class="step-circle inactive" data-step="3">3</div>
+            <span class="step-text inactive">Document Upload</span>
         </div>
 
         <!-- Step 3: Payment -->
-        <div id="step-3-indicator" class="step-item">
-            <div class="step-circle inactive" data-step="3">3</div>
+        <div id="step-4-indicator" class="step-item">
+            <div class="step-circle inactive" data-step="4">4</div>
             <span class="step-text inactive">Payment Link</span>
         </div>
     </div>
@@ -244,6 +250,64 @@
     </div>
     <!-- END EMAIL FALLBACK MODAL -->
 
+    <div id="step-4-content" class="hidden max-w-6xl mx-auto px-4 py-12">
+
+        <h2 class="text-3xl font-semibold text-center text-white mb-20">
+            Complete your payment
+        </h2>
+
+
+        <div class="payment-wrapper">
+
+            <!-- LEFT: SUMMARY -->
+            <div class="payment-card payment-summary">
+                <h3>Order summary</h3>
+
+                <div class="summary-item">
+                    <span class="label">Selected plan</span>
+                    <span id="payment-plan-name" class="value"></span>
+                </div>
+
+                <div class="summary-item total">
+                    <span class="label">Amount payable</span>
+                    <span id="payment-plan-price" class="amount"></span>
+                </div>
+
+                <ul class="summary-points">
+                    <li>Secure payment</li>
+                    <li>No hidden charges</li>
+                    <li>Invoice included</li>
+                </ul>
+            </div>
+
+            <!-- RIGHT: PAYMENT -->
+            <div class="payment-card payment-action">
+                <h3>Pay securely</h3>
+                <p class="subtext">
+                    Pay using UPI, card or net banking
+                </p>
+
+                <a id="payment-link" target="_blank" class="pay-btn">
+                    Pay now
+                </a>
+
+                <button onclick="backToStep3()" class="back-link">
+                    ← Back to documents
+                </button>
+            </div>
+
+        </div>
+    </div>
+    <!-- FULL PAGE LOADER -->
+
+    <div id="page-loader">
+        <div class="loader-content">
+            <div class="loader-spinner"></div>
+            <p id="loader-text">Preparing document upload...</p>
+        </div>
+    </div>
+
+
 
     @endsection
 
@@ -264,6 +328,7 @@
         let selectedDocumentMethod = null;
         let selectedPaymentMode = null;
         let currentApplicationId = null;
+        let previouslyUploadedDocs = [];
 
 
         // --- DOM Elements ---
@@ -281,6 +346,11 @@
                 id: 3,
                 content: document.getElementById('step-3-content'),
                 indicator: document.getElementById('step-3-indicator')
+            },
+            {
+                id: 4,
+                content: document.getElementById('step-4-content'),
+                indicator: document.getElementById('step-4-indicator')
             }
         ];
         const finalPlanName = document.getElementById('final-plan-name');
@@ -388,72 +458,6 @@
             updateUI();
         }
 
-        /**
-         * Final confirmation of payment channel (Step 3 -> Submission).
-         */
-        // async function confirmPayment(mode, button) {
-        //     selectedPaymentMode = mode;
-
-        //     // Visual feedback
-        //     document.querySelectorAll('.payment-button').forEach(btn => {
-        //         btn.classList.remove('selected');
-        //         btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
-        //         btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-        //     });
-        //     button.classList.add('selected');
-        //     button.classList.remove('bg-gray-700', 'hover:bg-gray-600');
-        //     button.classList.add('bg-indigo-600', 'hover:bg-indigo-700');
-
-        //     // Prepare data for submission
-        //     const submissionData = {
-        //         source_id: selectedPlan.id,
-        //         total_price: selectedPlan.price,
-        //         document_method: selectedDocumentMethod,
-        //         payment_mode: selectedPaymentMode,
-        //         _token: '{{ csrf_token() }}' // Laravel CSRF token
-        //     };
-
-        //     try {
-        //         const response = await fetch(SUBMIT_URL, {
-        //             method: 'POST',
-        //             headers: {
-        //                 'Content-Type': 'application/json',
-        //                 'X-Requested-With': 'XMLHttpRequest'
-        //             },
-        //             body: JSON.stringify(submissionData)
-        //         });
-
-        //         const result = await response.json();
-
-        //         console.log('Submission Result:', result);
-
-        //         if (response.ok) {
-        //             // SUCCESS
-        //             // FIX: Corrected string interpolation error (used backticks for template literal)
-        //             // let message = `Thank you for selecting the <strong>${selectedPlan.name}</strong> plan! You chose to share documents via <strong>${selectedDocumentMethod}</strong>. We have saved your application (ID: ${result.application_id}). We will contact you shortly via <strong>${selectedPaymentMode}</strong> to share the payment link and finalize your filing.`;
-        //             currentApplicationId = result.application_id;
-
-        //             let message = `Thank you for selecting the <strong>${selectedPlan.name}</strong> plan!
-        //             You chose to share documents via <strong>${selectedDocumentMethod}</strong>.
-        //              We have saved your application (ID: ${currentApplicationId}).`;
-        //             finalMessageText.innerHTML = message;
-        //             confirmationMessage.classList.remove('hidden');
-        //             // Use a slight delay to trigger the CSS transition for a smoother appearance
-        //             setTimeout(() => confirmationMessage.classList.add('visible'), 10);
-        //         } else {
-        //             // FAILURE
-        //             let errorMessage = result.error || 'Submission failed. Please check your data and try again.';
-        //             // Use a simple alert for error since custom error modals are complex
-        //             alert('Submission Error: ' + errorMessage);
-        //             console.error(result);
-        //         }
-        //     } catch (error) {
-        //         console.error('Network Error:', error);
-        //         alert('A network error occurred. Please check your connection and try again.');
-        //     }
-        // }
-
-
 
         function goToStep2() {
             if (!selectedPlan.id) return;
@@ -472,15 +476,18 @@
                 return;
             }
 
+            showPageLoader('Preparing document upload...');
+
             // 📧 EMAIL FLOW
             if (selectedDocumentMethod === 'Email') {
                 openEmailClient();
+                hidePageLoader();
                 return;
             }
 
             if (selectedDocumentMethod === 'WhatsApp') {
 
-                const phone = '917438800114'; // country code + number
+                const phone = '918700385119'; // country code + number
                 const docsText = getDocumentsTextForWhatsApp();
 
                 const message = encodeURIComponent(
@@ -501,7 +508,7 @@
                 const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
 
                 window.open(whatsappUrl, '_blank');
-
+                hidePageLoader();
                 return;
             }
 
@@ -526,10 +533,10 @@
 
                 const result = await response.json();
 
-                // ❌ Validation / server error
+                //  Validation / server error
                 if (!response.ok) {
                     console.error('Submission failed:', result);
-
+                    hidePageLoader();
                     if (result.errors) {
                         const firstError = Object.values(result.errors)[0][0];
                         alert(firstError);
@@ -539,16 +546,24 @@
                     return;
                 }
 
-                // ✅ SUCCESS
+                // SUCCESS
                 currentApplicationId = result.application_id;
                 console.log('Application Created:', currentApplicationId);
 
+                previouslyUploadedDocs = result.documents || [];
                 currentStep = 3;
-                renderRequiredDocuments();
-                updateUI();
+                fetch(`/itr-filing/uploaded-documents/${currentApplicationId}`)
+                    .then(res => res.json())
+                    .then(data => {
+                        previouslyUploadedDocs = data.documents || [];
+                        renderRequiredDocuments();
+                        updateUI();
+                        hidePageLoader();
+                    });
 
             } catch (error) {
                 console.error('Network error:', error);
+                hidePageLoader();
                 alert('Network error. Please try again.');
             }
         }
@@ -573,6 +588,7 @@
         }
 
         function backToStep2() {
+            hidePageLoader();
             selectedPaymentMode = null;
             currentStep = 2;
             updateUI();
@@ -582,6 +598,21 @@
                 btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
             });
         }
+
+        function backToStep3() {
+            hidePageLoader();
+            currentStep = 3;
+
+            fetch(`/itr-filing/uploaded-documents/${currentApplicationId}`)
+                .then(res => res.json())
+                .then(data => {
+                    previouslyUploadedDocs = data.documents || [];
+                    renderRequiredDocuments();
+                    updateUI();
+                });
+        }
+
+
 
         function resetApp() {
             // Hide modal
@@ -629,28 +660,41 @@
             container.innerHTML = '';
 
             docs.forEach((doc, index) => {
-                container.innerHTML += `
-            <div class="doc-row">
-                <div class="doc-info">
-                    <span class="doc-index">${index + 1}</span>
-                    <span class="doc-name">${doc}</span>
-                </div>
 
-                <label class="doc-upload">
+                const uploaded = previouslyUploadedDocs.includes(doc);
+
+                container.innerHTML += `
+        <div class="doc-row">
+            <div class="doc-info">
+                <span class="doc-index">${index + 1}</span>
+                <span class="doc-name">${doc}</span>
+            </div>
+
+            <label class="doc-upload">
                 <input
                     type="file"
                     name="documents[${index}]"
                     data-doc-name="${doc}"
                     accept=".pdf,.jpg,.jpeg,.png"
                 />
-                <span class="upload-btn">Choose File</span>
-                <small class="file-name"></small>
-                <small class="file-error text-red-400 hidden"></small>
+
+                <span class="upload-btn">
+                    ${uploaded ? 'Replace File' : 'Choose File'}
+                </span>
+
+                <small class="file-name">
+                    ${uploaded ? 'Previously uploaded ✓' : ''}
+                </small>
+
+                <small class="file-error hidden"></small>
             </label>
-            </div>
+        </div>
         `;
             });
+
+            updateUploadButtonState();
         }
+
 
 
         function uploadDocuments() {
@@ -664,8 +708,9 @@
             }
 
             let hasAtLeastOneFile = false;
+            let hasError = false;
 
-            // ✅ Validate & collect ONLY selected files
+            // Validate & collect ONLY selected files
             inputs.forEach(input => {
                 const file = input.files[0];
 
@@ -675,15 +720,20 @@
 
                 if (file.size > MAX_SIZE) {
                     alert(`File "${file.name}" exceeds 5MB limit`);
-                    throw new Error('File too large');
+                    hasError = true;
+                    return;
                 }
+
 
                 formData.append('documents[]', file);
                 formData.append('document_names[]', input.dataset.docName);
             });
 
+            if (hasError) return;
             //  No file selected
-            if (!hasAtLeastOneFile) {
+
+            const hasPreviousUploads = previouslyUploadedDocs.length > 0;
+            if (!hasAtLeastOneFile && !hasPreviousUploads) {
                 alert('Please select at least one document to upload.');
                 return;
             }
@@ -704,9 +754,10 @@
 
             xhr.upload.onprogress = function(e) {
                 if (e.lengthComputable) {
-                    const percent = Math.round((e.loaded / e.total) * 100);
-                    progressBar.style.width = percent + '%';
-                    progressText.textContent = `Uploading… ${percent}%`;
+                    // const percent = Math.round((e.loaded / e.total) * 100);
+                    // progressBar.style.width = percent + '%';
+                    // progressText.textContent = `Uploading… ${percent}%`;
+                    progressText.textContent = `Uploading… `;
                 }
             };
 
@@ -718,7 +769,7 @@
                     progressBar.style.width = '100%';
                     progressBar.classList.add('bg-green-500');
 
-                    // ⏳ Small delay so user can see success
+                    //  Small delay so user can see success
                     setTimeout(() => {
 
                         // 🔄 Reset all file inputs & UI
@@ -749,6 +800,8 @@
                         const submitBtn = document.getElementById('upload-submit-btn');
                         submitBtn.disabled = true;
                         submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+                        goToStep4();
 
                     }, 2000); // delay = UX polish
 
@@ -791,7 +844,9 @@
                 errorEl.textContent = '';
                 errorEl.classList.add('hidden');
                 uploadBtn.removeAttribute('title');
-                checkAnyFileSelected();
+
+                // 🔥 IMPORTANT
+                updateUploadButtonState();
             };
 
             if (!file) {
@@ -799,21 +854,29 @@
                 return;
             }
 
-            // ❌ Invalid file type
             if (!allowedTypes.includes(file.type)) {
                 errorEl.textContent = 'Only PDF, JPG, JPEG, PNG files are allowed.';
                 errorEl.classList.remove('hidden');
-                resetInput();
+
+                input.value = '';
+                updateUploadButtonState();
                 return;
             }
 
-            // ❌ File too large
             if (file.size > 5 * 1024 * 1024) {
                 errorEl.textContent = 'File size must be less than 5MB.';
                 errorEl.classList.remove('hidden');
-                resetInput();
+
+                input.value = ''; // clear file ONLY
+                uploadBtn.textContent = 'Choose File';
+                uploadBtn.classList.remove('selected');
+                fileNameEl.textContent = '';
+                uploadBtn.removeAttribute('title');
+
+                updateUploadButtonState();
                 return;
             }
+
 
             // ✅ Valid file
             errorEl.textContent = '';
@@ -823,21 +886,10 @@
             uploadBtn.setAttribute('title', file.name);
             fileNameEl.textContent = file.name;
 
-            checkAnyFileSelected();
+            // 🔥 IMPORTANT
+            updateUploadButtonState();
         });
 
-
-
-        function checkAnyFileSelected() {
-            const inputs = document.querySelectorAll('#required-documents input[type="file"]');
-            const submitBtn = document.getElementById('upload-submit-btn');
-
-            const anySelected = [...inputs].some(input => input.files.length > 0);
-
-            submitBtn.disabled = !anySelected;
-            submitBtn.classList.toggle('opacity-50', !anySelected);
-            submitBtn.classList.toggle('cursor-not-allowed', !anySelected);
-        }
 
         function isLikelyGmailUser() {
             return navigator.userAgent.includes('Chrome') &&
@@ -916,6 +968,57 @@
             }
 
             return docs.map((doc, i) => `${i + 1}. ${doc}`).join('\n');
+        }
+
+
+        function goToStep4() {
+
+            document.getElementById('payment-plan-name').textContent = selectedPlan.name;
+            document.getElementById('payment-plan-price').textContent =
+                `₹ ${selectedPlan.price.toLocaleString('en-IN')}`;
+
+            fetch(`/itr-filing/payment-link/${currentApplicationId}`)
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('payment-link').href = data.payment_link;
+                });
+
+            currentStep = 4;
+            updateUI();
+        }
+
+        function updateUploadButtonState() {
+            const submitBtn = document.getElementById('upload-submit-btn');
+            const inputs = document.querySelectorAll('#required-documents input[type="file"]');
+
+            const hasPreviousUploads = previouslyUploadedDocs.length > 0;
+            const hasNewFileSelected = [...inputs].some(input => input.files.length > 0);
+
+            // Enable if previous docs exist OR new file selected
+            const enable = hasPreviousUploads || hasNewFileSelected;
+
+            submitBtn.disabled = !enable;
+            submitBtn.classList.toggle('opacity-50', !enable);
+            submitBtn.classList.toggle('cursor-not-allowed', !enable);
+        }
+
+        function showPageLoader(message = 'Please wait...') {
+            const loader = document.getElementById('page-loader');
+            document.getElementById('loader-text').textContent = message;
+            loader.classList.add('show');
+        }
+
+        function hidePageLoader() {
+            document.getElementById('page-loader').classList.remove('show');
+        }
+
+
+        function goToStep(stepNumber) {
+            currentStep = stepNumber;
+            updateUI();
+
+            // ALWAYS hide loader after UI update
+            hidePageLoader();
         }
     </script>
     @endpush
