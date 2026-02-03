@@ -187,21 +187,21 @@
             <div class="service-item">
                 <i class="bi bi-cash-coin icon"></i>
                 <h3>ITR FILING</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                <p>Filing your Income Tax Return is more than just a yearly chore—it’s a financial health check. Our expert-led ITR filing service ensures that you navigate the complexities of the New vs. Old tax regimes seamlessly.</p>
                 <a href="{{ route('user.itr-filing') }}" class="read-more">Read More ›</a>
             </div>
 
             <div class="service-item">
                 <i class="bi bi-calendar-check icon"></i>
                 <h3>GST</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                <p>Stay ahead in the dynamic world of GST without the paperwork. We manage everything—from your initial registration to complex annual returns—ensuring your supply chain remains uninterrupted and your business stays fully compliant. Focus on your growth; we’ll handle the law.</p>
                 <a href="{{ route('user.gst-filing') }}" class="read-more">Read More ›</a>
             </div>
 
             <div class="service-item">
                 <i class="bi bi-person-workspace icon"></i>
                 <h3>TDS</h3>
-                <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                <p>Don’t let TDS defaults or interest penalties slow you down. Whether you’re an employer or a property buyer, we automate the calculation and filing process to ensure 100% accuracy. We handle the technicalities and strict deadlines so you can focus on your core operations with peace of mind.</p>
                 <a href="/service" class="read-more">Read More ›</a>
             </div>
         </div>

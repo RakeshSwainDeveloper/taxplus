@@ -49,7 +49,7 @@
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">01.</div>
                         <h4 class="fw-bold mt-3">ITR FILING</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                        <p>Expert-led income tax filing to maximize your refunds and ensure 100% compliance with the latest regimes.</p>
                     </div>
                 </a>
             </div>
@@ -59,8 +59,8 @@
                 <a href="{{ route('user.gst-filing') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">02.</div>
-                        <h4 class="fw-bold mt-3">GST SERVICES</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                        <h4 class="fw-bold mt-3">GST FILING</h4>
+                        <p>Seamless registration and return filing (GSTR-1, 3B) to keep your business supply chain uninterrupted.</p>
                     </div>
                 </a>
             </div>
@@ -70,8 +70,8 @@
                 <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">03.</div>
-                        <h4 class="fw-bold mt-3">PAN SERVICES</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                        <h4 class="fw-bold mt-3">NOTICE HANDLING</h4>
+                        <p>Professional representation and strategic responses to resolve tax scrutiny or departmental notices with total peace of mind.</p>
                     </div>
                 </a>
             </div>
@@ -81,8 +81,8 @@
                 <a href="{{ url('#') }}" class="text-decoration-none">
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">04.</div>
-                        <h4 class="fw-bold mt-3">TDS / TCS FILING</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                        <h4 class="fw-bold mt-3">TDS FILING</h4>
+                        <p>Precise deduction calculations and timely quarterly returns to help you avoid heavy interest and penalties.</p>
                     </div>
                 </a>
             </div>
@@ -93,7 +93,7 @@
                     <div class="service-box p-4 text-center bg-teal text-white h-100">
                         <div class="number-circle">05.</div>
                         <h4 class="fw-bold mt-3">TAX CONSULTATION</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                        <p>Personalized advisory to optimize your tax planning, save money, and navigate complex financial laws effortlessly.</p>
                     </div>
                 </a>
             </div>
@@ -104,7 +104,7 @@
                     <div class="service-box p-4 text-center bg-darkblue text-white h-100">
                         <div class="number-circle">06.</div>
                         <h4 class="fw-bold mt-3">NOTICE HANDLING</h4>
-                        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit sed diam nonummy nibh euismod tincidunt laoreet dolore.</p>
+                        <p>Professional representation and strategic responses to resolve tax scrutiny or departmental notices with total peace of mind.</p>
                     </div>
                 </a>
             </div>

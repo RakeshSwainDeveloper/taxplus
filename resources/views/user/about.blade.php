@@ -128,7 +128,7 @@
                             <i class="bi bi-eye"></i>
                         </div>
                         <h5 class="section-title">Our Vision</h5>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                        <p>To become India’s most trusted digital gateway for financial compliance, where every individual and business can navigate the tax landscape with absolute confidence and zero complexity.</p>
                     </div>
                 </div>
 
@@ -139,7 +139,7 @@
                             <i class="bi bi-people"></i>
                         </div>
                         <h5 class="section-title">Our Mission</h5>
-                        <p>Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.</p>
+                        <p>To democratize expert tax services through innovative technology. We aim to eliminate the fear of “tax notices” by providing transparent, accurate, and accessible filing solutions for ITR, GST, and TDS.</p>
                     </div>
                 </div>
             </div>
