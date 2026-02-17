@@ -287,17 +287,15 @@
                     Pay using UPI, card or net banking
                 </p>
 
-                <a id="payment-link" target="_blank" class="pay-btn">
+                <button id="payment-link" class="pay-btn" onclick="showPaymentSuccess()">
                     Pay now
-                </a>
-
-                <button onclick="backToStep3()" class="back-link">
-                    ← Back to documents
                 </button>
+
             </div>
 
         </div>
     </div>
+
     <!-- FULL PAGE LOADER -->
 
     <div id="page-loader">
@@ -306,192 +304,182 @@
             <p id="loader-text">Preparing document upload...</p>
         </div>
     </div>
+</div>
+@endsection
+
+@push('scripts')
+<script>
+    // Laravel data passed from the Controller
+    // Assuming $plans is passed as an associative array keyed by ID (keyBy('id'))
+    const PLANS_DATA = @json($plans->keyBy('id'));
+    const SUBMIT_URL = "{{ route('user.itr-filing.submit') }}";
+
+    // --- State Variables ---
+    let currentStep = 1;
+    let selectedPlan = {
+        id: null,
+        name: null,
+        price: null
+    };
+    let selectedDocumentMethod = null;
+    let selectedPaymentMode = null;
+    let currentApplicationId = null;
+    let previouslyUploadedDocs = [];
 
 
+    // --- DOM Elements ---
+    const steps = [{
+            id: 1,
+            content: document.getElementById('step-1-content'),
+            indicator: document.getElementById('step-1-indicator')
+        },
+        {
+            id: 2,
+            content: document.getElementById('step-2-content'),
+            indicator: document.getElementById('step-2-indicator')
+        },
+        {
+            id: 3,
+            content: document.getElementById('step-3-content'),
+            indicator: document.getElementById('step-3-indicator')
+        },
+        {
+            id: 4,
+            content: document.getElementById('step-4-content'),
+            indicator: document.getElementById('step-4-indicator')
+        }
+    ];
+    const finalPlanName = document.getElementById('final-plan-name');
+    const finalPlanPrice = document.getElementById('final-plan-price');
+    const confirmationMessage = document.getElementById('confirmation-message');
+    const finalMessageText = document.getElementById('final-message-text');
+    const step1NextButton = document.getElementById('step1-next-button');
+    const step2NextButton = document.getElementById('step2-next-button');
 
-    @endsection
+    
+    function updateUI() {
+        steps.forEach(step => {
+            const isCurrent = step.id === currentStep;
+            const isCompleted = step.id < currentStep;
 
-    @push('scripts')
-    <script>
-        // Laravel data passed from the Controller
-        // Assuming $plans is passed as an associative array keyed by ID (keyBy('id'))
-        const PLANS_DATA = @json($plans->keyBy('id'));
-        const SUBMIT_URL = "{{ route('user.itr-filing.submit') }}";
+            step.content.classList.toggle('hidden', !isCurrent);
 
-        // --- State Variables ---
-        let currentStep = 1;
-        let selectedPlan = {
-            id: null,
-            name: null,
-            price: null
-        };
-        let selectedDocumentMethod = null;
-        let selectedPaymentMode = null;
-        let currentApplicationId = null;
-        let previouslyUploadedDocs = [];
+            const circle = step.indicator.querySelector('.step-circle');
+            const text = step.indicator.querySelector('.step-text');
 
+            circle.classList.remove('active', 'inactive', 'bg-green-500');
+            text.classList.remove('active', 'inactive');
 
-        // --- DOM Elements ---
-        const steps = [{
-                id: 1,
-                content: document.getElementById('step-1-content'),
-                indicator: document.getElementById('step-1-indicator')
-            },
-            {
-                id: 2,
-                content: document.getElementById('step-2-content'),
-                indicator: document.getElementById('step-2-indicator')
-            },
-            {
-                id: 3,
-                content: document.getElementById('step-3-content'),
-                indicator: document.getElementById('step-3-indicator')
-            },
-            {
-                id: 4,
-                content: document.getElementById('step-4-content'),
-                indicator: document.getElementById('step-4-indicator')
+            if (isCompleted) {
+                circle.classList.add('bg-green-500');
+                text.classList.add('active');
+            } else if (isCurrent) {
+                circle.classList.add('active');
+                text.classList.add('active');
+            } else {
+                circle.classList.add('inactive');
+                text.classList.add('inactive');
             }
-        ];
-        const finalPlanName = document.getElementById('final-plan-name');
-        const finalPlanPrice = document.getElementById('final-plan-price');
-        const confirmationMessage = document.getElementById('confirmation-message');
-        const finalMessageText = document.getElementById('final-message-text');
-        const step1NextButton = document.getElementById('step1-next-button');
-        const step2NextButton = document.getElementById('step2-next-button');
+        });
 
-        // --- Utility Functions ---
-
-        /**
-         * Updates the visibility of the steps and the progress indicators.
-         */
-        function updateUI() {
-            steps.forEach(step => {
-                const isCurrent = step.id === currentStep;
-                const isCompleted = step.id < currentStep;
-
-                // Content visibility
-                step.content.classList.toggle('hidden', !isCurrent);
-
-                // Indicator elements
-                const circle = step.indicator.querySelector('.step-circle');
-                const text = step.indicator.querySelector('.step-text');
-
-                // Reset classes first
-                circle.classList.remove('active', 'inactive', 'bg-green-500');
-                text.classList.remove('active', 'inactive');
-
-                if (isCompleted) {
-                    circle.classList.add('bg-green-500');
-                    text.classList.add('active');
-                } else if (isCurrent) {
-                    circle.classList.add('active');
-                    text.classList.add('active');
-                } else {
-                    circle.classList.add('inactive');
-                    text.classList.add('inactive');
-                }
-            });
-
-            // Update selection visual states
-            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-            if (currentStep === 1 && selectedPlan.id) {
-                document.getElementById(`card-${selectedPlan.id}`)?.classList.add('selected');
-            }
-
-            document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
-            if (currentStep === 2 && selectedDocumentMethod) {
-                document.querySelectorAll('.doc-button').forEach(btn => {
-                    if (btn.textContent.includes(selectedDocumentMethod)) btn.classList.add('selected');
-                });
-            }
-
-            // Enable/disable next buttons
-            step1NextButton.disabled = !selectedPlan.id;
-            step2NextButton.disabled = !selectedDocumentMethod;
-
-            step1NextButton.classList.toggle('btn-disabled', !selectedPlan.id);
-            step2NextButton.classList.toggle('btn-disabled', !selectedDocumentMethod);
+        document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+        if (currentStep === 1 && selectedPlan.id) {
+            document.getElementById(`card-${selectedPlan.id}`)?.classList.add('selected');
         }
 
-
-        /***    Handles plan selection (Step 1).    */
-
-        function selectPlan(id, name, price, event) {
-
-            if (event && event.currentTarget.tagName.toLowerCase() === 'button') {
-                event.stopPropagation();
-            }
-
-            // Clear previous selections
-            document.querySelectorAll('.plan-card').forEach(card => {
-                card.classList.remove('selected');
-            });
-
-            // Set the new selected plan
-            selectedPlan = {
-                id: id,
-                name: name,
-                price: price
-            };
-
-            // Highlight the current card
-            const currentCard = document.getElementById(`card-${id}`);
-            if (currentCard) {
-                currentCard.classList.add('selected');
-            }
-
-            updateUI();
-        }
-
-        /**
-         * Handles document submission method selection (Step 2).
-         */
-        function selectDocumentMethod(method, button) {
-            selectedDocumentMethod = method;
-
+        document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
+        if (currentStep === 2 && selectedDocumentMethod) {
             document.querySelectorAll('.doc-button').forEach(btn => {
-                btn.classList.remove('selected');
+                if (btn.textContent.includes(selectedDocumentMethod)) btn.classList.add('selected');
             });
-            button.classList.add('selected');
-
-            updateUI();
         }
 
+        // Enable/disable next buttons
+        step1NextButton.disabled = !selectedPlan.id;
+        step2NextButton.disabled = !selectedDocumentMethod;
 
-        function goToStep2() {
-            if (!selectedPlan.id) return;
-            document.getElementById('selected-plan-name-step2').textContent = selectedPlan.name;
-            currentStep = 2;
-            // Pre-fill final step details
-            finalPlanName.textContent = selectedPlan.name;
-            // Format price for display
-            finalPlanPrice.textContent = `₹ ${selectedPlan.price.toLocaleString('en-IN')}`;
-            updateUI();
+        step1NextButton.classList.toggle('btn-disabled', !selectedPlan.id);
+        step2NextButton.classList.toggle('btn-disabled', !selectedDocumentMethod);
+    }
+
+
+    /***    Handles plan selection (Step 1).    */
+
+    function selectPlan(id, name, price, event) {
+
+        if (event && event.currentTarget.tagName.toLowerCase() === 'button') {
+            event.stopPropagation();
         }
 
-        async function goToStep3() {
-            if (!selectedDocumentMethod || !selectedPlan.id) {
-                alert('Please complete previous steps.');
-                return;
-            }
+        // Clear previous selections
+        document.querySelectorAll('.plan-card').forEach(card => {
+            card.classList.remove('selected');
+        });
 
-            showPageLoader('Preparing document upload...');
+        // Set the new selected plan
+        selectedPlan = {
+            id: id,
+            name: name,
+            price: price
+        };
 
-            // 📧 EMAIL FLOW
-            if (selectedDocumentMethod === 'Email') {
-                openEmailClient();
-                hidePageLoader();
-                return;
-            }
+        // Highlight the current card
+        const currentCard = document.getElementById(`card-${id}`);
+        if (currentCard) {
+            currentCard.classList.add('selected');
+        }
 
-            if (selectedDocumentMethod === 'WhatsApp') {
+        updateUI();
+    }
 
-                const phone = '918700385119'; // country code + number
-                const docsText = getDocumentsTextForWhatsApp();
+    /**
+     * Handles document submission method selection (Step 2).
+     */
+    function selectDocumentMethod(method, button) {
+        selectedDocumentMethod = method;
 
-                const message = encodeURIComponent(
-                    `Hello Capital Tax Plus Team,
+        document.querySelectorAll('.doc-button').forEach(btn => {
+            btn.classList.remove('selected');
+        });
+        button.classList.add('selected');
+
+        updateUI();
+    }
+
+
+    function goToStep2() {
+        if (!selectedPlan.id) return;
+        document.getElementById('selected-plan-name-step2').textContent = selectedPlan.name;
+        currentStep = 2;
+        // Pre-fill final step details
+        finalPlanName.textContent = selectedPlan.name;
+        // Format price for display
+        finalPlanPrice.textContent = `₹ ${selectedPlan.price.toLocaleString('en-IN')}`;
+        updateUI();
+    }
+
+    async function goToStep3() {
+        if (!selectedDocumentMethod || !selectedPlan.id) {
+            alert('Please complete previous steps.');
+            return;
+        }
+
+        showPageLoader('Preparing document upload...');
+
+        // EMAIL FLOW
+        if (selectedDocumentMethod === 'Email') {
+            openEmailClient();
+            hidePageLoader();
+            return;
+        }
+
+        if (selectedDocumentMethod === 'WhatsApp') {
+
+            const phone = '918700385119'; // country code + number
+            const docsText = getDocumentsTextForWhatsApp();
+
+            const message = encodeURIComponent(
+                `Hello Capital Tax Plus Team,
 
     I have selected the "${selectedPlan.name}" plan for ITR filing.
 
@@ -503,167 +491,167 @@
     Please guide me further.
 
     Thanks`
-                );
+            );
 
-                const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
+            const whatsappUrl = `https://wa.me/${phone}?text=${message}`;
 
-                window.open(whatsappUrl, '_blank');
+            window.open(whatsappUrl, '_blank');
+            hidePageLoader();
+            return;
+        }
+
+        try {
+            const response = await fetch(SUBMIT_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json',
+                    'X-Requested-With': 'XMLHttpRequest',
+                    'X-CSRF-TOKEN': document
+                        .querySelector('meta[name="csrf-token"]')
+                        .getAttribute('content')
+                },
+                body: JSON.stringify({
+                    source_id: selectedPlan.id,
+                    total_price: selectedPlan.price,
+                    document_method: selectedDocumentMethod,
+                    payment_mode: 'Chat'
+                })
+            });
+
+            const result = await response.json();
+
+            //  Validation / server error
+            if (!response.ok) {
+                console.error('Submission failed:', result);
                 hidePageLoader();
+                if (result.errors) {
+                    const firstError = Object.values(result.errors)[0][0];
+                    alert(firstError);
+                } else {
+                    alert(result.message || 'Failed to create application.');
+                }
                 return;
             }
 
-            try {
-                const response = await fetch(SUBMIT_URL, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json',
-                        'X-Requested-With': 'XMLHttpRequest',
-                        'X-CSRF-TOKEN': document
-                            .querySelector('meta[name="csrf-token"]')
-                            .getAttribute('content')
-                    },
-                    body: JSON.stringify({
-                        source_id: selectedPlan.id,
-                        total_price: selectedPlan.price,
-                        document_method: selectedDocumentMethod,
-                        payment_mode: 'Chat'
-                    })
-                });
+            // SUCCESS
+            currentApplicationId = result.application_id;
+            console.log('Application Created:', currentApplicationId);
 
-                const result = await response.json();
-
-                //  Validation / server error
-                if (!response.ok) {
-                    console.error('Submission failed:', result);
-                    hidePageLoader();
-                    if (result.errors) {
-                        const firstError = Object.values(result.errors)[0][0];
-                        alert(firstError);
-                    } else {
-                        alert(result.message || 'Failed to create application.');
-                    }
-                    return;
-                }
-
-                // SUCCESS
-                currentApplicationId = result.application_id;
-                console.log('Application Created:', currentApplicationId);
-
-                previouslyUploadedDocs = result.documents || [];
-                currentStep = 3;
-                fetch(`/itr-filing/uploaded-documents/${currentApplicationId}`)
-                    .then(res => res.json())
-                    .then(data => {
-                        previouslyUploadedDocs = data.documents || [];
-                        renderRequiredDocuments();
-                        updateUI();
-                        hidePageLoader();
-                    });
-
-            } catch (error) {
-                console.error('Network error:', error);
-                hidePageLoader();
-                alert('Network error. Please try again.');
-            }
-        }
-
-
-
-
-        function backToStep1() {
-            selectedPlan = {
-                id: null,
-                name: null,
-                price: null
-            };
-            selectedDocumentMethod = null;
-            selectedPaymentMode = null;
-            currentStep = 1;
-            updateUI();
-            // Clear highlights manually for clean slate
-            document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
-            document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
-            document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('selected'));
-        }
-
-        function backToStep2() {
-            hidePageLoader();
-            selectedPaymentMode = null;
-            currentStep = 2;
-            updateUI();
-            document.querySelectorAll('.payment-button').forEach(btn => {
-                btn.classList.remove('selected');
-                btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
-                btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
-            });
-        }
-
-        function backToStep3() {
-            hidePageLoader();
+            previouslyUploadedDocs = result.documents || [];
             currentStep = 3;
-
             fetch(`/itr-filing/uploaded-documents/${currentApplicationId}`)
                 .then(res => res.json())
                 .then(data => {
                     previouslyUploadedDocs = data.documents || [];
                     renderRequiredDocuments();
                     updateUI();
+                    hidePageLoader();
                 });
+
+        } catch (error) {
+            console.error('Network error:', error);
+            hidePageLoader();
+            alert('Network error. Please try again.');
         }
+    }
 
 
 
-        function resetApp() {
-            // Hide modal
-            confirmationMessage.classList.remove('visible');
-            setTimeout(() => {
-                confirmationMessage.classList.add('hidden');
-                backToStep1();
-            }, 300);
-        }
 
-        // Initialize the UI on page load
-        window.onload = function() {
-            const urlParams = new URLSearchParams(window.location.search);
-            const step = urlParams.get('step');
-            const planId = urlParams.get('plan_id');
-
-            // --- Auto-select plan if provided ---
-            if (planId && PLANS_DATA[planId]) {
-                const plan = PLANS_DATA[planId];
-                selectPlan(plan.id, plan.income_source, plan.price);
-                // Update the step 2 labels since we’re skipping ahead
-                document.getElementById('selected-plan-name-step2').textContent = plan.income_source;
-                finalPlanName.textContent = plan.income_source;
-                finalPlanPrice.textContent = `₹ ${plan.price.toLocaleString('en-IN')}`;
-            }
-
-            // --- Jump directly to step 2 if ?step=2 ---
-            if (step === '2') {
-                currentStep = 2;
-            }
-
-            updateUI();
-
-            // --- Smooth scroll to wizard area ---
-            document.querySelector('.itr-container')?.scrollIntoView({
-                behavior: 'smooth'
-            });
+    function backToStep1() {
+        selectedPlan = {
+            id: null,
+            name: null,
+            price: null
         };
+        selectedDocumentMethod = null;
+        selectedPaymentMode = null;
+        currentStep = 1;
+        updateUI();
+        // Clear highlights manually for clean slate
+        document.querySelectorAll('.plan-card').forEach(card => card.classList.remove('selected'));
+        document.querySelectorAll('.doc-button').forEach(btn => btn.classList.remove('selected'));
+        document.querySelectorAll('.payment-button').forEach(btn => btn.classList.remove('selected'));
+    }
 
-        function renderRequiredDocuments() {
-            const plan = PLANS_DATA[selectedPlan.id];
-            const docs = plan.document_list || [];
+    function backToStep2() {
+        hidePageLoader();
+        selectedPaymentMode = null;
+        currentStep = 2;
+        updateUI();
+        document.querySelectorAll('.payment-button').forEach(btn => {
+            btn.classList.remove('selected');
+            btn.classList.remove('bg-indigo-600', 'hover:bg-indigo-700');
+            btn.classList.add('bg-gray-700', 'hover:bg-gray-600');
+        });
+    }
 
-            const container = document.getElementById('required-documents');
-            container.innerHTML = '';
+    function backToStep3() {
+        hidePageLoader();
+        currentStep = 3;
 
-            docs.forEach((doc, index) => {
+        fetch(`/itr-filing/uploaded-documents/${currentApplicationId}`)
+            .then(res => res.json())
+            .then(data => {
+                previouslyUploadedDocs = data.documents || [];
+                renderRequiredDocuments();
+                updateUI();
+            });
+    }
 
-                const uploaded = previouslyUploadedDocs.includes(doc);
 
-                container.innerHTML += `
+
+    function resetApp() {
+        // Hide modal
+        confirmationMessage.classList.remove('visible');
+        setTimeout(() => {
+            confirmationMessage.classList.add('hidden');
+            backToStep1();
+        }, 300);
+    }
+
+    // Initialize the UI on page load
+    window.onload = function() {
+        const urlParams = new URLSearchParams(window.location.search);
+        const step = urlParams.get('step');
+        const planId = urlParams.get('plan_id');
+
+        // --- Auto-select plan if provided ---
+        if (planId && PLANS_DATA[planId]) {
+            const plan = PLANS_DATA[planId];
+            selectPlan(plan.id, plan.income_source, plan.price);
+            // Update the step 2 labels since we’re skipping ahead
+            document.getElementById('selected-plan-name-step2').textContent = plan.income_source;
+            finalPlanName.textContent = plan.income_source;
+            finalPlanPrice.textContent = `₹ ${plan.price.toLocaleString('en-IN')}`;
+        }
+
+        // --- Jump directly to step 2 if ?step=2 ---
+        if (step === '2') {
+            currentStep = 2;
+        }
+
+        updateUI();
+
+        // --- Smooth scroll to wizard area ---
+        document.querySelector('.itr-container')?.scrollIntoView({
+            behavior: 'smooth'
+        });
+    };
+
+    function renderRequiredDocuments() {
+        const plan = PLANS_DATA[selectedPlan.id];
+        const docs = plan.document_list || [];
+
+        const container = document.getElementById('required-documents');
+        container.innerHTML = '';
+
+        docs.forEach((doc, index) => {
+
+            const uploaded = previouslyUploadedDocs.includes(doc);
+
+            container.innerHTML += `
         <div class="doc-row">
             <div class="doc-info">
                 <span class="doc-index">${index + 1}</span>
@@ -690,225 +678,223 @@
             </label>
         </div>
         `;
-            });
-
-            updateUploadButtonState();
-        }
-
-
-
-        function uploadDocuments() {
-            const formData = new FormData();
-            const inputs = document.querySelectorAll('#required-documents input[type="file"]');
-            const MAX_SIZE = 5 * 1024 * 1024; // 5MB
-
-            if (!currentApplicationId) {
-                alert('Application not created. Please complete previous steps.');
-                return;
-            }
-
-            let hasAtLeastOneFile = false;
-            let hasError = false;
-
-            // Validate & collect ONLY selected files
-            inputs.forEach(input => {
-                const file = input.files[0];
-
-                if (!file) return; //  skip empty inputs
-
-                hasAtLeastOneFile = true;
-
-                if (file.size > MAX_SIZE) {
-                    alert(`File "${file.name}" exceeds 5MB limit`);
-                    hasError = true;
-                    return;
-                }
-
-
-                formData.append('documents[]', file);
-                formData.append('document_names[]', input.dataset.docName);
-            });
-
-            if (hasError) return;
-            //  No file selected
-
-            const hasPreviousUploads = previouslyUploadedDocs.length > 0;
-            if (!hasAtLeastOneFile && !hasPreviousUploads) {
-                alert('Please select at least one document to upload.');
-                return;
-            }
-
-            formData.append('application_id', currentApplicationId);
-            formData.append('_token', '{{ csrf_token() }}');
-
-            const progressWrap = document.getElementById('upload-progress-wrapper');
-            const progressBar = document.getElementById('upload-progress-bar');
-            const progressText = document.getElementById('upload-progress-text');
-
-            progressWrap.classList.remove('hidden');
-            progressBar.style.width = '0%';
-            progressBar.classList.remove('bg-green-500');
-
-            const xhr = new XMLHttpRequest();
-            xhr.open('POST', '{{ route("user.itr.upload-docs") }}', true);
-
-            xhr.upload.onprogress = function(e) {
-                if (e.lengthComputable) {
-                    // const percent = Math.round((e.loaded / e.total) * 100);
-                    // progressBar.style.width = percent + '%';
-                    // progressText.textContent = `Uploading… ${percent}%`;
-                    progressText.textContent = `Uploading… `;
-                }
-            };
-
-            xhr.onload = function() {
-                if (xhr.status === 200) {
-
-                    // ✅ Progress UI
-                    progressText.textContent = 'Upload completed ✓';
-                    progressBar.style.width = '100%';
-                    progressBar.classList.add('bg-green-500');
-
-                    //  Small delay so user can see success
-                    setTimeout(() => {
-
-                        // 🔄 Reset all file inputs & UI
-                        inputs.forEach(input => {
-                            const uploadBtn = input.nextElementSibling;
-                            const fileNameEl = uploadBtn.nextElementSibling;
-                            const errorEl = fileNameEl.nextElementSibling;
-
-                            input.value = '';
-                            input.disabled = false;
-
-                            uploadBtn.textContent = 'Choose File';
-                            uploadBtn.classList.remove('selected');
-                            uploadBtn.removeAttribute('title');
-
-                            fileNameEl.textContent = '';
-                            errorEl.textContent = '';
-                            errorEl.classList.add('hidden');
-                        });
-
-                        // 🔄 Reset progress bar
-                        progressWrap.classList.add('hidden');
-                        progressBar.style.width = '0%';
-                        progressBar.classList.remove('bg-green-500');
-                        progressText.textContent = '';
-
-                        // 🔒 Disable submit button again
-                        const submitBtn = document.getElementById('upload-submit-btn');
-                        submitBtn.disabled = true;
-                        submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
-
-                        goToStep4();
-
-                    }, 2000); // delay = UX polish
-
-                } else {
-                    alert('Upload failed. Please try again.');
-                }
-            };
-
-
-            xhr.onerror = function() {
-                alert('Network error during upload.');
-            };
-
-            xhr.send(formData);
-        }
-
-
-
-        document.addEventListener('change', function(e) {
-            if (e.target.type !== 'file') return;
-
-            const input = e.target;
-            const file = input.files[0];
-            const uploadBtn = input.nextElementSibling;
-            const fileNameEl = uploadBtn.nextElementSibling;
-            const errorEl = fileNameEl.nextElementSibling;
-
-            const allowedTypes = [
-                'application/pdf',
-                'image/jpeg',
-                'image/png'
-            ];
-
-            // Reset helpers
-            const resetInput = () => {
-                input.value = '';
-                uploadBtn.textContent = 'Choose File';
-                uploadBtn.classList.remove('selected');
-                fileNameEl.textContent = '';
-                errorEl.textContent = '';
-                errorEl.classList.add('hidden');
-                uploadBtn.removeAttribute('title');
-
-                // 🔥 IMPORTANT
-                updateUploadButtonState();
-            };
-
-            if (!file) {
-                resetInput();
-                return;
-            }
-
-            if (!allowedTypes.includes(file.type)) {
-                errorEl.textContent = 'Only PDF, JPG, JPEG, PNG files are allowed.';
-                errorEl.classList.remove('hidden');
-
-                input.value = '';
-                updateUploadButtonState();
-                return;
-            }
-
-            if (file.size > 5 * 1024 * 1024) {
-                errorEl.textContent = 'File size must be less than 5MB.';
-                errorEl.classList.remove('hidden');
-
-                input.value = ''; // clear file ONLY
-                uploadBtn.textContent = 'Choose File';
-                uploadBtn.classList.remove('selected');
-                fileNameEl.textContent = '';
-                uploadBtn.removeAttribute('title');
-
-                updateUploadButtonState();
-                return;
-            }
-
-
-            // ✅ Valid file
-            errorEl.textContent = '';
-            errorEl.classList.add('hidden');
-            uploadBtn.textContent = 'File Selected ✓';
-            uploadBtn.classList.add('selected');
-            uploadBtn.setAttribute('title', file.name);
-            fileNameEl.textContent = file.name;
-
-            // 🔥 IMPORTANT
-            updateUploadButtonState();
         });
 
+        updateUploadButtonState();
+    }
 
-        function isLikelyGmailUser() {
-            return navigator.userAgent.includes('Chrome') &&
-                !navigator.userAgent.includes('Edg') &&
-                !navigator.userAgent.includes('OPR');
+
+
+    function uploadDocuments() {
+        const formData = new FormData();
+        const inputs = document.querySelectorAll('#required-documents input[type="file"]');
+        const MAX_SIZE = 5 * 1024 * 1024; // 5MB
+
+        if (!currentApplicationId) {
+            alert('Application not created. Please complete previous steps.');
+            return;
+        }
+
+        let hasAtLeastOneFile = false;
+        let hasError = false;
+
+        // Validate & collect ONLY selected files
+        inputs.forEach(input => {
+            const file = input.files[0];
+
+            if (!file) return; //  skip empty inputs
+
+            hasAtLeastOneFile = true;
+
+            if (file.size > MAX_SIZE) {
+                alert(`File "${file.name}" exceeds 5MB limit`);
+                hasError = true;
+                return;
+            }
+
+
+            formData.append('documents[]', file);
+            formData.append('document_names[]', input.dataset.docName);
+        });
+
+        if (hasError) return;
+        //  No file selected
+
+        const hasPreviousUploads = previouslyUploadedDocs.length > 0;
+        if (!hasAtLeastOneFile && !hasPreviousUploads) {
+            alert('Please select at least one document to upload.');
+            return;
+        }
+
+        formData.append('application_id', currentApplicationId);
+        formData.append('_token', '{{ csrf_token() }}');
+
+        const progressWrap = document.getElementById('upload-progress-wrapper');
+        const progressBar = document.getElementById('upload-progress-bar');
+        const progressText = document.getElementById('upload-progress-text');
+
+        progressWrap.classList.remove('hidden');
+        progressBar.style.width = '0%';
+        progressBar.classList.remove('bg-green-500');
+
+        const xhr = new XMLHttpRequest();
+        xhr.open('POST', '{{ route("user.itr.upload-docs") }}', true);
+
+        xhr.upload.onprogress = function(e) {
+            if (e.lengthComputable) {
+                // const percent = Math.round((e.loaded / e.total) * 100);
+                // progressBar.style.width = percent + '%';
+                // progressText.textContent = `Uploading… ${percent}%`;
+                progressText.textContent = `Uploading… `;
+            }
+        };
+
+        xhr.onload = function() {
+            if (xhr.status === 200) {
+
+                // Progress UI
+                progressText.textContent = 'Upload completed ✓';
+                progressBar.style.width = '100%';
+                progressBar.classList.add('bg-green-500');
+
+                //  Small delay so user can see success
+                setTimeout(() => {
+
+                    //  Reset all file inputs & UI
+                    inputs.forEach(input => {
+                        const uploadBtn = input.nextElementSibling;
+                        const fileNameEl = uploadBtn.nextElementSibling;
+                        const errorEl = fileNameEl.nextElementSibling;
+
+                        input.value = '';
+                        input.disabled = false;
+
+                        uploadBtn.textContent = 'Choose File';
+                        uploadBtn.classList.remove('selected');
+                        uploadBtn.removeAttribute('title');
+
+                        fileNameEl.textContent = '';
+                        errorEl.textContent = '';
+                        errorEl.classList.add('hidden');
+                    });
+
+                    //  Reset progress bar
+                    progressWrap.classList.add('hidden');
+                    progressBar.style.width = '0%';
+                    progressBar.classList.remove('bg-green-500');
+                    progressText.textContent = '';
+
+                    //  Disable submit button again
+                    const submitBtn = document.getElementById('upload-submit-btn');
+                    submitBtn.disabled = true;
+                    submitBtn.classList.add('opacity-50', 'cursor-not-allowed');
+
+                    goToStep4();
+
+                }, 2000); // delay = UX polish
+
+            } else {
+                alert('Upload failed. Please try again.');
+            }
+        };
+
+
+        xhr.onerror = function() {
+            alert('Network error during upload.');
+        };
+
+        xhr.send(formData);
+    }
+
+
+
+    document.addEventListener('change', function(e) {
+        if (e.target.type !== 'file') return;
+
+        const input = e.target;
+        const file = input.files[0];
+        const uploadBtn = input.nextElementSibling;
+        const fileNameEl = uploadBtn.nextElementSibling;
+        const errorEl = fileNameEl.nextElementSibling;
+
+        const allowedTypes = [
+            'application/pdf',
+            'image/jpeg',
+            'image/png'
+        ];
+
+        // Reset helpers
+        const resetInput = () => {
+            input.value = '';
+            uploadBtn.textContent = 'Choose File';
+            uploadBtn.classList.remove('selected');
+            fileNameEl.textContent = '';
+            errorEl.textContent = '';
+            errorEl.classList.add('hidden');
+            uploadBtn.removeAttribute('title');
+
+            updateUploadButtonState();
+        };
+
+        if (!file) {
+            resetInput();
+            return;
+        }
+
+        if (!allowedTypes.includes(file.type)) {
+            errorEl.textContent = 'Only PDF, JPG, JPEG, PNG files are allowed.';
+            errorEl.classList.remove('hidden');
+
+            input.value = '';
+            updateUploadButtonState();
+            return;
+        }
+
+        if (file.size > 5 * 1024 * 1024) {
+            errorEl.textContent = 'File size must be less than 5MB.';
+            errorEl.classList.remove('hidden');
+
+            input.value = ''; 
+            uploadBtn.textContent = 'Choose File';
+            uploadBtn.classList.remove('selected');
+            fileNameEl.textContent = '';
+            uploadBtn.removeAttribute('title');
+
+            updateUploadButtonState();
+            return;
         }
 
 
-        function openEmailClient() {
+        // Valid file
+        errorEl.textContent = '';
+        errorEl.classList.add('hidden');
+        uploadBtn.textContent = 'File Selected ✓';
+        uploadBtn.classList.add('selected');
+        uploadBtn.setAttribute('title', file.name);
+        fileNameEl.textContent = file.name;
 
-            const to = encodeURIComponent('support@capitaltaxplus.com');
-            const subject = encodeURIComponent(
-                `ITR Documents Submission – ${selectedPlan.name}`
-            );
+        updateUploadButtonState();
+    });
 
-            const documentsText = getDocumentsTextForEmail();
 
-            const body = encodeURIComponent(
-                `Hello Capital Tax Plus Team,
+    function isLikelyGmailUser() {
+        return navigator.userAgent.includes('Chrome') &&
+            !navigator.userAgent.includes('Edg') &&
+            !navigator.userAgent.includes('OPR');
+    }
+
+
+    function openEmailClient() {
+
+        const to = encodeURIComponent('support@capitaltaxplus.com');
+        const subject = encodeURIComponent(
+            `ITR Documents Submission – ${selectedPlan.name}`
+        );
+
+        const documentsText = getDocumentsTextForEmail();
+
+        const body = encodeURIComponent(
+            `Hello Capital Tax Plus Team,
 
     I have selected the "${selectedPlan.name}" plan for ITR filing.
 
@@ -922,103 +908,157 @@
 
     Thanks & Regards,
     `
-            );
+        );
 
-            // Gmail compose URL
-            const gmailUrl =
-                `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`;
+        // Gmail compose URL
+        const gmailUrl =
+            `https://mail.google.com/mail/?view=cm&fs=1&to=${to}&su=${subject}&body=${body}`;
 
-            // Mailto fallback
-            const mailtoUrl =
-                `mailto:support@capitaltaxplus.com?subject=${subject}&body=${body}`;
+        // Mailto fallback
+        const mailtoUrl =
+            `mailto:support@capitaltaxplus.com?subject=${subject}&body=${body}`;
 
-            // Prefer Gmail Web
-            if (navigator.userAgent.includes('Chrome')) {
-                window.open(gmailUrl, '_blank');
-            } else {
-                window.location.href = mailtoUrl;
-            }
+        // Prefer Gmail Web
+        if (navigator.userAgent.includes('Chrome')) {
+            window.open(gmailUrl, '_blank');
+        } else {
+            window.location.href = mailtoUrl;
+        }
+    }
+
+    function showEmailFallbackMessage() {
+        document.getElementById('email-fallback').classList.remove('hidden');
+    }
+
+    function closeEmailFallback() {
+        document.getElementById('email-fallback').classList.add('hidden');
+    }
+
+    function getDocumentsTextForEmail() {
+        const plan = PLANS_DATA[selectedPlan.id];
+        const docs = plan.document_list || [];
+
+        if (!docs.length) {
+            return '• PAN Card\n• Aadhaar Card';
         }
 
-        function showEmailFallbackMessage() {
-            document.getElementById('email-fallback').classList.remove('hidden');
+        return docs.map((doc, index) => `${index + 1}. ${doc}`).join('\n');
+    }
+
+    function getDocumentsTextForWhatsApp() {
+        const plan = PLANS_DATA[selectedPlan.id];
+        const docs = plan.document_list || [];
+
+        if (!docs.length) {
+            return '• PAN Card\n• Aadhaar Card';
         }
 
-        function closeEmailFallback() {
-            document.getElementById('email-fallback').classList.add('hidden');
+        return docs.map((doc, i) => `${i + 1}. ${doc}`).join('\n');
+    }
+
+
+    function goToStep4() {
+
+        document.getElementById('payment-plan-name').textContent = selectedPlan.name;
+        document.getElementById('payment-plan-price').textContent =
+            `₹ ${selectedPlan.price.toLocaleString('en-IN')}`;
+
+        // fetch(`/itr-filing/payment-link/${currentApplicationId}`)
+        //     .then(res => res.json())
+        //     .then(data => {
+        //         document.getElementById('payment-link').href = data.payment_link;
+        //     });
+
+        currentStep = 4;
+        updateUI();
+    }
+
+    function updateUploadButtonState() {
+        const submitBtn = document.getElementById('upload-submit-btn');
+        const inputs = document.querySelectorAll('#required-documents input[type="file"]');
+
+        const hasPreviousUploads = previouslyUploadedDocs.length > 0;
+        const hasNewFileSelected = [...inputs].some(input => input.files.length > 0);
+
+        // Enable if previous docs exist OR new file selected
+        const enable = hasPreviousUploads || hasNewFileSelected;
+
+        submitBtn.disabled = !enable;
+        submitBtn.classList.toggle('opacity-50', !enable);
+        submitBtn.classList.toggle('cursor-not-allowed', !enable);
+    }
+
+    function showPageLoader(message = 'Please wait...') {
+        const loader = document.getElementById('page-loader');
+        document.getElementById('loader-text').textContent = message;
+        loader.classList.add('show');
+    }
+
+    function hidePageLoader() {
+        document.getElementById('page-loader').classList.remove('show');
+    }
+
+
+    function goToStep(stepNumber) {
+        currentStep = stepNumber;
+        updateUI();
+
+        // ALWAYS hide loader after UI update
+        hidePageLoader();
+    }
+
+   async function showPaymentSuccess() {
+
+    // Notify admin (email trigger)
+    await fetch(`/itr-filing/payment-request/${currentApplicationId}`, {
+        method: 'POST',
+        headers: {
+            'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').content
         }
+    });
 
-        function getDocumentsTextForEmail() {
-            const plan = PLANS_DATA[selectedPlan.id];
-            const docs = plan.document_list || [];
+    // Create overlay
+    const overlay = document.createElement('div');
+    overlay.style.position = 'fixed';
+    overlay.style.inset = '0';
+    overlay.style.background = 'rgba(0,0,0,0.6)';
+    overlay.style.backdropFilter = 'blur(4px)';
+    overlay.style.zIndex = '999999';
+    overlay.style.display = 'flex';
+    overlay.style.alignItems = 'center';
+    overlay.style.justifyContent = 'center';
 
-            if (!docs.length) {
-                return '• PAN Card\n• Aadhaar Card';
-            }
+    // Modal box
+    const box = document.createElement('div');
+    box.style.background = '#1f2937';
+    box.style.padding = '40px';
+    box.style.borderRadius = '20px';
+    box.style.maxWidth = '420px';
+    box.style.width = '90%';
+    box.style.textAlign = 'center';
+    box.style.color = '#fff';
 
-            return docs.map((doc, index) => `${index + 1}. ${doc}`).join('\n');
-        }
+    box.innerHTML = `
+        <h2 style="font-size:22px;margin-bottom:12px">
+            Thank you for choosing Capital Tax Plus
+        </h2>
+        <p style="color:#d1d5db">
+            Our admin team will contact you shortly to complete your payment.
+        </p>
+    `;
 
-        function getDocumentsTextForWhatsApp() {
-            const plan = PLANS_DATA[selectedPlan.id];
-            const docs = plan.document_list || [];
+    overlay.appendChild(box);
+    document.body.appendChild(overlay);
 
-            if (!docs.length) {
-                return '• PAN Card\n• Aadhaar Card';
-            }
+    // lock scroll
+    document.body.style.overflow = 'hidden';
 
-            return docs.map((doc, i) => `${i + 1}. ${doc}`).join('\n');
-        }
-
-
-        function goToStep4() {
-
-            document.getElementById('payment-plan-name').textContent = selectedPlan.name;
-            document.getElementById('payment-plan-price').textContent =
-                `₹ ${selectedPlan.price.toLocaleString('en-IN')}`;
-
-            fetch(`/itr-filing/payment-link/${currentApplicationId}`)
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('payment-link').href = data.payment_link;
-                });
-
-            currentStep = 4;
-            updateUI();
-        }
-
-        function updateUploadButtonState() {
-            const submitBtn = document.getElementById('upload-submit-btn');
-            const inputs = document.querySelectorAll('#required-documents input[type="file"]');
-
-            const hasPreviousUploads = previouslyUploadedDocs.length > 0;
-            const hasNewFileSelected = [...inputs].some(input => input.files.length > 0);
-
-            // Enable if previous docs exist OR new file selected
-            const enable = hasPreviousUploads || hasNewFileSelected;
-
-            submitBtn.disabled = !enable;
-            submitBtn.classList.toggle('opacity-50', !enable);
-            submitBtn.classList.toggle('cursor-not-allowed', !enable);
-        }
-
-        function showPageLoader(message = 'Please wait...') {
-            const loader = document.getElementById('page-loader');
-            document.getElementById('loader-text').textContent = message;
-            loader.classList.add('show');
-        }
-
-        function hidePageLoader() {
-            document.getElementById('page-loader').classList.remove('show');
-        }
+    // Redirect home after 3 seconds
+    setTimeout(() => {
+        window.location.href = '/';
+    }, 3000);
+}
 
 
-        function goToStep(stepNumber) {
-            currentStep = stepNumber;
-            updateUI();
-
-            // ALWAYS hide loader after UI update
-            hidePageLoader();
-        }
-    </script>
-    @endpush
+</script>
+@endpush

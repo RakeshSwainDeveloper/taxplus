@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\User;
 
 use App\Http\Controllers\Controller;
+use App\Mail\AdminPaymentNotification;
 use App\Models\CustomSupport;
 use App\Models\UserItrDocument;
 use App\Models\UserRegistrationForm;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Validation\ValidationException;
@@ -251,19 +253,35 @@ class ServiceController extends Controller
         ]);
     }
 
-
-    public function getPaymentLink($applicationId)
+    public function requestOfflinePayment(Request $request, $applicationId)
     {
-        $application = UserRegistrationForm::findOrFail($applicationId);
+        if (!Auth::check()) {
+            return response()->json(['error' => 'Unauthorized'], 401);
+        }
 
-        $paymentLink = "https://rzp.io/l/itr-" . $application->id;
+        $application = UserRegistrationForm::where('id', $applicationId)
+            ->where('user_id', Auth::id())
+            ->first();
+
+        if (!$application) {
+            return response()->json(['error' => 'Invalid application'], 404);
+        }
+
+        // Update payment status
+        $application->update([
+            'payment_status' => true, // change column type to string if boolean now
+            'form_status'    => 'payment_requested'
+        ]);
+
+        //  OPTIONAL: Notify admin (email example)
+        Mail::to('admin@capitaltaxplus.com')
+            ->send(new AdminPaymentNotification($application));
 
         return response()->json([
-            'payment_link' => $paymentLink
+            'success' => true,
+            'message' => 'Payment request sent to admin.'
         ]);
     }
-
-
 
     public function gstFiling()
     {

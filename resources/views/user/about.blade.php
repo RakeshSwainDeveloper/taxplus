@@ -153,9 +153,9 @@
         <h2 class="section-title mb-4">Discover Our Team Of Head Business Consultant Experts</h2>
         <div class="row justify-content-center">
             <div class="col-md-3">
-                <img src="https://images.unsplash.com/photo-1607746882042-944635dfe10e?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-circle mb-3" alt="">
-                <h6>John Doe</h6>
-                <p class="text-muted">Senior Consultant</p>
+                <img src="{{ asset('images/co-founder.png') }}" class="img-fluid rounded-circle mb-3" alt="">
+                <h6>Minati Prusty</h6>
+                <p class="text-muted">Co-founder</p>
             </div>
             <div class="col-md-3">
                 <img src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?auto=format&fit=crop&w=600&q=80" class="img-fluid rounded-circle mb-3" alt="">
@@ -191,9 +191,9 @@
 
         moreText.classList.toggle('open');
 
-        btn.textContent = moreText.classList.contains('open') 
-        ? "Read Less" 
-        : "Read More";
+        btn.textContent = moreText.classList.contains('open') ?
+            "Read Less" :
+            "Read More";
     }
 </script>
 @endpush

@@ -55,12 +55,11 @@ Route::post(
     [ServiceController::class, 'uploadItrDocuments']
 )->name('user.itr.upload-docs');
 
-Route::get('/itr-filing/uploaded-documents/{applicationId}',
+Route::get(
+    '/itr-filing/uploaded-documents/{applicationId}',
     [ServiceController::class, 'getUploadedDocuments']
 )->middleware('auth');
 
-Route::get('/itr-filing/payment-link/{applicationId}',
-    [ServiceController::class, 'getPaymentLink']
-)->middleware('auth');
-
+Route::post('/itr-filing/payment-request/{id}',
+    [ServiceController::class, 'requestOfflinePayment']);
 
